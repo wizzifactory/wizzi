@@ -1,0 +1,104 @@
+{
+    "wzElement": "wfjob",
+    "wzName": "",
+    "modelsBaseFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\models",
+    "title": "example job with global models",
+    "comments": [],
+    "requires": [],
+    "models": [
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "",
+            "src": "members.json.ittf",
+            "schema": "json",
+            "exportName": "members",
+            "modelRefs": [],
+            "comments": []
+        }
+    ],
+    "lines": [
+        {
+            "wzElement": "line",
+            "wzTag": "line",
+            "wzName": "src",
+            "cwdFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\src",
+            "artifacts": [
+                {
+                    "wzElement": "artifact",
+                    "wzTag": "artifact",
+                    "wzName": "step_1_javascript_module",
+                    "src": "step_1.js.ittf",
+                    "schema": "js",
+                    "isCompile": false,
+                    "isWfJob": false,
+                    "isWfModelType": false,
+                    "generator": "js/module",
+                    "extension": "js",
+                    "noOutput": false,
+                    "transformers": [],
+                    "modelRefs": [],
+                    "comments": []
+                }
+            ],
+            "comments": [
+                {
+                    "wzElement": "comment",
+                    "wzTag": "#",
+                    "wzName": "Generates a single javascript module"
+                }
+            ]
+        },
+        {
+            "wzElement": "line",
+            "wzTag": "line",
+            "wzName": "posts",
+            "cwdFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\posts",
+            "artifacts": [
+                {
+                    "wzElement": "artifact",
+                    "wzTag": "artifact",
+                    "wzName": "posts",
+                    "src": "./**/*.html.ittf",
+                    "schema": "html",
+                    "isCompile": false,
+                    "isWfJob": false,
+                    "isWfModelType": false,
+                    "generator": "html/document",
+                    "extension": "html",
+                    "collection": "posts",
+                    "noOutput": false,
+                    "transformers": [],
+                    "modelRefs": [],
+                    "comments": []
+                }
+            ],
+            "comments": []
+        }
+    ],
+    "productions": [
+        {
+            "wzElement": "production",
+            "wzTag": "production",
+            "wzName": "",
+            "destFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\dist",
+            "modelRefs": [],
+            "lineRefs": [
+                {
+                    "wzElement": "lineRef",
+                    "wzTag": "line-ref",
+                    "wzName": "src",
+                    "comments": []
+                },
+                {
+                    "wzElement": "lineRef",
+                    "wzTag": "line-ref",
+                    "wzName": "posts",
+                    "comments": []
+                }
+            ],
+            "comments": []
+        }
+    ],
+    "execFiles": []
+}

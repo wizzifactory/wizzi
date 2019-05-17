@@ -1,0 +1,18 @@
+css
+
+	. forecolor
+        background color(red a(90%))
+    
+    . alpha
+		background-image
+			svg
+				
+				preserve-aspect-ratio none
+				view-box 0 0 1024 800
+
+				circle
+					cx 220
+					cy 70
+					r 50
+					stroke red
+					fill green

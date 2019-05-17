@@ -1,0 +1,3 @@
+﻿common/kernel( wizzi-cli, The wizzi factory command line interface. )
+    code sh
+        + npm install -g wizzi-cli

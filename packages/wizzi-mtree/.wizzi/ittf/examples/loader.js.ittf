@@ -1,0 +1,103 @@
+﻿module 
+    kind jsfile
+
+	import path
+	var vfile = require('wizzi-utils').vfile
+	var file = vfile()
+	var mocks = require('wizzi-utils').mocks
+	var repo = mocks.repo
+	var packageIndex = require('../index')
+	
+	_ vfile
+		f_cb_throw( file )
+			_ step_1
+				@ file
+                f_cb_throw()
+                    _ sample_load
+                        @ file
+                        @ 'load_frontmatter.html.ittf'
+                        f_cb_throw()
+
+	function step_1
+		param file
+        param callback
+        log 'EXAMPLE.loader.start'
+		var loadMTree
+			_ packageIndex.createLoadMTree
+				_ repo.getCreateFilesystemStore
+
+		_ loadMTree
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ 'load_compile.html.ittf'
+			{
+				@ __productionManager
+					_ mocks.getProductionManager
+				@ mTreeBuildUpContext
+					{
+						@ tree
+							{
+								@ id 1
+								@ title 'a'
+								[ children
+									{
+										@ id 11
+										@ title 'aa'
+										[ children
+				@ options
+					{
+						@ isCompile true
+			f_cb_throw( mTree )
+				log "EXAMPLE.loader.mTree.loadHistory", mTree.loadHistory
+				var el
+					_ mTree.loadHistory.getIttfDocumentErrorLines
+						@ 'f1'
+						{
+							@ row 7
+							@ col 19
+							@ description 'could be better'
+						@ true
+				log "EXAMPLE.loader.mTree.loadHistory.getIttfDocumentErrorLines", el
+				_ file.write
+					_ path.join
+						@ __dirname
+						@ 'outputs'
+						@ 'load_compile.html.ittf'
+					_ mTree.toIttf
+                _ callback(null)
+
+
+	function sample_load
+		param file
+        param ittfDocumentBasename
+        param callback
+        
+        log 'EXAMPLE.loader.sample_load.start', ittfDocumentBasename
+		
+        var loadMTree
+			_ packageIndex.createLoadMTree
+				_ repo.getCreateFilesystemStore
+                {
+                    @ frontMatter true
+
+		_ loadMTree
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+				@ ittfDocumentBasename
+			{
+				@ __productionManager
+					_ mocks.getProductionManager
+				{ mTreeBuildUpContext
+            f_cb_throw( mTree )
+                log 'EXAMPLE.loader.sample_load.result\n', mTree.toIttf()
+                log 'EXAMPLE.loader.sample_load.frontmatter\n', JSON.stringify(mTree.frontMatter, null, 2)
+				_ file.write
+					_ path.join
+						@ __dirname
+						@ 'outputs'
+						@ ittfDocumentBasename
+					_ mTree.toIttf
+                _ callback(null)
+                

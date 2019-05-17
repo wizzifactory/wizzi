@@ -1,0 +1,72 @@
+{
+    "wzElement": "wfjob",
+    "wzName": "",
+    "title": "example execFile jobs list",
+    "comments": [],
+    "requires": [],
+    "models": [],
+    "lines": [],
+    "productions": [],
+    "execFiles": [
+        {
+            "wzElement": "execFile",
+            "wzTag": "exec-file",
+            "wzName": "wizzi-mtree",
+            "exePath": "c:/my/wizzi/next/npm/v3-wizzi-mtree\\generate.js",
+            "timeout": 5000,
+            "args": [
+                {
+                    "wzElement": "arg",
+                    "wzTag": "arg",
+                    "wzName": "times 2",
+                    "type": "number"
+                },
+                {
+                    "wzElement": "arg",
+                    "wzTag": "arg",
+                    "wzName": "yesno false",
+                    "type": "boolean"
+                }
+            ],
+            "envs": [
+                {
+                    "wzElement": "env",
+                    "wzTag": "env",
+                    "wzName": "NODE_ENV development",
+                    "type": "string"
+                }
+            ],
+            "comments": []
+        },
+        {
+            "wzElement": "execFile",
+            "wzTag": "exec-file",
+            "wzName": "wizzi-codegen",
+            "exePath": "c:/my/wizzi/next/npm/v3-wizzi-codegen\\generate.js",
+            "timeout": 0,
+            "args": [
+                {
+                    "wzElement": "arg",
+                    "wzTag": "arg",
+                    "wzName": "times 3",
+                    "type": "number"
+                },
+                {
+                    "wzElement": "arg",
+                    "wzTag": "arg",
+                    "wzName": "yesno true",
+                    "type": "boolean"
+                }
+            ],
+            "envs": [
+                {
+                    "wzElement": "env",
+                    "wzTag": "env",
+                    "wzName": "NODE_ENV development",
+                    "type": "string"
+                }
+            ],
+            "comments": []
+        }
+    ]
+}

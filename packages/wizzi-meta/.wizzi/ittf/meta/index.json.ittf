@@ -1,0 +1,25 @@
+{
+    $include versions
+    
+    name '@wizzi/meta'
+    version '${versions['wizzi-meta@next']}'
+	title 'Meta data and descriptors for wizzi packages and the wizzi studio dashboard.'
+    license 'MIT'
+    [ schemas
+        {
+            name 'docs'
+            title 'Wizzi documentation'
+            [ transformers
+				{
+					name 'docs/preprint'
+            [ artifacts
+        {
+            name 'wfpackage'
+            title 'Wizzi package descriptor'
+            [ transformers
+            [ artifacts
+        {
+            name 'wfstudio'
+            title 'Wizzi studio dashboard meta data'
+            [ transformers
+            [ artifacts

@@ -1,0 +1,30 @@
+﻿wfjob wizzi-helpers
+	
+	$
+		var pkgName = 'wizzi-helpers';
+		var ittf_meta_folder      = path.join(__dirname, 'ittf', 'meta');
+		var ittf_lib_folder       = path.join(__dirname, 'ittf', 'lib');
+		var ittf_root_folder      = path.join(__dirname, 'ittf', 'root');
+		var ittf_tests_folder     = path.join(__dirname, 'ittf', 'tests');
+		var ittf_examples_folder  = path.join(__dirname, 'ittf', 'examples');
+		if (isWebpackTarget) {
+			var dest_folder           = path.join(__dirname, '..', '..', '..', '..', 'wizzi-browser', 'packages', 'wizzi-helpers', 'dist');
+		} else {
+			var dest_folder           = path.join(__dirname, '..', 'dist');
+		}
+
+	model meta
+		schema json
+		src ${ittf_meta_folder}/index.json.ittf
+
+	$include wfjob/lib
+	$include wfjob/examples
+	$include wfjob/root
+	$include wfjob/tests
+
+	production
+		dest-folder ${dest_folder}
+		line-ref ittf-lib
+		line-ref ittf-examples
+		line-ref ittf-root
+		line-ref ittf-tests

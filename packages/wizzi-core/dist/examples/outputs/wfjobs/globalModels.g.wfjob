@@ -1,0 +1,23 @@
+{
+    "wzElement": "wfjob",
+    "wzName": "",
+    "modelsBaseFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi-core\\dist\\examples\\ittf\\wfjobs\\ittf\\models",
+    "title": "example job with global models",
+    "comments": [],
+    "requires": [],
+    "models": [
+        {
+            "wzElement": "model",
+            "wzTag": "model",
+            "wzName": "",
+            "src": "data/members.json.ittf",
+            "schema": "json",
+            "exportName": "members",
+            "modelRefs": [],
+            "comments": []
+        }
+    ],
+    "lines": [],
+    "productions": [],
+    "execFiles": []
+}

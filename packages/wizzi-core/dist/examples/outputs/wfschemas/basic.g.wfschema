@@ -1,0 +1,127 @@
+{
+    "wzName": "basic",
+    "wzParent": null,
+    "wzChildren": [],
+    "wzElement": "wfschema",
+    "comments": [],
+    "preserveTags": false,
+    "mTreeIsPreprocessed": false,
+    "elements": [
+        {
+            "wzName": "basic",
+            "wzParent": "[Circular ~]",
+            "wzSourceLineInfo": {
+                "row": 3,
+                "col": 5,
+                "sourceKey": "s1"
+            },
+            "wzChildren": [],
+            "wzElement": "element",
+            "comments": [],
+            "allowedTAGTYPES": [
+                "number",
+                "css-length"
+            ],
+            "TAGTYPE_NUMBER": "number",
+            "TAGTYPE_CSS_LENGTH": "css-length",
+            "isAbstract": false,
+            "isRoot": true,
+            "nameIsRequired": false,
+            "addToChildren": false,
+            "suppressCollectionEmit": false,
+            "attributes": [],
+            "relations": [
+                {
+                    "wzName": "value/s",
+                    "wzParent": "[Circular ~.elements.0]",
+                    "wzSourceLineInfo": {
+                        "row": 6,
+                        "col": 9,
+                        "sourceKey": "s1"
+                    },
+                    "wzChildren": [],
+                    "wzElement": "relation",
+                    "comments": [],
+                    "isOneToOne": false,
+                    "noGetMethod": false,
+                    "hasAddOnce": false,
+                    "wzTag": "r"
+                }
+            ],
+            "restricts": [],
+            "methods": [],
+            "includes": [],
+            "wzTag": "e"
+        },
+        {
+            "wzName": "item",
+            "wzParent": "[Circular ~]",
+            "wzSourceLineInfo": {
+                "row": 8,
+                "col": 5,
+                "sourceKey": "s1"
+            },
+            "wzChildren": [],
+            "wzElement": "element",
+            "comments": [],
+            "allowedTAGTYPES": [
+                "number",
+                "css-length"
+            ],
+            "TAGTYPE_NUMBER": "number",
+            "TAGTYPE_CSS_LENGTH": "css-length",
+            "isAbstract": false,
+            "isRoot": false,
+            "nameIsRequired": false,
+            "addToChildren": false,
+            "suppressCollectionEmit": false,
+            "attributes": [
+                {
+                    "wzName": "value",
+                    "wzParent": "[Circular ~.elements.1]",
+                    "wzSourceLineInfo": {
+                        "row": 9,
+                        "col": 9,
+                        "sourceKey": "s1"
+                    },
+                    "wzChildren": [],
+                    "wzElement": "attribute",
+                    "comments": [],
+                    "allowedTYPES": [
+                        "string",
+                        "boolean",
+                        "integer",
+                        "float",
+                        "date",
+                        "regexp",
+                        "code"
+                    ],
+                    "TYPE_STRING": "string",
+                    "TYPE_XBOOLEAN": "boolean",
+                    "TYPE_INTEGER": "integer",
+                    "TYPE_XFLOAT": "float",
+                    "TYPE_DATE": "date",
+                    "TYPE_REGEXP": "regexp",
+                    "TYPE_CODE": "code",
+                    "type": "string",
+                    "isRequired": false,
+                    "isDataType": false,
+                    "restricts": [],
+                    "wzTag": "a"
+                }
+            ],
+            "relations": [],
+            "restricts": [],
+            "methods": [],
+            "includes": [],
+            "wzTag": "e"
+        }
+    ],
+    "exportTos": [],
+    "requires": [],
+    "methods": [],
+    "declares": [],
+    "loadHistory": {
+        "nodeCount": 6
+    }
+}

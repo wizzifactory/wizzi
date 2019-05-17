@@ -1,0 +1,56 @@
+﻿module
+	kind es6
+
+	const path = require('path')
+	const fs = require('fs')
+	const wizziUtils = require('wizzi-utils')
+	const file = wizziUtils.file
+	const wizziTools = require('wizzi-tools')
+	const help = require('./help')
+
+	set module.exports
+		=>
+			param args
+
+			let currentDir = process.cwd()
+
+			let source = args.source || args.s
+			let dest = args.dest || args.d
+
+			log 'fy.source.dest', source, dest
+
+			if source && source.length > 0
+				const sourcePath = path.join(currentDir, source)
+				if dest && dest.length > 0
+					const destPath = path.join(currentDir, dest)
+					if file.isDirectory(sourcePath) 
+						log 'ok. source && dest are folders'
+						_ wizziTools.importFolder
+							@ sourcePath
+							@ destPath
+							a_cb_throw( result )
+								log 'Wizzify folder result', result
+					elif file.isFile(sourcePath) 
+						log 'ok. source && dest are files'
+						_ wizziTools.wizzify
+							@ file.read(sourcePath)
+							a_cb_throw( result )
+								_ file.write(destPath, result)
+								log 'Wizzify file', result
+					else
+						log 'error. source and dest must be both folders or both files'
+						_ help({_:['help', 'fy']})
+				else
+					if file.isFile(sourcePath)
+						log 'ok. source is file && dest will be calculated from source'
+						_ wizziTools.wizzify
+							@ file.read(sourcePath)
+							a_cb_throw( result )
+								_ file.write(sourcePath + '.ittf', result)
+								log 'Wizzify file', result
+					else
+						log 'error. if dest is missing source must be a file'
+						_ help({_:['help', 'fy']})
+			else
+				log 'Invalid options for `fy` command.'
+				_ help({_:['help', 'fy']})

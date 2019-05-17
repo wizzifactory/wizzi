@@ -1,0 +1,7 @@
+.forecolor {
+    background: rgba(255, 0, 0, 0.9);
+}
+.alpha {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 800' preserveAspectRatio='none'%3E%3Ccircle cx='220' cy='70' r='50' style='fill:green;stroke:red;'%3E%3C/circle%3E%3C/svg%3E");
+}
+

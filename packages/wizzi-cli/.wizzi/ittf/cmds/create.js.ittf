@@ -1,0 +1,11 @@
+﻿module
+	kind es6
+
+	const path = require('path')
+	const fs = require('fs')
+
+	set module.exports
+		=>
+			param args
+
+			log 'Not implemented yet'

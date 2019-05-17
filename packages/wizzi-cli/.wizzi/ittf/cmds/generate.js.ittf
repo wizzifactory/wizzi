@@ -1,0 +1,107 @@
+﻿module
+	kind es6
+
+	const path = require('path')
+	const util = require('util')
+	const fs = require('fs')
+	const async = require('async')
+	const wizzi = require('wizzi')
+
+    function generateSchemas
+        param schemasToGen
+		param wfJobFolder
+		param destPath
+		param packageName
+        _ async.mapSeries
+            @ schemasToGen
+            function 
+                param schemaName
+                param callback
+                log 'wizzi-cli.generate.Generating schema ' + schemaName
+                _ wizzi.generateWizziModelTypes
+                    { 
+                        @ configOptions {}
+                        { wfschema
+                            @ name schemaName
+                            @ ittfDocumentUri path.join(wfJobFolder, 'ittf', 'lib', 'wizzi', 'schemas', schemaName + '.wfschema.ittf')
+                            @ outputPackageFolder destPath
+                    function 
+                        param err
+                        param result
+                        if err
+                            throw 
+                                new Error
+                                    op+ 
+                                        + 'Package: ' + packageName + ' schema ' + schemaName + '  wizzi models production error: '
+                                        _ util.inspect
+                                            @ err
+                                            { 
+                                                @ depth null
+                        log 'wizzi-cli.generate.Generate schema result', result
+						_ callback(null, result)
+            function 
+                param err
+                param result
+                if err
+                    _ wizzi.printWizziJobError($name, err)
+
+	set module.exports
+		=>
+			param args
+
+			let currentDir = process.cwd()
+			let currentPath = null
+			let configPath = null
+			
+			while configPath == null && currentDir.length > 3
+				set currentPath = path.join(currentDir, 'wizzi.config.js')
+				try
+					log 'wizzi-cli.generate.searching', currentPath
+					const stat = fs.lstatSync(currentPath)
+					if stat.isFile()
+						set configPath = currentPath
+				catch ex
+				set currentDir = path.dirname(currentDir)
+
+			if !configPath
+				_ console.error(`config file "wizzi.config.js" not found`)
+				return
+
+			const configInstance = require(configPath)
+			log 'wizzi-cli.generate.configInstance', configInstance
+
+			_ wizzi.executeWizziJob
+				{ 
+					@ user 'stefi'
+					@ role 'admin'
+					@ storeKind 'filesystem'
+					{ config
+						@ wfBaseFolder __dirname
+						@ plugins configInstance.plugins
+					{ job
+						@ name configInstance.wfjobName
+						@ ittfDocumentUri configInstance.wfjobPath
+						@ productionOptions
+							_ wizzi.productionOptions
+								{ 
+									@ indentSpaces 4
+									@ basedir __dirname
+									@ verbose 2
+									{ dumps
+										@ dumpsBaseFolder path.join(__dirname, '_dumps')
+										{ mTreeBuildupJsWizziScript
+											@ dump false
+						@ globalContext configInstance.globalContext
+				function 
+					param err
+					if err
+						return
+							_ wizzi.printWizziJobError(configInstance.wfjobName, err)
+					if configInstance.schemas && configInstance.schemas.length > 0
+						_ generateSchemas
+							@ configInstance.schemas
+							_ path.dirname
+								@ configInstance.wfjobPath
+							@ configInstance.destPath
+							@ configInstance.packageName || configInstance.wfjobName
+

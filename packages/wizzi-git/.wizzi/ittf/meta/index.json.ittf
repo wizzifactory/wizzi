@@ -1,0 +1,6 @@
+{
+    name '@wizzi/git'
+    version '0.6.16'
+	title 'Git utility library for the wizzi factory'
+    license 'MIT'
+    [ schemas

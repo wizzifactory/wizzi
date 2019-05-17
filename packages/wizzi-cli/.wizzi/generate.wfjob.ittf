@@ -1,0 +1,44 @@
+﻿wfjob wizzi-cli
+	
+	$
+		var ittf_bin_folder     = path.join(__dirname, 'ittf', 'bin');
+		var ittf_cmds_folder    = path.join(__dirname, 'ittf', 'cmds');
+		var ittf_utils_folder   = path.join(__dirname, 'ittf', 'utils');
+		var ittf_root_folder    = path.join(__dirname, 'ittf', 'root');
+		var dest_folder         = path.join(__dirname, '..', 'dist');
+
+	line ittf-bin
+		cwd-folder ${ittf_bin_folder}
+		dest-folder ${dest_folder}/bin
+
+		wfjob/any_js()
+
+	line ittf-cmds
+		cwd-folder ${ittf_cmds_folder}
+		dest-folder ${dest_folder}/cmds
+
+		wfjob/any_js()
+
+	line ittf-utils
+		cwd-folder ${ittf_utils_folder}
+		dest-folder ${dest_folder}/utils
+
+		wfjob/any_js()
+
+	line ittf-root
+		cwd-folder ${ittf_root_folder}
+		dest-folder ${dest_folder}
+
+		wfjob/any_js()
+		wfjob/any_json()
+		wfjob/any_html()
+		wfjob/any_md()
+		wfjob/any_text()
+		wfjob/.gitignore()
+
+	production
+		dest-folder ${dest_folder}
+		line-ref ittf-bin
+		line-ref ittf-cmds
+		line-ref ittf-utils
+		line-ref ittf-root

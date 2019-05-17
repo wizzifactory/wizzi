@@ -1,0 +1,27 @@
+{
+    "tag": "xml",
+    "attributes": [],
+    "elements": [
+        {
+            "tag": "user",
+            "attributes": [],
+            "elements": [
+                {
+                    "tag": "name",
+                    "text": "'stefi'",
+                    "attributes": [],
+                    "elements": []
+                },
+                {
+                    "tag": "age",
+                    "text": "60",
+                    "attributes": [],
+                    "elements": []
+                }
+            ]
+        }
+    ],
+    "encoding": "UTF-8",
+    "standalone": "yes",
+    "wzElement": "xml"
+}

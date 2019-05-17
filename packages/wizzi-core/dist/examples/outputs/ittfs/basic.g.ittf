@@ -1,0 +1,291 @@
+{
+    "name": "wfjob",
+    "children": [
+        {
+            "name": "title",
+            "value": "example execFile jobs list",
+            "children": []
+        },
+        {
+            "name": "exec-file",
+            "value": "wizzi-mtree",
+            "children": [
+                {
+                    "name": "exe-path",
+                    "value": "c:/my/wizzi/next/npm/v3-wizzi-mtree\\generate.js",
+                    "children": []
+                },
+                {
+                    "name": "arg",
+                    "value": "times 2",
+                    "children": [
+                        {
+                            "name": "type",
+                            "value": "number",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "arg",
+                    "value": "yesno false",
+                    "children": [
+                        {
+                            "name": "type",
+                            "value": "boolean",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "env",
+                    "value": "NODE_ENV development",
+                    "children": [
+                        {
+                            "name": "type",
+                            "value": "string",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "timeout",
+                    "value": "5000",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "exec-file",
+            "value": "wizzi-codegen",
+            "children": [
+                {
+                    "name": "exe-path",
+                    "value": "c:/my/wizzi/next/npm/v3-wizzi-codegen\\generate.js",
+                    "children": []
+                },
+                {
+                    "name": "arg",
+                    "value": "times 3",
+                    "children": [
+                        {
+                            "name": "type",
+                            "value": "number",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "arg",
+                    "value": "yesno true",
+                    "children": [
+                        {
+                            "name": "type",
+                            "value": "boolean",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "name": "env",
+                    "value": "NODE_ENV development",
+                    "children": [
+                        {
+                            "name": "type",
+                            "value": "string",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "wzElement": "ittf",
+    "mTree": {
+        "uri": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi-core\\dist\\examples\\ittf\\ittfs\\basic.ittf",
+        "nodes": [
+            {
+                "parent": null,
+                "children": [
+                    {
+                        "parent": "[Circular ~.mTree.nodes.0]",
+                        "children": [],
+                        "n": "title",
+                        "v": "example execFile jobs list",
+                        "r": 3,
+                        "c": 5,
+                        "u": "s1"
+                    },
+                    {
+                        "parent": "[Circular ~.mTree.nodes.0]",
+                        "children": [
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.1]",
+                                "children": [],
+                                "n": "exe-path",
+                                "v": "c:/my/wizzi/next/npm/v3-wizzi-mtree\\generate.js",
+                                "r": 6,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.1]",
+                                "children": [
+                                    {
+                                        "parent": "[Circular ~.mTree.nodes.0.children.1.children.1]",
+                                        "children": [],
+                                        "n": "type",
+                                        "v": "number",
+                                        "r": 8,
+                                        "c": 13,
+                                        "u": "s1"
+                                    }
+                                ],
+                                "n": "arg",
+                                "v": "times 2",
+                                "r": 7,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.1]",
+                                "children": [
+                                    {
+                                        "parent": "[Circular ~.mTree.nodes.0.children.1.children.2]",
+                                        "children": [],
+                                        "n": "type",
+                                        "v": "boolean",
+                                        "r": 10,
+                                        "c": 13,
+                                        "u": "s1"
+                                    }
+                                ],
+                                "n": "arg",
+                                "v": "yesno false",
+                                "r": 9,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.1]",
+                                "children": [
+                                    {
+                                        "parent": "[Circular ~.mTree.nodes.0.children.1.children.3]",
+                                        "children": [],
+                                        "n": "type",
+                                        "v": "string",
+                                        "r": 12,
+                                        "c": 13,
+                                        "u": "s1"
+                                    }
+                                ],
+                                "n": "env",
+                                "v": "NODE_ENV development",
+                                "r": 11,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.1]",
+                                "children": [],
+                                "n": "timeout",
+                                "v": "5000",
+                                "r": 13,
+                                "c": 9,
+                                "u": "s1"
+                            }
+                        ],
+                        "n": "exec-file",
+                        "v": "wizzi-mtree",
+                        "r": 5,
+                        "c": 5,
+                        "u": "s1"
+                    },
+                    {
+                        "parent": "[Circular ~.mTree.nodes.0]",
+                        "children": [
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.2]",
+                                "children": [],
+                                "n": "exe-path",
+                                "v": "c:/my/wizzi/next/npm/v3-wizzi-codegen\\generate.js",
+                                "r": 16,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.2]",
+                                "children": [
+                                    {
+                                        "parent": "[Circular ~.mTree.nodes.0.children.2.children.1]",
+                                        "children": [],
+                                        "n": "type",
+                                        "v": "number",
+                                        "r": 18,
+                                        "c": 13,
+                                        "u": "s1"
+                                    }
+                                ],
+                                "n": "arg",
+                                "v": "times 3",
+                                "r": 17,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.2]",
+                                "children": [
+                                    {
+                                        "parent": "[Circular ~.mTree.nodes.0.children.2.children.2]",
+                                        "children": [],
+                                        "n": "type",
+                                        "v": "boolean",
+                                        "r": 20,
+                                        "c": 13,
+                                        "u": "s1"
+                                    }
+                                ],
+                                "n": "arg",
+                                "v": "yesno true",
+                                "r": 19,
+                                "c": 9,
+                                "u": "s1"
+                            },
+                            {
+                                "parent": "[Circular ~.mTree.nodes.0.children.2]",
+                                "children": [
+                                    {
+                                        "parent": "[Circular ~.mTree.nodes.0.children.2.children.3]",
+                                        "children": [],
+                                        "n": "type",
+                                        "v": "string",
+                                        "r": 22,
+                                        "c": 13,
+                                        "u": "s1"
+                                    }
+                                ],
+                                "n": "env",
+                                "v": "NODE_ENV development",
+                                "r": 21,
+                                "c": 9,
+                                "u": "s1"
+                            }
+                        ],
+                        "n": "exec-file",
+                        "v": "wizzi-codegen",
+                        "r": 15,
+                        "c": 5,
+                        "u": "s1"
+                    }
+                ],
+                "n": "wfjob",
+                "r": 1,
+                "c": 1,
+                "u": "s1"
+            }
+        ],
+        "loadHistory": {
+            "nodeCount": 19
+        }
+    }
+}
