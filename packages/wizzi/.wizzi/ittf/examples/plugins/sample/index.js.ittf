@@ -1,0 +1,122 @@
+common/v07/example/withMonoRepoWizziFactory()
+
+    $override requireWizzi
+        set wizzi = require('../../../index')
+
+    $append plugins
+        [ items
+            @ './wizzi-core/dist/index.js'
+            @ './wizzi-js/dist/index.js'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '..'
+                @ '..'
+                @ '..'
+                @ '..'
+
+    _ executeGenerateSchema
+        @ 'sample'
+        f_cb_no_throw()
+            if err
+                log 'executeGenerateSchema.err', err
+            else
+                _ executeGenerateModules
+                    [
+                        @ 'index'
+                        @ 'errors'
+                        @ 'lib/artifacts/sample/document/gen/main'
+                        @ 'lib/artifacts/sample/extended/trans/main'
+                        @ 'lib/wizzi/models/sample-mtree-preprocessor.g'
+                        @ 'examples/index'
+                    f_cb_no_throw()
+                        if err
+                            log 'generate.index.err', err
+                        else
+                            _ executeCopy
+                                @ 'examples/ittf/first.sample.ittf'
+                            log 'done'
+
+    function executeGenerateSchema
+        param schema
+        param callback
+
+        var ittfPath
+			_ path.join
+				@ __dirname
+                @ '_wizzi'
+				@ 'ittf'
+                @ 'lib'
+                @ 'wizzi'
+                @ 'schemas'
+				@ schema + '.wfschema.ittf'
+
+        var outputPath
+			_ path.join
+				@ __dirname
+                @ 'dist'
+
+        _ executeGenerateModelTypes
+            @ ittfPath
+            @ outputPath
+            @ schema
+            {
+            @ callback
+
+    function executeGenerateModules
+        param modules
+        param callback
+
+        _ async.mapSeries
+            @ modules
+            =>
+                param module
+                param callback
+        
+                var ittfDocumentUri
+                    _ path.join
+                        @ __dirname
+                        @ '_wizzi'
+                        @ 'ittf'
+                        @ module + '.js.ittf'
+                
+                var outputPath
+                    _ path.join
+                        @ __dirname
+                        @ 'dist'
+                        @ module + '.js'
+                
+                _ loadModelAndGenerateArtifact
+                    @ ittfDocumentUri
+                    {
+                    @ 'js/module'
+                    f_cb( artifactText )
+                        _ file.write
+                            @ outputPath
+                            @ artifactText
+                        r_cb( artifactText )
+            @ callback
+
+    function executeCopy
+        param relPath 
+
+        var inputPath
+            _ path.join
+                @ __dirname
+                @ '_wizzi'
+                @ 'ittf'
+                @ relPath
+        
+        var outputPath
+            _ path.join
+                @ __dirname
+                @ 'dist'
+                @ relPath
+
+        _ file.write
+            @ outputPath
+            _ file.read
+                @ inputPath
+
+

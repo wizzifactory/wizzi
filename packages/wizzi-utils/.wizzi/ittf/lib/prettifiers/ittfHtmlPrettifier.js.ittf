@@ -23,6 +23,8 @@
 		#   { options
 		#     { ittfFsNode
 		#     string ittfBasePath
+        #     number indentSpaces
+        #       default 2
 		#
 	set module.exports
 		function
@@ -44,6 +46,7 @@
 							@ fragments {}
 							@ ittfFsNode options.ittfFsNode
 							@ ittfBasePath options.ittfBasePath
+                            @ indentSpaces options.indentSpaces || 2
 					_ rootNode.analize
 						@ ctx
 						f_cb()
@@ -112,7 +115,7 @@
 
 		_ ctx.hb.openTag('span', { inline: true })
 		_ ctx.hb.writeAttribute('class', STYLE_DOCS_ITTF_NODE_VALUE)
-		_ ctx.hb.writeText(spaces(ctx.__ittfNode.indent * 4))
+		_ ctx.hb.writeText(spaces(ctx.__ittfNode.indent * ctx.indentSpaces))
 		_ ctx.hb.closeTag('span', { inline: true })
 
 		_ ctx.hb.openTag('span', { inline: true })

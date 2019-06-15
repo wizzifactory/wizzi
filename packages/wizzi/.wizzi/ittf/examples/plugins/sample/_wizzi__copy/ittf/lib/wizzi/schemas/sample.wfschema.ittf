@@ -1,0 +1,22 @@
+wfschema sample
+
+    preserve-tags false
+    mtree-is-preprocessed true
+    $$ unknown-element-replacer item
+
+    export-to json
+    $$ export-to xml
+    $$ export-to prettify
+
+	e sample
+		is-root
+
+		r item/s
+        r ittfPanel/s
+		
+	e item
+		a value
+
+	e ittfPanel
+        tag ittf-panel
+        has-mtree-data         

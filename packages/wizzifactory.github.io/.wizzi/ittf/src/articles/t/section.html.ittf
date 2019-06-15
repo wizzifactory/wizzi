@@ -1,0 +1,10 @@
+$group
+    $params &sect
+    
+    article
+        . doc-title
+            + ${sect.title}
+
+        . doc-summary
+
+            $hook

@@ -154,4 +154,7 @@
 			tag html-tag
 			default p
 
-	$include html/includes
+	e ittfPanel : element
+        tag ittf-panel
+
+    $include html/includes

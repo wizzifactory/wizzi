@@ -62,7 +62,7 @@
 			@ friends friendsArray
 		f_cb_test(mTreeModel)
 			var dump
-				_ JSON.stringify
+				_ stringify
 					_ mTreeModel.toIttf
 					@ null
 					@ 2
@@ -120,7 +120,7 @@
 												{ options
 													@ destFolder 'output'
 										f_cb_test(jobResults)
-											log 'results of job step_1\n', JSON.stringify(jobResults, null, 2)
+											log 'results of job step_1\n', stringify(jobResults, null, 2)
 
 											# Generate all the artifacts in a folder 
 											_ wizzi.genFolder

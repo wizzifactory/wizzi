@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-web\.wizzi\ittf\examples\md\index.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-web\.wizzi\ittf\examples\md\index.js.ittf
 */
 'use strict';
 var path = require('path');
@@ -72,15 +72,46 @@ function getFilesData(srcpath, schema) {
     }
     return ret;
 }
-function getWizziObject() {
-    return {
-            loadMTree: mtree.createLoadMTree(mocks.repo.getCreateFilesystemStore(), {
-                useCache: false
-            }), 
-            file: wizziUtils.file, 
-            verify: wizziUtils.verify, 
-            errors: errors
-        };
+function createWizziFactory(globalContext, callback) {
+    if (wizzi == null) {
+        // The wizzi package will be a previous version from wizzi-mono/node_modules
+        wizzi = require('wizzi');
+    }
+    console.log('"wizzi" package version', wizzi.version);
+    wizzi.fsnoaclFactory({
+        plugins: {
+            
+        }, 
+        globalContext: globalContext || {}
+    }, callback);
+}
+function getWizziObject(callback) {
+    if (typeof(callback) === 'undefined') {
+        return {
+                loadMTree: mtree.createLoadMTree(mocks.repo.getCreateFilesystemStore(), {
+                    useCache: false
+                }), 
+                file: wizziUtils.file, 
+                verify: wizziUtils.verify, 
+                errors: errors
+            };
+    }
+    else {
+        createWizziFactory({}, (err, wf) => {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, {
+                    loadMTree: mtree.createLoadMTree(mocks.repo.getCreateFilesystemStore(), {
+                        useCache: false
+                    }), 
+                    file: wizziUtils.file, 
+                    verify: wizziUtils.verify, 
+                    errors: errors, 
+                    wizziFactory: wf
+                });
+        });
+    }
 }
 function getLoadModelContext(mtreeBuilUpContext) {
     return mocks.getLoadModelContext(mtreeBuilUpContext);

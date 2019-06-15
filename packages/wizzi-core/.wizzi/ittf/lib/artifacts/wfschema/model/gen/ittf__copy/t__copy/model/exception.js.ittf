@@ -5,7 +5,8 @@
 			param message
 			param node
 			param instance
-			# TODO node seems superflous
+            set this.node = node
+            set this.instance = instance
 			if node && instance
 				set this.message = message + 
 					\b ', wzElement: ' + node.wzElement + 
@@ -23,6 +24,23 @@
 				set this.message = message 
 			log 'message', this.message
 			set this.stack = (new Error()).stack
-			set this.node = node
+			
+        m toString
+            var msg = []
+            _ msg.push(chalk.red('Error: ' + this.message))
+            _ msg.push(chalk.red('  name: ${schema.wzId}ModelException'))
+            if this.node
+                _ msg.push(chalk.yellow('  row: ' + this.node.r + ', col: ' + this.node.c))
+            if this.instance
+                if this.node
+                    _ msg.push(chalk.yellow('  uri: ' + this.instance.wzSourceFilepath(this.node.u)))
+                else
+                    _ msg.push(chalk.yellow('  uri: ' + this.instance.wzSourceLineInfo.toString(this.instance)))
+            else
+                _ msg.push(chalk.yellow('  uri: unknown'))
+            if this.errorLines
+                foreach line in this.errorLines
+                    _ msg.push(chalk.yellow('  ' + line))
+            return msg.join('\n')
 
 	set _md.${schema.wzId}ModelException = ${schema.wzId}ModelException

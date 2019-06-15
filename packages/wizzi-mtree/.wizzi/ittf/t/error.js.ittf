@@ -11,6 +11,15 @@
 		$if arg4 != null
 			param ${arg4}
 		set this.name = '${name}Error'
+        $if arg1 != null
+            set this.${arg1} = ${arg1}
+        $if arg2 != null
+            set this.${arg2} = ${arg2}
+        $if arg3 != null
+            set this.${arg3} = ${arg3}
+        $if arg4 != null
+            set this.${arg4} = ${arg4}
+        set this.__is_error = true
 		$hook
 		# 5/8/17 set this.stack = (new Error()).stack
 	set ${name}Error.prototype.toString

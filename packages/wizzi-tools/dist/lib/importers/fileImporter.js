@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-tools\.wizzi\ittf\lib\importers\fileImporter.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-tools\.wizzi\ittf\lib\importers\fileImporter.js.ittf
 */
 'use strict';
 var path = require('path');
@@ -32,6 +32,9 @@ function importFile(filePath, baseImportPath, baseExportPath, vfile, callback) {
     }
     if (schema.toLowerCase() === 'tsx') {
         schema = 'ts';
+    }
+    if (schema.toLowerCase() === 'jsx') {
+        schema = 'js';
     }
     if (!packageRoot.canBeWizzified(schema)) {
         // log '0', folderNorm, basename

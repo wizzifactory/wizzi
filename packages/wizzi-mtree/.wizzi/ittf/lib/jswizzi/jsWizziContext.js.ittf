@@ -1,6 +1,18 @@
 ﻿module wizzi-mtree.jswizzi.jsWizziContext
 	kind jsfile
 
+    #
+        # Used both for mTree buildup and interpolation
+        # mTree builup
+        # . composedMTree
+        #   - loadHistory
+        # . productionContext
+        # . scriptCoder
+        #   - toCode()
+        #     (script code)
+        #   - map
+        #     (line to node map)
+
 	import assert
     import util
     var f_dateutil = require('./functions/dateutil')
@@ -65,6 +77,7 @@
 		ctor
 			param composedMTree
 			param productionContext
+            param scriptCoder
 			set this.isForInterpolation = false
 			if composedMTree
 				# The JsWizziContext is used for the
@@ -73,6 +86,7 @@
 				set this.composedMTree = composedMTree
 				set this.loadHistory = composedMTree.loadHistory
 				set this.productionContext = productionContext
+                set this.scriptCoder = scriptCoder
 				set this.evalHelper = new JsWizziEvalHelper(this, composedMTree, productionContext)
 			else
 				# The JsWizziContext is used for interpolations.
@@ -184,6 +198,15 @@
 
 		$include jsWizziContext/getset_value
 		$include jsWizziContext/set_context
+
+		m getNodeFromScriptMap
+            param line
+            if this.scriptCoder
+                return
+                    _ this.scriptCoder.getNodeFromScriptMap
+                        @ line
+            else
+                return null
 
 	set module.exports = JsWizziContext
 

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-repo\.wizzi\ittf\root\index.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-repo\.wizzi\ittf\root\index.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -320,6 +320,22 @@ md.fileInfoByPath = function(filePath, baseFolder) {
                 destRelPath: relFolder.length > 0 ? relFolder + '/' + basename : basename
             };
     }
+};
+function normalize(filepath) {
+    return verify.replaceAll(filepath, '\\', '/');
+}
+var DEFAULT_MIME = {
+    css: 'css', 
+    graphql: 'graphql', 
+    html: 'html', 
+    js: 'js', 
+    json: 'json', 
+    scss: 'scss', 
+    text: 'text', 
+    ts: 'ts', 
+    xml: 'xml', 
+    vtt: 'vtt', 
+    vue: 'vue'
 };
 /**
   params

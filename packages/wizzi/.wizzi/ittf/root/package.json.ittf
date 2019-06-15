@@ -7,3 +7,10 @@ common/kernel_package( wizzi, ${wfpackage.version}, ${wfpackage.title}., ${wfpac
     wizzi-utils "${versions['wizzi-utils']}"
 	
 	$append devDependencies
+
+    $append scripts
+        examples:css "node examples/css"
+        examples:graphql "node examples/graphql"
+        examples:html "node examples/html"
+        examples:js "node examples/js"
+        examples:plugin "node examples/plugins/sample && node examples/plugins/sample/dist/examples"

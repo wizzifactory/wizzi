@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-utils\.wizzi\ittf\lib\errors.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-utils\.wizzi\ittf\lib\errors.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -95,17 +95,19 @@ md.getErrorLines = function(errorData, source, json) {
     for (var i = start; i < end; i++) {
         ret.push(formatLineNumber(i + 1) + ' ' + statements[i]);
         if (i == errorData.row - 1) {
-            var col = errorData.col;
+            var col = errorData.pos || errorData.col;
             ret.push(spaces(col + 4) + '^ ' + (errorData.description + '  <--- --- --- --- --- ERROR' || ''));
         }
     }
     return json ? ret : ret.join('\n');
 };
 function spaces(num) {
-    if (num < 1) {
+    if (num > 0 && num < 100) {
+        return Array(num + 1).join(" ");
+    }
+    else {
         return '';
     }
-    return Array(num + 1).join(" ");
 }
 function formatLineNumber(num) {
     if (num > 999) {

@@ -1,0 +1,7 @@
+set md.${name}
+	$params name
+	function
+		param model
+		param ctx
+		param callback
+		$hook

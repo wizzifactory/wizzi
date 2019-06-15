@@ -1,6 +1,6 @@
 common/example/withMonoRepoWizziFactory()
     
-    $append requireWizzi
+    $override requireWizzi
         set wizzi = require('../../index')
     $append plugins
         [ items

@@ -54,7 +54,7 @@
 
 	fn( reactComponent_member
 
-		log 'reactComponent, model.wzElement', model.wzElement, model.wzName, model.wzParent.wzName
+		# log 'reactComponent, model.wzElement', model.wzElement, model.wzName, model.wzParent.wzName
 		if model.wzElement == 'state'
 			_ ctx.write('state = ')
 			set model.wzElement = 'jsObject'
@@ -142,14 +142,19 @@
 					set ctx.__is_react_class = false
 					r_cb()
 			
-		elif model.wzElement == 'property'
+		elif model.wzElement == 'property' || model.wzElement == 'p'
 			_ ctx.w(model.wzName + ';')
 			r_cb()
 
 		elif model.wzElement == 'arrowfunction' || model.wzElement == 'asyncarrowfunction'
 			set ctx.__is_react_class = true
 			var async_str = model.wzElement == 'asyncarrowfunction' || model.xasync ? 'async ' : ''
-			_ ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => {')
+		    var onlyChildIsArrowFunction = u.onlyChildIs(model, 'arrowfunction')
+            log "onlyChildIsArrowFunction", onlyChildIsArrowFunction
+            if onlyChildIsArrowFunction
+                _ ctx.write(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => ')
+            else
+			    _ ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => {')
 			_ ctx.indent()
 			_ generateParamConstraints
 				@ model.wzName
@@ -167,7 +172,8 @@
 						@ ctx
 						@ cnt
 						f_cb()
-							_ ctx.w('}')
+                            if onlyChildIsArrowFunction == false
+							    _ ctx.w('}')
 							# TODO ???
 							set ctx.__is_react_class = false
 							r_cb()

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-web\.wizzi\ittf\lib\artifacts\html\document\gen\main.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-web\.wizzi\ittf\lib\artifacts\html\document\gen\main.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -11,6 +11,7 @@ var verify = require('../../../util/verify');
 var utilNode = require('../../../util/utilNode');
 var lineParser = require('../../../util/lineParser');
 var lorem = require('wizzi-utils').lorem;
+var prettify = require('wizzi-utils').prettifyFromString;
 var myname = 'wizzi-web.htm1.document.main';
 var md = module.exports = {};
 md.stm = {};
@@ -498,6 +499,21 @@ md.stm.ready = function(model, ctx, callback) {
     ctx.w("</script>");
     return callback(null, true);
 };
+md.stm.ittfPanel = function(model, ctx, callback) {
+    ctx.w("<div class='ittf-panel'>");
+    if (model.wzMTreeData.title) {
+        ctx.w("<div class='ittf-panel-title'>" + model.wzMTreeData.title + "</div>");
+    }
+    ctx.w("<pre class='prettyprint'><code>");
+    prettifyIttf(model.wzMTreeData, (err, result) => {
+        if (err) {
+            return callback(err);
+        }
+        ctx.w("<div>" + result.ittfPretty + '</div>');
+        ctx.w("</code></pre></div>");
+        return callback(null, true);
+    });
+};
 md.stm.comment = function(model, ctx, callback) {
     if (ctx.__iscode) {
         ctx.w("// " + model.wzName);
@@ -536,6 +552,112 @@ md.stm.comment = function(model, ctx, callback) {
         ctx.__needs_crlf = false;
         return callback(null, true);
     });
+};
+function prettifyIttf(mTreeData, callback) {
+    var schema = mTreeData.schema;
+    var title = mTreeData.title;
+    var mTree = mTreeData.mTree;
+    var item = mTreeData.ittf;
+    var itemResult = {};
+    if (item.children.length == 1) {
+        if ((schema === 'json' && (item.children[0].n === '{' || item.children[0].n === '[')) || item.children[0].n === ittfRootFromSchema(schema) || ittfRootFromSchema(schema) === 'any') {
+            // is already ok, has the correct root
+            itemResult[item.n] = mTree.toIttf(item.children[0]);
+            itemResult[item.n + 'Wrapped'] = itemResult[item.n];
+        }
+        else {
+            // wrap it
+            var ittfNode = wrapperForSchema(schema);
+            var i, i_items=item.children, i_len=item.children.length, node;
+            for (i=0; i<i_len; i++) {
+                node = item.children[i];
+                ittfNode.children.push(node);
+            }
+            itemResult[item.n] = mTree.toIttf(item.children[0]);
+            itemResult[item.n + 'Wrapped'] = mTree.toIttf(ittfNode);
+        }
+    }
+    else {
+        // wrap them
+        var ittfNode = wrapperForSchema(schema);
+        var i, i_items=item.children, i_len=item.children.length, node;
+        for (i=0; i<i_len; i++) {
+            node = item.children[i];
+            ittfNode.children.push(node);
+        }
+        itemResult[item.n] = mTree.toIttf(item.children[0]);
+        itemResult[item.n + 'Wrapped'] = mTree.toIttf(ittfNode);
+    }
+    prettify(itemResult.ittf, function(err, pretty) {
+        if (err) {
+            return callback(err);
+        }
+        itemResult.ittfPretty = pretty;
+        console.log('prettifyIttf', itemResult);
+        return callback(null, itemResult);
+    });
+}
+function wrapperForSchema(schema) {
+    if (schema === 'js') {
+        return {
+                n: 'module', 
+                children: [
+                    {
+                        n: 'kind', 
+                        v: 'react', 
+                        children: [
+                            
+                        ]
+                    }
+                ]
+            };
+    }
+    else if (schema === 'ts') {
+        return {
+                n: 'module', 
+                children: [
+                    
+                ]
+            };
+    }
+    else {
+        return {
+                n: schema, 
+                children: [
+                    
+                ]
+            };
+    }
+}
+var schemaIttfRootMap = {
+    css: 'css', 
+    graphql: 'graphql', 
+    ittf: 'any', 
+    html: 'html', 
+    js: 'module', 
+    json: '{', 
+    md: 'vtt', 
+    scss: 'scss', 
+    svg: 'svg', 
+    ts: 'module', 
+    vtt: 'vtt'
+};
+function ittfRootFromSchema(schema) {
+    // log 'ittfRootFromSchema', schema, schemaIttfRootMap[schema]
+    return schemaIttfRootMap[schema];
+}
+var schemaPrismLanguageMap = {
+    css: 'css', 
+    graphql: 'graphql', 
+    ittf: 'any', 
+    html: 'html', 
+    js: 'javascript', 
+    json: 'json', 
+    md: 'vtt', 
+    scss: 'scss', 
+    svg: 'svg', 
+    ts: 'typescript', 
+    vtt: 'vtt'
 };
 function preprocess(model, ctx) {
     if (model.wzTag == '.') {

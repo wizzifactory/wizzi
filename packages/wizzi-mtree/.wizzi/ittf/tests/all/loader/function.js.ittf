@@ -1,7 +1,7 @@
 ﻿base_test( function )
 	
 	$append imports
-		var mocks = require('./mocks/misc')
+		var mocks = require('../mocks/misc')
 		var mTreeLoader = require('./mocks/mTreeLoader')
 
 	var

@@ -37,6 +37,7 @@
 		{
 			test "mocha tests/all/**/*.js --full-trace"
             test:quick "mocha tests/quick/**/*.js --full-trace"
+            $hook scripts
 	
 	dependencies
 		{

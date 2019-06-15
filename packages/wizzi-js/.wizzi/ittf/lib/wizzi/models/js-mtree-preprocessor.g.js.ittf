@@ -90,8 +90,12 @@
 				@ 'generator'
 		if state.svgOn
 			# log 'js-mtree-processor svgOn', node.n, node.v
-		if node.n === 'p' && state.parent.n === 'class'
-			# do nothing
+		if node.n === 'p' && state.parent && (state.parent.n === 'class' || state.parent.n === 'react')
+			log "node.n === 'p' && state.parent && (state.parent.n === 'class' || state.parent.n === 'react'"
+            # do nothing
+        elif node.n === 'set' && state.parent && (state.parent.n === '`lit')
+            # literal var 'set' is an error by 'wizzi-tools/wizzify/js'
+			set node.n = '@'
 		elif state.svgOn && svg_supported_attrs.indexOf(node.n) > -1
 			var name = svg_supported_attrs_map[node.n] || node.n
 			set node.v = name + ' ' + node.v

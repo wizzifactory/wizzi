@@ -145,8 +145,11 @@
             _ runner
                 @ node.left
                 @ ctx
-        if node.operator === '&&' && (l === false || l === null)
+        # if node.operator === '&&' && (l === false || l === null || typeof(l) === 'undefined')
+        if node.operator === '&&' && !l
             return false
+        if node.operator === '||' && l
+            return true
         checked_run( r, LogicalExpression r
             _ runner
                 @ node.right
@@ -233,8 +236,11 @@
 					var value = obj[property].apply(obj, args)
 					if value && value.__is_error
 						# log 'wizzi-mtree.jswizzi.jsWizziRunner.CallExpression. Error calling ' + property + ', on statement: ' + escodegen.generate(node)
+                        if value.name === 'WizziError'
+                            return value
 						var currentModelInfo = ctx.get_currentMTreeBrickInfo()
 						return
+                            $* 6/6/19
 							_ error
 								@ 'JsWizziError'
 								@ 'CallExpression'
@@ -246,6 +252,20 @@
 										@ currentModelUri currentModelInfo.currentModel_uri
 										@ currentModelMixerUri currentModelInfo.currentModel_mixerUri
 								@ value
+                            *$
+					        _ local_error
+						        @ ctx
+                                @ value.message
+                                @ property
+                                @ node
+                                @ 'CallExpression'
+                                @ value
+                                { 
+                                    @ callingProperty property
+                                    @ onStatement escodegen.generate(node)
+                                    @ uri currentModelInfo.currentModel_uri
+                                    @ mixerUri currentModelInfo.currentModel_mixerUri
+
 					return value
 				catch ex
 					return 

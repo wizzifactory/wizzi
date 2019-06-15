@@ -1,7 +1,7 @@
 ﻿module wizzi-mtree.loader.evaluator
-    kind jsfile
+    kind es6
     
-	import util
+	# var util = require('util')
     var jsWizziRunner = require('../jswizzi/jsWizziRunner')
     var JsWizziContext = require('../jswizzi/jsWizziContext')
     var dateUtil = require('../jswizzi/functions/dateutil')
@@ -11,33 +11,39 @@
     
 	#
 		# The final step of an mTree loading. 
-		# Executes the expressions evaluation and the
-		# template commands of the composed mTree piece and build the final mTree: 
-		# . creates the mTreeBuildUpScript from the composedMTreePiece,
+		# Executes the expression evaluations and the
+		# template commands of the composedMTree and builds the final mTree: 
+		# . creates the mTreeBuildUpScript from the composedMTree,
 		# . creates the jsWizziContext and loads the loadContext.mTreeBuildUpContext
 		#   in the global context,
 		# . runs the script with the jsWizziRunner,
 		# . returns the builded mTree.
 		#
 		# params
-		#   { composedMTreePiece
+		#   { composedMTree
 		#   { loadContext
 		#     { mTreeBuildUpContext
 		#     { productionContext
 		#       { runnerServer
+        #     { options
+        #       boolean isCompile
 		#   callback
 		#
 	set module.exports =
         function 
-            param composedMTreePiece
+            param composedMTree
             param loadContext
 			param callback
             
-			var productionContext = loadContext.productionContext
 			set loadContext.options = loadContext.options || {}
+            var isCompile = loadContext.options.isCompile
+
+            var productionContext = loadContext.productionContext
+            var scriptCoder
+                new JsWizziScriptCoder()
 
 			var jsWizziContext
-                new JsWizziContext(composedMTreePiece, productionContext)
+                new JsWizziContext(composedMTree, productionContext, scriptCoder)
 			_ jsWizziContext.setGlobalValues
                 @ loadContext.mTreeBuildUpContext
             
@@ -46,15 +52,10 @@
                     @ brickKey null
                     @ counter 0
                     @ startTime dateUtil.now_GMYHMS()
-					@ isCompile loadContext.options.isCompile
-
-			var isCompile = loadContext.options.isCompile
+					@ isCompile isCompile
             
 			# log 'isCompile', isCompile
 			
-			var scriptCoder
-                new JsWizziScriptCoder()
-
 			_ scriptCoder.w
 				@ '// ' + ctx.startTime + '  by ' + __filename
 			
@@ -71,7 +72,7 @@
 			_ scriptCoder.w
 				@ 'var $0 = {}; // the root node of the MTree buildup'
             
-			foreach item in composedMTreePiece.nodes
+			foreach item in composedMTree.nodes
                 _ mTreeBuildUpScripter.codify(item, 0, scriptCoder, ctx)
             
 			if isCompile
@@ -82,7 +83,7 @@
 					@ '}'
 			
 			_ productionContext.addMTreeBuildUpScript
-                @ composedMTreePiece.uri
+                @ composedMTree.uri
                 @ scriptCoder
 
 			if isCompile
@@ -102,7 +103,7 @@
 						_ jsWizziContext.getGlobalValues
 				
 				_ finalize
-					@ composedMTreePiece
+					@ composedMTree
 					@ $0
 					@ ctx
 					@ callback
@@ -113,7 +114,12 @@
 					_ scriptCoder.toCode()
 					@ jsWizziContext
 					{
-					f_cb( result )
+					f_cb_no_throw( result )
+                        if err
+                            log 'evaluator.jsWizziRunner.run.error', err.name, err.message
+							return
+								_ callback
+                                    @ err
             
 						_ jsWizziContext.set_NodeContext()
 
@@ -122,29 +128,34 @@
 						if typeof($0) === 'undefined' || $0 == null || $0.children === 'undefined'
 							return
 								_ callback
-									{
-										@ message 'No nodes returned after IttfEvaluation.'
-										@ document composedMTreePiece.uri
+                                    _ local_error
+                                        @ 'IttfEvaluationError'
+                                        @ 'evaluator'
+                                        @ 'No node returned after IttfEvaluation'
+                                        @ composedMTree.nodes[0]
+                                        @ null
 						_ finalize
-							@ composedMTreePiece
+							@ composedMTree
 							@ $0
 							@ ctx
 							@ callback
             
 	function finalize
-		param composedMTreePiece
+		param composedMTree
 		param $0
 		param ctx
 		param callback
 
-		set composedMTreePiece.nodes = []
+		set composedMTree.nodes = []
             
 		foreach item in $0.children
 			set item.parent = null
-			_ composedMTreePiece.nodes.push(item)
+			_ composedMTree.nodes.push(item)
             
-		set composedMTreePiece.data =
+		set composedMTree.data =
 			{ 
 				@ createdAt ctx.startTime
             
-		_ callback(null, composedMTreePiece)
+		_ callback(null, composedMTree)
+
+    $include local_error

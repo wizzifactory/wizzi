@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\ittfInterpolate.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\ittfInterpolate.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -108,6 +108,9 @@ function interpolate(template, jsWizziContext, options) {
                         else {
                             var replacer = evalKeyOrCode(keyOrCode, jsWizziContext);
                             if (replacer && replacer.__is_error) {
+                                console.log('checked_call_return.error.method',  'ittf.interpolate');
+                                console.log('checked_call_return.error.forTest',  'keyOrCode',  keyOrCode);
+                                console.log('checked_call_return.error.replacer', replacer);
                                 return replacer;
                             }
                             result.push(replacer);
@@ -135,7 +138,7 @@ function interpolate(template, jsWizziContext, options) {
             }
             else {
                 // state == state_tag
-                // case sequence '$*' is text
+                // case sequence '\$\*' is text
                 result.push('$');
                 if (isCompile && ch === "'") {
                     result.push('\\');
@@ -165,6 +168,9 @@ function evalKeyOrCode(keyOrCode, jsWizziContext) {
     // log 'wizzi-mtree.loader.ittfInterpolate.evalKeyOrCode.previous._____result: ', keyOrCode, jsWizziContext.isDeclared('_____result')
     var notUsed = jsWizziRunner.run(stm, jsWizziContext);
     if (notUsed && notUsed.__is_error) {
+        console.log('checked_call_return.error.method',  'ittf.interpolate.evalKeyOrCode');
+        console.log('checked_call_return.error.forTest',  'stm',  stm);
+        console.log('checked_call_return.error.notUsed', notUsed);
         return notUsed;
     }
     var result = jsWizziContext.getValue('_____result');

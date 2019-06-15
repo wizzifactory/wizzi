@@ -1,0 +1,12 @@
+module
+    kind es6
+
+    $
+        var md = {
+            plugin: 'sample',
+            name: 'extended',
+            schema: 'sample',
+            checkSchema: true
+        };
+
+    common/v07/artifacts/trans(&md)

@@ -1,6 +1,6 @@
 {
     "name": "wizzi-repo",
-    "version": "0.7.0",
+    "version": "0.7.2",
     "description": "Ittf documents repository manager for the wizzi factory..",
     "author": {
         "name": "Stefano Bassoli",
@@ -22,7 +22,8 @@
         "npm": ">=1.4.28"
     },
     "scripts": {
-        "test": "mocha tests/**/*.js --full-trace"
+        "test": "mocha tests/all/**/*.js --full-trace",
+        "test:quick": "mocha tests/quick/**/*.js --full-trace"
     },
     "dependencies": {
         "async": "^2.1.5",
@@ -30,7 +31,8 @@
         "iconv-lite": "^0.4.15",
         "json-stringify-safe": "^5.0.1",
         "lodash": "^4.17.4",
-        "wizzi-utils": "0.7.3",
+        "wizzi-utils": "0.7.5",
+        "browserfs": "1.4.3",
         "co": "4.6.0",
         "escodegen": "1.8.1",
         "esprima": "3.1.3",

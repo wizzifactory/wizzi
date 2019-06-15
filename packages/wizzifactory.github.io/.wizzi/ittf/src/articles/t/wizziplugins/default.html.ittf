@@ -1,0 +1,15 @@
+﻿$group
+    $
+        var sect = {
+            title: 'Default plugins'
+        };
+
+    section(&sect)
+
+		p The Wizzi Factory is a content agnostic data processor and is not aimed at any particular domain.
+			\b The plugins are domain specific and content aware. The plugins do the heavy work.
+
+		p Anyhow the Wizzi Factory has one internal plugin, the `wizzi-core` plugin, that is integrated in its API
+			\b and two default plugins, the `wizzi-js` and `wizzi-web` plugins that are a starting point
+			\b for experimenting with ITTF Documents and artifact generations.
+

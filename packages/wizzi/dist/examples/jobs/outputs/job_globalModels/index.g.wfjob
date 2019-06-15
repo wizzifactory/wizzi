@@ -1,7 +1,7 @@
 {
     "wzElement": "wfjob",
     "wzName": "",
-    "modelsBaseFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\models",
+    "modelsBaseFolder": "C:\\My\\wizzi\\wizzi\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\models",
     "title": "example job with global models",
     "comments": [],
     "requires": [],
@@ -22,7 +22,7 @@
             "wzElement": "line",
             "wzTag": "line",
             "wzName": "src",
-            "cwdFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\src",
+            "cwdFolder": "C:\\My\\wizzi\\wizzi\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\src",
             "artifacts": [
                 {
                     "wzElement": "artifact",
@@ -53,7 +53,7 @@
             "wzElement": "line",
             "wzTag": "line",
             "wzName": "posts",
-            "cwdFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\posts",
+            "cwdFolder": "C:\\My\\wizzi\\wizzi\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\ittf\\posts",
             "artifacts": [
                 {
                     "wzElement": "artifact",
@@ -81,7 +81,7 @@
             "wzElement": "production",
             "wzTag": "production",
             "wzName": "",
-            "destFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\dist",
+            "destFolder": "C:\\My\\wizzi\\wizzi\\packages\\wizzi\\dist\\examples\\jobs\\ittf\\job_globalModels\\dist",
             "modelRefs": [],
             "lineRefs": [
                 {

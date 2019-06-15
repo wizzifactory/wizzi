@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi\.wizzi\ittf\root\index.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi\.wizzi\ittf\root\index.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -373,7 +373,7 @@ md.executeWizziJob = function(request, callback) {
     var jobName = request.job.name;
     
     console.log('=');
-    console.log('======== v5.wizzi.executeWizziJob ===== Start job: ' + jobName + ' =============');
+    console.log('======== v0.7.6.wizzi.executeWizziJob ===== Start job: ' + jobName + ' =============');
     console.log('- Executor module path ', __filename);
     console.log('- Job source path ', request.job.ittfDocumentUri);
     console.log('- user', user + '/' + role);
@@ -432,7 +432,7 @@ function executeWizziJob_step2(jobRequest, callback) {
             var jobPath = jobRequest.ittfDocumentUri;
             
             console.log('=');
-            console.log('======== v5.wizzi.executeWizziJob_step2 ===== job: ' + jobName + ' =============');
+            console.log('======== v0.7.6.wizzi.executeWizziJob_step2 ===== job: ' + jobName + ' =============');
             console.log('=');
             
             var pman = wizziFactoryInstance.createProductionManager(jobRequest.productionOptions, jobRequest.globalContext);
@@ -460,7 +460,7 @@ function executeWizziJob_step2(jobRequest, callback) {
                     return callback(err);
                 }
                 console.log('=');
-                log.success('======== v5.wizzi.executeWizziJob. Job: ' + jobName + '. Run completed');
+                log.success('======== v0.7.6.wizzi.executeWizziJob. Job: ' + jobName + '. Run completed');
                 console.log('=');
                 pman.persistToFile(function(err, result) {
                     if (err) {
@@ -470,7 +470,7 @@ function executeWizziJob_step2(jobRequest, callback) {
                         return callback(err);
                     }
                     console.log('=');
-                    log.success('======== v5.wizzi.executeWizziJob. Job: ' + jobName + '.  PersistToFile completed');
+                    log.success('======== v0.7.6.wizzi.executeWizziJob. Job: ' + jobName + '.  PersistToFile completed');
                     console.log('=');
                     pman.terminate();
                     if (callback) {
@@ -484,7 +484,7 @@ md.printWizziJobError = function(jobName, err) {
     err.WizziIndexStack = (new Error()).stack;
     console.log("\n");
     console.log("====================================================================================================\n");
-    console.log("FATAL ERROR : v5.executing wizzi instance job: " + jobName);
+    console.log("FATAL ERROR : v0.7.6.executing wizzi instance job: " + jobName);
     console.log("\n");
     console.log("Error message:\n");
     console.log(err.message + "\n");
@@ -547,9 +547,7 @@ md.generateWizziModelTypes = function(request, callback) {
     var repoUri = request.configOptions.repoUri;
     var repoBaseFolder = request.configOptions.repoBaseFolder;
     
-    var plugins = [
-        'wizzi-core'
-    ];
+    var plugins = [];
     if (request.configOptions.plugins) {
         var i, i_items=request.configOptions.plugins, i_len=request.configOptions.plugins.length, item;
         for (i=0; i<i_len; i++) {
@@ -558,6 +556,9 @@ md.generateWizziModelTypes = function(request, callback) {
                 plugins.push(item);
             }
         }
+    }
+    else {
+        plugins.push('wizzi-core');
     }
     console.log('- plugins', plugins);
     for (var k in request.wfschema.mTreeBuildUpContext) {
@@ -662,7 +663,7 @@ md.createJsonFactoryLight = function(options, callback) {
         plugins: {
             items: pluginItems
         }, 
-        jsonFsData: options.jsonFsData, 
+        fsJson: options.fsJson, 
         globalContext: options.globalContext || {}
     }, callback);
 };
@@ -805,11 +806,11 @@ md.loadMTreeFromText = function(ittfContent, context, options, callback) {
             content: ittfContent
         }
     ];
-    md.JsonComponents.createJsonFsData(documents, function(err, jsonFsData) {
+    md.JsonComponents.createFsJson(documents, function(err, fsJson) {
         if (err) {
             return callback(err);
         }
-        options.jsonFsData = jsonFsData;
+        options.fsJson = fsJson;
         md.createJsonFactoryLight(options, function(err, wf) {
             if (err) {
                 return callback(err);
@@ -957,11 +958,11 @@ md.loadMTreeDebugFromText = function(ittfContent, context, options, callback) {
             content: ittfContent
         }
     ];
-    md.JsonComponents.createJsonFsData(documents, function(err, jsonFsData) {
+    md.JsonComponents.createFsJson(documents, function(err, fsJson) {
         if (err) {
             return callback(err);
         }
-        options.jsonFsData = jsonFsData;
+        options.fsJson = fsJson;
         md.createJsonFactoryLight(options, function(err, wf) {
             if (err) {
                 return callback(err);
@@ -1132,11 +1133,11 @@ md.loadModelFromText = function(ittfContent, context, options, callback) {
             content: ittfContent
         }
     ];
-    md.JsonComponents.createJsonFsData(documents, function(err, jsonFsData) {
+    md.JsonComponents.createFsJson(documents, function(err, fsJson) {
         if (err) {
             return callback(err);
         }
-        options.jsonFsData = jsonFsData;
+        options.fsJson = fsJson;
         md.createJsonFactoryLight(options, function(err, wf) {
             if (err) {
                 return callback(err);
@@ -1297,11 +1298,11 @@ md.generateArtifactFromText = function(ittfContent, context, options, callback) 
             content: ittfContent
         }
     ];
-    md.JsonComponents.createJsonFsData(documents, function(err, jsonFsData) {
+    md.JsonComponents.createFsJson(documents, function(err, fsJson) {
         if (err) {
             return callback(err);
         }
-        options.jsonFsData = jsonFsData;
+        options.fsJson = fsJson;
         md.createJsonFactoryLight(options, function(err, wf) {
             if (err) {
                 return callback(err);

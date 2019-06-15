@@ -1,0 +1,7 @@
+{
+    $include versions
+    name 'wizzifactory.github.io'
+    version '${versions['wizzifactory.github.io@next']}'
+	title 'Wizzi factory github main page.'
+    license 'MIT'
+    [ schemas

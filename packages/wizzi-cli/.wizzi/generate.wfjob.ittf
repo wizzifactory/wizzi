@@ -1,11 +1,12 @@
 ﻿wfjob wizzi-cli
 	
 	$
-		var ittf_bin_folder     = path.join(__dirname, 'ittf', 'bin');
-		var ittf_cmds_folder    = path.join(__dirname, 'ittf', 'cmds');
-		var ittf_utils_folder   = path.join(__dirname, 'ittf', 'utils');
-		var ittf_root_folder    = path.join(__dirname, 'ittf', 'root');
-		var dest_folder         = path.join(__dirname, '..', 'dist');
+		var ittf_bin_folder      = path.join(__dirname, 'ittf', 'bin');
+		var ittf_cmds_folder     = path.join(__dirname, 'ittf', 'cmds');
+		var ittf_utils_folder    = path.join(__dirname, 'ittf', 'utils');
+        var ittf_examples_folder = path.join(__dirname, 'ittf', 'examples');
+		var ittf_root_folder     = path.join(__dirname, 'ittf', 'root');
+		var dest_folder          = path.join(__dirname, '..', 'dist');
 
 	line ittf-bin
 		cwd-folder ${ittf_bin_folder}
@@ -25,6 +26,13 @@
 
 		wfjob/any_js()
 
+	line ittf-examples
+		cwd-folder ${ittf_examples_folder}
+		dest-folder ${dest_folder}/examples
+
+		wfjob/any_plain(js)
+        wfjob/any_plain(ittf)
+
 	line ittf-root
 		cwd-folder ${ittf_root_folder}
 		dest-folder ${dest_folder}
@@ -41,4 +49,5 @@
 		line-ref ittf-bin
 		line-ref ittf-cmds
 		line-ref ittf-utils
+        line-ref ittf-examples
 		line-ref ittf-root

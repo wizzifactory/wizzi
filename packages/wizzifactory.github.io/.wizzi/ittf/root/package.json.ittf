@@ -1,0 +1,2 @@
+common/kernel_package( wizzifactory.github.io, ${wfpackage.version}, ${wfpackage.title}., ${wfpackage.license}  )
+

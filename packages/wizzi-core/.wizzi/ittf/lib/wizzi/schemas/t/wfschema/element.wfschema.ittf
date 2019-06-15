@@ -41,12 +41,17 @@
 			# TODO example
 		
 		a_tag_flag( nameIsRequired, name-is-required )
-			# This element must have a not empty IttfNodeValue
+			# This element must have a not empty IttfNodeValue (the wzName property in the wizzi model)
 		
 		a_tag_flag( addToChildren, add-to-children )
 			# Every child node of this element will be added to the wzChildren collection.
 			# Artifact generators will use the wzElement attribute to distinguish child elements.
 		
+		a_tag_flag( hasMTreeData, has-mtree-data )
+            # Data calculated in the mTree preprocessing step will be set on the
+            # wzMTreeData property of this element.
+            # This wfschema MUST have the 'mtree-is-preprocessed' flag set to true
+
 		a_tag_flag( suppressCollectionEmit, suppress-collection-emit )
 			# TODO ???
 		

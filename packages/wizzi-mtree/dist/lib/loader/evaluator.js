@@ -1,9 +1,9 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\evaluator.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\evaluator.js.ittf
 */
 'use strict';
-var util = require('util');
+// var util = require('util')
 var jsWizziRunner = require('../jswizzi/jsWizziRunner');
 var JsWizziContext = require('../jswizzi/jsWizziContext');
 var dateUtil = require('../jswizzi/functions/dateutil');
@@ -12,37 +12,39 @@ var mTreeBuildUpScripter = require('./mTreeBuildUpScripter');
 var requireFromString = null;
 /**
      The final step of an mTree loading.
-     Executes the expressions evaluation and the
-     template commands of the composed mTree piece and build the final mTree:
-     . creates the mTreeBuildUpScript from the composedMTreePiece,
+     Executes the expression evaluations and the
+     template commands of the composedMTree and builds the final mTree:
+     . creates the mTreeBuildUpScript from the composedMTree,
      . creates the jsWizziContext and loads the loadContext.mTreeBuildUpContext
      in the global context,
      . runs the script with the jsWizziRunner,
      . returns the builded mTree.
     
      params
-     { composedMTreePiece
+     { composedMTree
      { loadContext
      { mTreeBuildUpContext
      { productionContext
      { runnerServer
+     { options
+     boolean isCompile
      callback
     
 */
-module.exports = function(composedMTreePiece, loadContext, callback) {
-    var productionContext = loadContext.productionContext;
+module.exports = function(composedMTree, loadContext, callback) {
     loadContext.options = loadContext.options || {};
-    var jsWizziContext = new JsWizziContext(composedMTreePiece, productionContext);
+    var isCompile = loadContext.options.isCompile;
+    var productionContext = loadContext.productionContext;
+    var scriptCoder = new JsWizziScriptCoder();
+    var jsWizziContext = new JsWizziContext(composedMTree, productionContext, scriptCoder);
     jsWizziContext.setGlobalValues(loadContext.mTreeBuildUpContext);
     var ctx = {
         brickKey: null, 
         counter: 0, 
         startTime: dateUtil.now_GMYHMS(), 
-        isCompile: loadContext.options.isCompile
+        isCompile: isCompile
     };
-    var isCompile = loadContext.options.isCompile;
     // log 'isCompile', isCompile
-    var scriptCoder = new JsWizziScriptCoder();
     scriptCoder.w('// ' + ctx.startTime + '  by ' + __filename);
     if (isCompile) {
         scriptCoder.w('module.exports = function($, $ctx) {');
@@ -55,9 +57,9 @@ module.exports = function(composedMTreePiece, loadContext, callback) {
     }
     scriptCoder.w('$.n(); // set the context state to NodeContext');
     scriptCoder.w('var $0 = {}; // the root node of the MTree buildup');
-    var i, i_items=composedMTreePiece.nodes, i_len=composedMTreePiece.nodes.length, item;
+    var i, i_items=composedMTree.nodes, i_len=composedMTree.nodes.length, item;
     for (i=0; i<i_len; i++) {
-        item = composedMTreePiece.nodes[i];
+        item = composedMTree.nodes[i];
         mTreeBuildUpScripter.codify(item, 0, scriptCoder, ctx);
     }
     if (isCompile) {
@@ -65,7 +67,7 @@ module.exports = function(composedMTreePiece, loadContext, callback) {
         scriptCoder.deindent();
         scriptCoder.w('}');
     }
-    productionContext.addMTreeBuildUpScript(composedMTreePiece.uri, scriptCoder);
+    productionContext.addMTreeBuildUpScript(composedMTree.uri, scriptCoder);
     if (isCompile) {
         // log 'scriptCoder.toCode()', scriptCoder.toCode()
         if (requireFromString === null) {
@@ -73,35 +75,41 @@ module.exports = function(composedMTreePiece, loadContext, callback) {
         }
         var md = requireFromString(scriptCoder.toCode());
         var $0 = md(jsWizziContext.getValue('$'), jsWizziContext.getGlobalValues());
-        finalize(composedMTreePiece, $0, ctx, callback);
+        finalize(composedMTree, $0, ctx, callback);
     }
     else {
         jsWizziRunner.run(scriptCoder.toCode(), jsWizziContext, {}, function(err, result) {
             if (err) {
+                console.log('evaluator.jsWizziRunner.run.error', err.name, err.message);
                 return callback(err);
             }
             jsWizziContext.set_NodeContext();
             var $0 = jsWizziContext.getValue('$0');
             if (typeof($0) === 'undefined' || $0 == null || $0.children === 'undefined') {
-                return callback({
-                        message: 'No nodes returned after IttfEvaluation.', 
-                        document: composedMTreePiece.uri
-                    });
+                return callback(local_error('IttfEvaluationError', 'evaluator', 'No node returned after IttfEvaluation', composedMTree.nodes[0], null));
             }
-            finalize(composedMTreePiece, $0, ctx, callback);
+            finalize(composedMTree, $0, ctx, callback);
         });
     }
 };
-function finalize(composedMTreePiece, $0, ctx, callback) {
-    composedMTreePiece.nodes = [];
+function finalize(composedMTree, $0, ctx, callback) {
+    composedMTree.nodes = [];
     var i, i_items=$0.children, i_len=$0.children.length, item;
     for (i=0; i<i_len; i++) {
         item = $0.children[i];
         item.parent = null;
-        composedMTreePiece.nodes.push(item);
+        composedMTree.nodes.push(item);
     }
-    composedMTreePiece.data = {
+    composedMTree.data = {
         createdAt: ctx.startTime
     };
-    callback(null, composedMTreePiece);
+    callback(null, composedMTree);
+}
+function local_error(name, method, message, node, inner, other) {
+    return new errors.WizziError(message, node, node ? node.mTreeBrick || node.model : null, {
+            errorName: name, 
+            method: method, 
+            inner: inner, 
+            ...other||{}
+        });
 }

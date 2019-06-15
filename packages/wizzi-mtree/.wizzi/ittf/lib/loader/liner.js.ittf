@@ -2,8 +2,14 @@
     kind jsfile
     var util = require('util')
 
+    #
+        # TODO Error management
+        # The liner should detect invalid node names? Probably NO.
+        # Node values are always valid and are always trimmed.
+        # Spacing can be controlled using \b escapes. See nodifier.
+
 	#
-		# Reads an IttfDocument and extract an array of line descriptions
+		# Reads an IttfDocument and extract an array of node line descriptions
     #
 		# params
 		#   string textContent
@@ -273,12 +279,6 @@
 						else
 							_ valueAcc.push
 								@ String.fromCodePoint(cp)
-						$* VIA	
-                        if typeof (line.value) == 'undefined'
-                            set line.value = ''
-                        else 
-                            set line.value += String.fromCodePoint(cp)
-						*$
                     else 
                         set leadingWhiteSpaces += (cp == CP.SPACE ? 1 : 4)
                 
@@ -295,25 +295,12 @@
                         else 
 							_ valueAcc.push
 								@ String.fromCodePoint(cp)
-						$* VIA	
-                        if typeof(line.value) == 'undefined'
-							if cp == CP.OPEN_PAREN 
-								set line.tagSuffix = String.fromCodePoint(cp)
-								set line.value = ''
-							else
-								_ nameAcc.push
-									@ String.fromCodePoint(cp)
-								# set line.name += String.fromCodePoint(cp)
-                        else 
-                            set line.value += String.fromCodePoint(cp)
-						*$
                     else 
 						_ nameAcc.push
 							@ String.fromCodePoint(cp)
                         set line =
                             { 
                                 @ indent leadingWhiteSpaces / 4
-                                $$ @ name String.fromCodePoint(cp)
                                 @ row linepos
                                 @ col colpos
                                 @ sourceKey sourceKey
@@ -345,11 +332,6 @@
 					# log "v_start, v_end", v_start, v_end
 					set line.value = valueAcc.slice(v_start, v_end + 1).join('')
                 
-				$* VIA
-				if typeof (line.value) !== 'undefined'
-                    set line.value = line.value.trim()
-				*$
-				
 				set line.hasMacro = lineHasMacro
 				# log 'last push line', line
                 _ lines.push(line)
@@ -358,4 +340,3 @@
 				set nameAcc.length = 0
 				set valueAcc.length = 0
 				set lineHasMacro = false
-

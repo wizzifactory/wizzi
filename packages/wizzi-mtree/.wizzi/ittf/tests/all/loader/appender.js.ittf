@@ -1,10 +1,10 @@
 ﻿base_test( appender )
 	
 	$append imports
-		var mocks = require('./mocks/misc')
-		var MTreeBrickProvider = require('../../lib/loader/mTreeBrickProvider')
-		var mixer = require('../../lib/loader/mixer')
-		var appender = require('../../lib/loader/appender')
+		var mocks = require('../mocks/misc')
+		var MTreeBrickProvider = require('../../../lib/loader/mTreeBrickProvider')
+		var mixer = require('../../../lib/loader/mixer')
+		var appender = require('../../../lib/loader/appender')
 
 	var
 		decl store

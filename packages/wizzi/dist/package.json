@@ -1,6 +1,6 @@
 {
     "name": "wizzi",
-    "version": "0.7.6",
+    "version": "0.7.9",
     "description": "The wizzi factory..",
     "author": {
         "name": "Stefano Bassoli",
@@ -23,7 +23,12 @@
     },
     "scripts": {
         "test": "mocha tests/all/**/*.js --full-trace",
-        "test:quick": "mocha tests/quick/**/*.js --full-trace"
+        "test:quick": "mocha tests/quick/**/*.js --full-trace",
+        "examples:css": "node examples/css",
+        "examples:graphql": "node examples/graphql",
+        "examples:html": "node examples/html",
+        "examples:js": "node examples/js",
+        "examples:plugin": "node examples/plugins/sample && node examples/plugins/sample/dist/examples"
     },
     "dependencies": {
         "async": "^2.1.5",
@@ -31,10 +36,10 @@
         "iconv-lite": "^0.4.15",
         "json-stringify-safe": "^5.0.1",
         "lodash": "^4.17.4",
-        "wizzi-utils": "0.7.3",
+        "wizzi-utils": "0.7.5",
         "extsprintf": "^1.2.0",
-        "wizzi-mtree": "0.7.0",
-        "wizzi-repo": "0.7.0"
+        "wizzi-mtree": "0.7.3",
+        "wizzi-repo": "0.7.2"
     },
     "devDependencies": {
         "del": "^4.1.1",

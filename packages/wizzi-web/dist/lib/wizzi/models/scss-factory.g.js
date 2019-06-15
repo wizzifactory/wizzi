@@ -1,7 +1,7 @@
 /*
-    artifact generator: C:\My\wizzi\v6\node_modules\wizzi-legacy-v5\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: c:\my\wizzi\v6\node_modules\wizzi-core\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
-    utc time: Sat, 22 Dec 2018 13:51:59 GMT
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-legacy-v5\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: c:\my\wizzi\wizzi\node_modules\wizzi-core\lib\artifacts\wfschema\factory\gen\ittf\wfschema-factory.js.ittf
+    utc time: Tue, 11 Jun 2019 14:07:11 GMT
 */
 'use strict';
 /**

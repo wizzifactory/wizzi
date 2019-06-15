@@ -1,22 +1,15 @@
-﻿module 
-    kind jsfile
-
-	import path
-	var vfile = require('wizzi-utils').vfile
-	var file = vfile()
-	var mocks = require('wizzi-utils').mocks
-	var repo = mocks.repo
-	var packageIndex = require('../index')
+﻿example( loader )
+    
+    $append imports
+	    var packageIndex = require('../index')
 	
-	_ vfile
-		f_cb_throw( file )
-			_ step_1
-				@ file
+    _ step_1
+        @ file
+        f_cb_throw()
+            _ sample_load
+                @ file
+                @ 'load_frontmatter.html.ittf'
                 f_cb_throw()
-                    _ sample_load
-                        @ file
-                        @ 'load_frontmatter.html.ittf'
-                        f_cb_throw()
 
 	function step_1
 		param file
@@ -56,7 +49,7 @@
 						{
 							@ row 7
 							@ col 19
-							@ description 'could be better'
+							@ description 'dummy error for test'
 						@ true
 				log "EXAMPLE.loader.mTree.loadHistory.getIttfDocumentErrorLines", el
 				_ file.write

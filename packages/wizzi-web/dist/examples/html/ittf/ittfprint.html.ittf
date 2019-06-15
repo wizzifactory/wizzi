@@ -1,0 +1,8 @@
+html
+    body
+        ittf-panel
+            schema js
+            title Var declaration
+            ittf
+                var i
+                    _ random(10)

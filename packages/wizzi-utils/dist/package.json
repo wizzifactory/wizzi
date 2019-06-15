@@ -1,6 +1,6 @@
 {
     "name": "wizzi-utils",
-    "version": "0.7.3",
+    "version": "0.7.6",
     "description": "Utility library for the wizzi factory.",
     "author": {
         "name": "Stefano Bassoli",
@@ -30,7 +30,7 @@
         "iconv-lite": "^0.4.15",
         "json-stringify-safe": "^5.0.1",
         "lodash": "^4.17.4",
-        "wizzi-helpers": "^0.7.1",
+        "wizzi-helpers": "0.7.1",
         "extsprintf": "^1.2.0",
         "fs-extra": "latest",
         "glob": "^7.1.2",

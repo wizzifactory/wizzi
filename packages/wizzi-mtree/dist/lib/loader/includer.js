@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\includer.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\includer.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -50,16 +50,10 @@ var includer = module.exports = function(primaryMTreeBrick, mTreeBrickProvider, 
             includerBrickKey: item.model.brickKey
         }, function(err, includedWipNodifiedMTree) {
             if (err) {
-                console.log('wizzi-mtree.includer.err', err);
-                // log 'wizzi-mtree.includer.item', item
-                // log 'wizzi-mtree.includer.item.model.loadHistory', item.model.loadHistory
-                err.errorLines = item.model.loadHistory.getIttfDocumentErrorLines(item.sourceKey, {
-                    row: item.row, 
-                    col: item.col, 
-                    description: 'fragment not found'
-                }, true);
-                console.log('wizzi-mtree.includer.item.model.loadHistory.lineErrors', err.errorLines);
-                return callback(err);
+                return callback(local_error('IttfIncludeError', 'includer', 'Fragment to include not found', item, err, {
+                        includerUri: mixeruri, 
+                        includedRelPath: v
+                    }));
             }
             mTreeBrickProvider.enterFragmentCall(mixeruri, includedWipNodifiedMTree.uri);
             if (mTreeBrickProvider.checkForRecursion()) {
@@ -132,13 +126,13 @@ function normalizeNode(node, parent, model, r, c, u) {
         node.children = [];
     }
 }
-function local_error(name, method, message, node, inner) {
-    if (node) {
-        // log 'local_error.node', node
-        var nodeError = new errors.NodeError(message, node);
-        message = nodeError.message;
-    }
-    return error(name, method, message, inner);
+function local_error(name, method, message, node, inner, other) {
+    return new errors.WizziError(message, node, node ? node.mTreeBrick || node.model : null, {
+            errorName: name, 
+            method: method, 
+            inner: inner, 
+            ...other||{}
+        });
 }
 /**
   params

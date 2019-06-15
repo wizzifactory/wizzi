@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css" />
+    <link href="../styles/article.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="doc-container">
+        <article>
+            <div class="doc-title">
+                Ittf documents</div>
+            <div class="doc-summary">
+                <p>Ittf, Indented Text Tree Format, is a document type for declaring a textual representation of a tree structure of name-valued nodes.</p>
+                <p>Ittf documents are building blocks, made to be loaded and composed into a javascript tree structure, named mTree.</p>
+                <p>A single ittf document, when loaded, becomes an mTreeBrick, a composition element that can include or mix other mTreeBricks and can in turn be included or mixed.</p>
+                <p>Ittf documents also can be templates or pieces of templates. They can contain conditional or repeat template node commands and can use context objects, passed to the mTree load function, for creating new nodes of the composed mTree.</p>
+                <p>Further ittf documents may be seen as code units. They can codify statements and expressions using a sandboxed subset of the ECMA-262 javascript standard named 'jsWizzi'. Statements can create, and modify, variables (in the evaluation context of an mTreeBrick or in the global evaluation context) that template node commands can use to select or create nodes.</p>
+            </div>
+        </article>
+        <article>
+            <div class="doc-title">
+                Ittf notation</div>
+            <div class="doc-summary">
+                <p>Documents are made of text lines separated by a:
+                    <ul>
+                        <li>x'000a' char or</li>
+                        <li>x'000d' char or</li>
+                        <li>x'000a' \b x'000d' couple of chars</li>
+                    </ul>
+                </p>
+                <p>A line is made of a node-name and a node-value separated by a white-char (space or tab).</p>
+                <div class='ittf-panel'>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">name</span><span class="pp-pln"> value</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">name</span><span class="pp-pln"> value</span></div></div>
+                </code></pre></div>
+                <p>Node-values always are trimmed, you cannot have a node-value that starts or ends with a white-char sequence.</p>
+                <p>When loaded, both these nodes will containg the 'value' string in the node-value.</p>
+                <div class='ittf-panel'>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">name1</span><span class="pp-pln"> value</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">name2</span><span class="pp-pln"> value</span></div></div>
+                </code></pre></div>
+                <p>The node hierarchy is built calculating the indentation of node-names in a text line. Every tab or every 4 space chars preeceding a node-name count for one level of indentation.</p>
+                <p>The node-name of the first line (the root node-name) must have indentation zero. The root node-name must start at column 1 (1-based) of the first row.</p>
+                <p>An ittf document cannot have more than one root node. If the semantic of a document require more than one root node, a convenience '$group' node command can be used. It must be the root node of a composed document (included or mixed) and is ignored during the mTree build up, so that all its childs become root nodes of the included document.</p>
+                <p>Example. Ittf document with two root nodes.</p>
+                <div class='ittf-panel'>
+                <div class='ittf-panel-title'>Sample ITTF document with two root nodes.</div>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-kwd">$group</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">root1</span><span class="pp-pln"> value1</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">  </span><span class="pp-tag">root2</span><span class="pp-pln"> value2</span></div></div>
+                </code></pre></div>
+                <p>A line becomes a node which parent is the first preceeding line with a lesser indentation.</p>
+                <p>Phisical text lines may have line continuatios and a 'logical' line may contain many phisical lines. There are three pre-defined node-names that allow line continuation:
+                    <ul>
+                        <li>'\' means that the node-value is joined to the node-value of the parent node without separation.</li>
+                        <li>'\b' means that the node-value is joined to the node-value of the parent node with one space char separator.</li>
+                        <li>'\n' means that the node-value is joined to the node-value of the parent node with one Line Feed char separator.</li>
+                    </ul>
+                </p>
+                <div class='ittf-panel'>
+                <div class='ittf-panel-title'>Line continuation sample.  Both 'name1' and 'name2' have the same value.</div>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">-</span><span class="pp-pln"> root</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">-</span><span class="pp-pln"> name1 I am</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> a single</span></div><div class="L4"><span class="pp-ln">   4 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> line</span></div><div class="L5"><span class="pp-ln">   5 </span><span class="pp-pln">  </span><span class="pp-tag">-</span><span class="pp-pln"> name2 I am a single line</span></div></div>
+                </code></pre></div>
+                <p>Node names and values are text strings by design, and never require quotes (they are unquoted by the lexer). The wizzi factory is a text manipulator. If the semantic of a node-value require that it is treated as a different type (boolean, integer, float or date), that can be done using wizzi schemas, that apply types to the tree structure resulting from loading an ittf document (see mTrees).</p>
+                <p>One exception to this rule is when an argument is passed to a mixed ittf document, and will become part of its evaluation context. Types different from string can be usefull in jswizzi statements and expessions. The '$params' node command, that declares the parameters received by a mixed ittf document, may assign a type to passed arguments.</p>
+                <p>In any case the lexer do not detect types. When needed they must be declared.</p>
+            </div>
+        </article>
+        <article>
+            <div class="doc-title">
+                Xml document comparision</div>
+            <div class="doc-summary">
+                <h4>Content model</h4>
+                <p>XML differentiates two types: elements containing only element content (no character data) and mixed content (elements that may contain character data, optionally interspersed with child elements).</p>
+                <p>Ittf documents have no mixed content. They have ittf nodes only. They do not have the concept of element or attribute or text.</p>
+                <p>Only the application of a wizzi schema to an mTree, when loading a Wizzi Model, can trasform an ittf node in an element or attribute or text, depending on the schema declarations.</p>
+                <h4>Document types and document type definitions</h4>
+                <p>A wizzi schema is actually a documemnt type definition, but it applies to loaded mTrees not to ittf documents. Ittf documents creators must design their documents to obtain a valid mTree after composition and evaluation, just before loading it in a Wizzi Model.</p>
+                <p>An ittf document, when created for composing an mTree for a specific wizzi schema, can be considered to have the type of that wizzi schema. The type of an ittf document must be recognizable from its name, that must end with '.`schema`.ittf'. Example of ittf document of type 'js': 'index.js.ittf'.</p>
+                <h4>Markup declaration and markup model</h4>
+                <p>In XML a markup declaration is a syntactical construct within a DTD declaring an entity or defining a markup structure.</p>
+                <p>Wizzi schemas do not need to declare entities, because ittf document can contain expressions and template commands. But, like DTDs, they declare an elements and attributes structure, and like DTDs they define a model (Wizzi Model) of an mTree content.</p>
+                <p>In the wizzi factory, Wizzi Models are implemented as javascript module, generated from a wizzi schema declaration. They can load valid mTrees, and may be used as a context object by the mTree loader, model transformers and artifact generators.</p>
+                <h4>Elements and element types</h4>
+                <p>Wizzi schema elements and XML DTD element types have the same goal. Wizzi model elements are such only after the mTree loading of an ittf document. In ittf documents we have potential model elements, attributes and texts.</p>
+                <h4>Valid characters</h4>
+                <p>Ittf documents accept any character. The wizzi factory ignores the content of documents and has no concept of data type. Wizzi schemas only can constrain node names and values.</p>
+                <p>When generating the javascript of a Wizzi Model the names of classes and attributes are checked and invalid chars for javascript names are replaced with the '_' char. Class names colliding with javascript keywords are prefixed with the letter 'x'.</p>
+            </div>
+        </article>
+        <article>
+            <div class="doc-title">
+                Ittf documents composition</div>
+            <div class="doc-summary">
+                <p>An ittf document, when loaded, becomes a javascript object called `mTreeBrick`.</p>
+                <p>mTreeBricks are composition units. They can mix, or include, other bricks and can be mixed, or included. The mix or include operation is declared on a node of the mixer or includer brick, that will be replaced from the nodes of the mixed or included one.</p>
+                <p>An mTree loading begins loading a primary ittf document, that become the primary mTreeBrick, the starting point of the composition. Included and mixed ittf documents become composed mTreeBricks.</p>
+                <p>A single mTreeBrick can be composed many times in different positions of the builded mTree. It is loaded once, and cloned for composition.</p>
+                <p>Include and mix operations have a different behaviour. When included, cloned mTreeBricks, become part of the includer brick and their nodes acquire its brick key and its brick evaluation context. Instead, mixed mTreeBricks, are inserted in the node structure of the mixer, but each of them mantains its original brick key and brick evaluation context. When coding an ittf document, that will become a mixed mTreeBrick, created variables will have a scope limited to the nodes declared in the document, even if they will be merged in the mixer brick.</p>
+                <p>Summarizing: primary and fragment mTreeBricks have their own evaluation context, included mTreeBricks use the evaluation context of their includer.</p>
+                <p>In case of a mixed mTreeBrick the mixer node can have children nodes that in turn can replace 'hook' nodes of the mixed brick. See the '$hook' and '$append' ittf command nodes for the composition rules of a mix operation.</p>
+            </div>
+        </article>
+        <article>
+            <div class="doc-title">
+                Ittf templates</div>
+            <div class="doc-summary">
+                <p>Ittf main documents and fragments are composable templates, and their nodes can contain template node commands and jswizzi expressions, that will be processed in the evaluation step of the mTree loading.</p>
+                <p>The buildup of the resulting mTree can create new nodes using repeat node commands like '$foreach', '$backeach' and '$while' and can include or exclude node branches using '$if', '$elif' and '$else' conditional node commands.</p>
+                <p>jswizzi statements and expression are executed in the fragment evaluation context and may access global context variables.</p>
+                <h3>$foreach repeat node command</h3>
+                <div class='ittf-panel'>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">-</span><span class="pp-pln"> ...</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">-</span><span class="pp-pln"> $foreach item-name in collection-name</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> ... node branch ...</span></div></div>
+                </code></pre></div>
+                <p>Descendant nodes of this node command are a repeat template; item-name is user defined and collection-name is a jswizzi expression that evaluates to an iterable javascript object, in scope in the local or global jsWizziContext.</p>
+                <p>The var statement that declares item-name is auto-generated.</p>
+                <p>Descendant nodes are repeated having item-name as a value in scope.</p>
+                <h3>$while repeat node command</h3>
+                <p>This is a repeat template statement where descendant nodes are repeated until the jswizzi-expression evaluates to false.</p>
+                <p>$ or $global node commands must be used to modify the context values of the exit condition. There is a limit of 10000 iterations to guard against accidental loops, after that an exception is raised.</p>
+                <p>TODO make the limit of 10000 iterations configurable and an optional parameter of the loadMTree function.</p>
+                <div class='ittf-panel'>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">-</span><span class="pp-pln"> ...</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">-</span><span class="pp-pln"> $while jswizzi-expression</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> ... node branch ...</span></div><div class="L4"><span class="pp-ln">   4 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> $ jswizzi-exit-condition-change</span></div></div>
+                </code></pre></div>
+                <h3>$break, $continue repeat node commands</h3>
+                <p>This statements have the same meaning than in javascript but operate breaking or continuing the template repetition.</p>
+                <p>A label for continuation is not implemented.</p>
+                <div class='ittf-panel'>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">-</span><span class="pp-pln"> ...</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-tag">-</span><span class="pp-pln"> $foreach ... | $while ...</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> $break empty-value</span></div><div class="L4"><span class="pp-ln">   4 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> ...</span></div><div class="L5"><span class="pp-ln">   5 </span><span class="pp-pln">    </span><span class="pp-tag">-</span><span class="pp-pln"> $continue empty-value</span></div></div>
+                </code></pre></div>
+            </div>
+        </article>
+    </div>
+</body>
+
+</html>

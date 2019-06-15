@@ -1,0 +1,14 @@
+﻿html
+    $global
+        var dollar = '$';
+    $
+        var art = {
+            title: 'Plugins'
+        };
+    
+    article()
+    
+        $include ./wizziplugins/introduction
+        $include ./wizziplugins/architect
+        $include ./wizziplugins/api
+        $include ./wizziplugins/default

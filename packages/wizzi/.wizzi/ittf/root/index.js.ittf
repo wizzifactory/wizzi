@@ -4,6 +4,7 @@
 	import path
 	import chalk
 	import async
+    var stringify = require('json-stringify-safe')
 	+
 	var verify = require('wizzi-utils').verify
 	var log = require('./lib/util/log')(module)

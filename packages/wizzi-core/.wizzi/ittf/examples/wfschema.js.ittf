@@ -1,0 +1,42 @@
+common/example/withMonoRepoWizziFactory()
+
+    $append plugins
+        [ items
+            @ 'wizzi-js'
+            @ 'wizzi-web'
+            @ './index'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+
+    _ executeGenerateSchema
+        @ 'basic'
+        f_cb()
+            log 'done'
+
+    function executeGenerateSchema
+        param schema
+        param callback
+
+        var ittfPath
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+                @ 'wfschemas'
+				@ schema + '.wfschema.ittf'
+
+        var outputPath
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+                @ 'wfschemas'
+                @ 'output'
+				@ schema
+
+        _ executeGenerateModelTypes
+            @ ittfPath
+            @ outputPath
+            @ schema
+            {
+            @ callback

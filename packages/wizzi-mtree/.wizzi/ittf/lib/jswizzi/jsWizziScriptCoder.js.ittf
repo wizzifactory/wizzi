@@ -11,12 +11,14 @@
             set this.indentValue = 0
             set this.length = 0
             set this.line = ''
+            set this.map = []
 		
 		m for
 			param text
 			param node
 			if this.line.length > 0
 				_ this.w()
+            set this.map[this.length] = node
 			_ this.w('for (' + text + ') {' + ' //' + node.id)
 			_ this.indent()
     
@@ -25,6 +27,7 @@
 			param node
             if this.line.length > 0
                 _ this.w()
+            set this.map[this.length] = node
             _ this.w('if (' + text + ') {' + ' //' + node.id)
             _ this.indent()
 
@@ -33,6 +36,7 @@
 			param node
             if this.line.length > 0
                 _ this.w()
+            set this.map[this.length] = node
             _ this.w('else if (' + text + ') {' + ' //' + node.id)
             _ this.indent()
 
@@ -47,6 +51,7 @@
 			param node
             if this.line.length > 0
                 _ this.w()
+            set this.map[this.length] = node
             _ this.w('while (' + text + ') {' + ' //' + node.id)
             _ this.indent()
 
@@ -58,8 +63,11 @@
 
 		m w
             param text
+            param node
             var ind = spaces(this.indentValue * 4)
             _ this.stm.push(ind + this.line + (text || ''))
+            if node
+                set this.map[this.length] = node
             set this.line = ''
             set this.length++
     
@@ -93,6 +101,17 @@
                     var col = esprimaException.column
                     _ ret.push(spaces(col + 4) + '* ' + esprimaException.description)
             return ret
+
+		m getNodeFromScriptMap
+            param line
+            if this.map[line]
+                return this.map[line]
+            elif this.map[line-1]
+                return this.map[line-1]
+            elif this.map[line+1]
+                return this.map[line+1]
+            else
+                return null
     
 	function spaces
         param num

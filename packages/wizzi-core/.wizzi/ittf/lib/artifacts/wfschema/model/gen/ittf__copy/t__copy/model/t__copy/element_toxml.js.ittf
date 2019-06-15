@@ -24,6 +24,12 @@
 						_ this.${relation.wzName}.toXml(xw)
 				$else
 					_ xw.startElement('${relation.wzIdPlural}')
-					foreach item in this.${relation.wzIdPlural}
+					$* VIA 13/6/19
+                    foreach item in this.${relation.wzIdPlural}
 						_ item.toXml(xw)
+                    *$
+                    _ this.${relation.wzIdPlural}.forEach
+                        =>
+                            param item
+                            _ item.toXml(xw)
 					_ xw.endElement()

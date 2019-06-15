@@ -49,11 +49,12 @@ $group
 			+
 			var plugins 
 				[
-					@ 'wizzi-core'
 			if request.configOptions.plugins
 				foreach item in request.configOptions.plugins
 					if plugins.indexOf(item) < 0
 						_ plugins.push(item)
+            else
+                _ plugins.push('wizzi-core')
 			log '- plugins', plugins
 			for var k in request.wfschema.mTreeBuildUpContext
 				log '- wfschemaContext property', k

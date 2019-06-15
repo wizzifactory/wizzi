@@ -1,7 +1,8 @@
 ﻿module 
-    kind jsfile
+    kind es6
 
     var util = require('util')
+    var chalk = require('chalk')
 
     var md
         set module.exports =
@@ -51,6 +52,66 @@
 	error( RepoIO, message, uri, innerEx )
 		set this.message = message + '\nuri: ' + uri
 
+    class WizziError
+        super Error
+        ctor
+            param message
+            param node
+            param mTreeBrick
+            param other
+            base message
+            # legacy error test
+            set this.name = "WizziError"
+            set this.__is_error = true
+            set this.data
+                {
+                    @ node
+                    @ mTreeBrick
+                    @ ...other||{}
+            _ Error.captureStackTrace(this, this.constructor)
+            if mTreeBrick 
+                set this.errorLines
+                    _ mTreeBrick.loadHistory.getIttfDocumentErrorLines
+                        @ node.sourceKey
+                        {
+                            @ row node.row
+                            @ col node.col
+                            @ pos node.col + node.name.length + 1
+                            @ description message
+                        @ true
+
+        m toString
+            var msg = []
+            _ msg.push(chalk.red('Error: ' + this.message))
+            _ msg.push(chalk.red('  name: ' + this.data.errorName))
+            if this.data.node
+                _ msg.push(chalk.yellow('  row: ' + this.data.node.row + ', col: ' + this.data.node.col))
+            if this.data.mTreeBrick
+                _ msg.push(chalk.yellow('  uri: ' + this.data.mTreeBrick.uri))
+            elif this.data.uri
+                _ msg.push(chalk.yellow('  uri: ' + this.data.uri))
+            else
+                _ msg.push(chalk.yellow('  uri: unknown'))
+            if this.errorLines
+                foreach line in this.errorLines
+                    _ msg.push(chalk.yellow('  ' + line))
+            if this.data.errorName === 'JsWizziError'
+                _ msg.push(chalk.yellow('  onStatement: ' + this.data.onStatement))
+            if this.data.inner
+                _ msg.push(chalk.magenta('  Inner error: ' + this.data.inner.name + ': ' + this.data.inner.message))
+            return msg.join('\n')
+    set md.WizziError = WizziError
+    
+    class InternalError
+        super WizziError
+        ctor
+            param error
+            base error.message
+            set this.data
+                {
+                    @ error
+    set md.InternalError = InternalError
+
 	set md.getSrcPathInfo
 		function
 			param srcPath
@@ -91,6 +152,7 @@
 					then null
 					else 
 						_ msg.join('')
+
 
 
 

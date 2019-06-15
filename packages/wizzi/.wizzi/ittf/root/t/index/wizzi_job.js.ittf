@@ -66,7 +66,7 @@ $group
 			var jobName = request.job.name
 			+
 			log '='
-			log '======== v5.wizzi.executeWizziJob ===== Start job: ' + jobName + ' ============='
+			log '======== v0.7.6.wizzi.executeWizziJob ===== Start job: ' + jobName + ' ============='
 			log '- Executor module path ', __filename
 			log '- Job source path ', request.job.ittfDocumentUri
 			log '- user', user + '/' + role
@@ -123,7 +123,7 @@ $group
 				var jobPath = jobRequest.ittfDocumentUri
 				+
 				log '='
-				log '======== v5.wizzi.executeWizziJob_step2 ===== job: ' + jobName + ' ============='
+				log '======== v0.7.6.wizzi.executeWizziJob_step2 ===== job: ' + jobName + ' ============='
 				log '='
 				+
 				checked_call( pman
@@ -143,7 +143,7 @@ $group
 						param err
 						param result
 						if err
-							log 'executeWizziJob_step2.error', JSON.stringify(err)
+							log 'executeWizziJob_step2.error', err
 							set err.wizziJob = jobName
 							set err.wizziJobStep = 'Running job'
 							set err.wizziJobIttfSourceUri = jobPath
@@ -151,7 +151,7 @@ $group
 								_ callback
 									@ err
 						log '='
-						_ log.success('======== v5.wizzi.executeWizziJob. Job: ' + jobName + '. Run completed')
+						_ log.success('======== v0.7.6.wizzi.executeWizziJob. Job: ' + jobName + '. Run completed')
 						log '='
 						_ pman.persistToFile
 							function 
@@ -165,7 +165,7 @@ $group
 										_ callback
 											@ err
 								log '='
-								_ log.success('======== v5.wizzi.executeWizziJob. Job: ' + jobName + '.  PersistToFile completed')
+								_ log.success('======== v0.7.6.wizzi.executeWizziJob. Job: ' + jobName + '.  PersistToFile completed')
 								log '='
 								_ pman.terminate
 								if callback
@@ -179,7 +179,7 @@ $group
 			set err.WizziIndexStack = (new Error()).stack
 			log "\n"
 			log "====================================================================================================\n"
-			log "FATAL ERROR : v5.executing wizzi instance job: " + jobName
+			log "FATAL ERROR : v0.7.6.executing wizzi instance job: " + jobName
 			log "\n"
 			log "Error message:\n"
 			log err.message + "\n"

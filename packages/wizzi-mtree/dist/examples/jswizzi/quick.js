@@ -1,11 +1,13 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\examples\jswizzi\quick.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\examples\jswizzi\quick.js.ittf
 */
 'use strict';
 var JsWizziContext = require('../../lib/jswizzi/jsWizziContext');
 var jsWizziRunner = require('../../lib/jswizzi/jsWizziRunner');
-var result = runExpression('var x = { a: "b" }; var y = x.a; return x.b;');
+var result = runExpression('var x = false; return x && alpha.beta;');
+console.log('result', result);
+result = runExpression('var x = true; return x && alpha.beta;');
 console.log('result', result);
 function runExpression(code) {
     // without ctor arguments means: isForInterpolation

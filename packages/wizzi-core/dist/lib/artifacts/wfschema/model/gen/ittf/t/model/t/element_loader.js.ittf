@@ -5,17 +5,26 @@ $group
 		m loadChild
 			param child
     
-			# Make test case insensitive
+			$* STOP 13/6/19
+            # Make test case insensitive
 			var 
 				decl item
 				decl ok = false
 				decl name = child.n.toLowerCase()
+                
 				decl _l = name.length
 				decl _ch = name[0]
+                *$
+
+            $if verify.isNotEmpty(element.acceptAnyTag) || verify.isNotEmpty(element.super)
+			    var ok = false, name = child.n.toLowerCase()
+            $else
+                var name = child.n.toLowerCase()
 
 			$foreach ordered in element.choiceOrdered
 			
-				if _l == ${ordered.length} && _ch == '${ordered.char}'
+				$* STOP 13/6/19
+                if _l == ${ordered.length} && _ch == '${ordered.char}'
 
 					$ var first = true
 					$foreach choice in ordered.choices
@@ -30,7 +39,22 @@ $group
 									set ${line}
 					
 						$ first = false;
-		
+                *$
+
+                $ var first = true
+                $foreach choice in ordered.choices
+
+                    $if first
+                        if name === '${choice.test}'
+                            $foreach line in choice.codelines
+                                set ${line}
+                    $else
+                        elif name === '${choice.test}'
+                            $foreach line in choice.codelines
+                                set ${line}
+                
+                    $ first = false;
+
 			$foreach t in element.wildTags
 			
 				if name.substr(0, ${t.length - 1}) == "${t.substr(0, t.length - 1)}"
@@ -56,16 +80,17 @@ $group
 					_ item.loadFromNode(child)
 					set ok = true
 		
-			return ok
+			$if verify.isNotEmpty(element.acceptAnyTag) || verify.isNotEmpty(element.super)
+                return ok
+            $else
+                return false
 
 		m loadFromNode
 			param node
 		
-			var loaded = false
-
-			# TODO VIA after transition to node.children
+			$* STOP 13/6/19
+            var loaded = false
 			var children = node.children
-
 			foreach item in children
 				set loaded = this.loadChild(item)
 				if !loaded
@@ -77,3 +102,18 @@ $group
 							throw new _md.${schema.wzId}ModelException("Tag not recognized: " + item.n, item, this)
 					$else
 						throw new _md.${schema.wzId}ModelException("Tag not recognized: " + item.n, item, this)
+            *$
+
+            _ node.children.forEach
+                =>
+                    param item
+                    var loaded = this.loadChild(item)
+                    if !loaded
+                        $if schema.unknownElementReplacer && schema.unknownElementReplacer.length > 0
+                            set item.v = item.n + ' ' + item.v
+                            set item.n = '${schema.unknownElementReplacer}'
+                            set loaded = this.loadChild(item)
+                            if !loaded
+                                throw new _md.${schema.wzId}ModelException("Tag not recognized: " + item.n, item, this)
+                        $else
+                            throw new _md.${schema.wzId}ModelException("Tag not recognized: " + item.n, item, this)

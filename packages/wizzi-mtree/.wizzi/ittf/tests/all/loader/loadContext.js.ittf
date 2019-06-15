@@ -1,7 +1,7 @@
 ﻿base_test( loadContext )
 	
 	$append imports
-		var LoadHistory = require('../../lib/loader/loadHistory').LoadHistory
+		var LoadHistory = require('../../../lib/loader/loadHistory').LoadHistory
 
 	var loadHistory
 

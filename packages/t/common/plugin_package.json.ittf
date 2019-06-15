@@ -36,6 +36,7 @@
 	scripts
 		{
 			test "mocha tests/**/*.js --full-trace"
+            $hook scripts
 	
 	dependencies
 		{
@@ -45,8 +46,9 @@
 			iconv-lite "^0.4.15"
 			json-stringify-safe "^5.0.1"
 			lodash "^4.17.4"
-            wizzi-mtree "${versions['wizzi-mtree']}"
-            wizzi-utils "${versions['wizzi-utils']}"
+            $if !!isDevelopment == false
+                wizzi-mtree "${versions['wizzi-mtree']}"
+                wizzi-utils "${versions['wizzi-utils']}"
 			$hook
             
 	
@@ -54,4 +56,7 @@
 		{
             del "^4.1.1"
             expect.js "^0.3.1"
+            $if isDevelopment
+                wizzi-mtree "file:../../wizzi-mtree/dist"
+                wizzi-utils "file:../../wizzi-utils/dist"
 			$hook devDependencies

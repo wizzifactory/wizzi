@@ -1,8 +1,8 @@
 ﻿module
     kind jsfile
     
-	var file = require('../../fs/file')
-	var verify = require('../../verify')
+	var verify = require('wizzi-utils').verify
+	var file = require('wizzi-utils').file
     
 	class Line
         ctor
@@ -117,7 +117,7 @@
 	function spaces
         param num
         return 
-            _ Array((num + 1))
+            _ Array(num + 1)
                 ._ join(" ")
     
 	set module.exports = Line

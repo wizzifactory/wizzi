@@ -107,7 +107,7 @@
 							if isCompile
 								_ result.push("' + " + keyOrCode + " + '")
 							else
-								checked_call_return( replacer, ittf.interpolate )
+								checked_call_return( replacer, ittf.interpolate, keyOrCode )
 									_ evalKeyOrCode(keyOrCode, jsWizziContext)
 								_ result.push(replacer)
 						set state = state_text
@@ -126,7 +126,7 @@
 					_ key.push(ch)
 				else
 					# state == state_tag
-					# case sequence '$*' is text
+					# case sequence '\$\*' is text
 					_ result.push('$')
 					if isCompile && ch === "'"
 						_ result.push('\\')
@@ -155,7 +155,7 @@
 				then 'var _____result = function dummy() { ' + keyOrCode + ' }();'
 				else 'var _____result = ' + keyOrCode + ';'
 		# log 'wizzi-mtree.loader.ittfInterpolate.evalKeyOrCode.previous._____result: ', keyOrCode, jsWizziContext.isDeclared('_____result')
-		checked_call_return( notUsed, ittf.interpolate.evalKeyOrCode )
+		checked_call_return( notUsed, ittf.interpolate.evalKeyOrCode, stm )
 			_ jsWizziRunner.run(stm, jsWizziContext)
 		var result = jsWizziContext.getValue('_____result')
 		# log 'wizzi-mtree.loader.ittfInterpolate.evalKeyOrCode: ', keyOrCode, result

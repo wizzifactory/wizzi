@@ -1,0 +1,18 @@
+﻿html
+    $global
+        var dollar = '$';
+    
+    $
+        var art = {
+            title: 'Wizzi schemas'
+        };
+    
+    article()
+
+        $include ./wizzischemas/introduction
+        $include ./wizzischemas/wfschema
+        $include ./wizzischemas/pseudoschemas
+        $include ./wizzischemas/json
+        $include ./wizzischemas/xml
+        $include ./wizzischemas/text
+        $include ./wizzischemas/ittf        

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\jswizzi\errors.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\jswizzi\errors.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -11,6 +11,9 @@ var md = module.exports = {};
 
 function JsWizziRunnerError(message, node) {
     this.name = 'JsWizziRunnerError';
+    this.message = message;
+    this.node = node;
+    this.__is_error = true;
     this.message = message + util.inspect(node.loc, {depth: null});
     // 5/8/17 set this.stack = (new Error()).stack
 }
@@ -24,6 +27,8 @@ md.JsWizziRunnerError = JsWizziRunnerError;
 function InvalidVariableNameError(message) {
     this.name = 'InvalidVariableNameError';
     this.message = message;
+    this.__is_error = true;
+    this.message = message;
     // 5/8/17 set this.stack = (new Error()).stack
 }
 InvalidVariableNameError.prototype.toString = function() {
@@ -35,7 +40,10 @@ md.InvalidVariableNameError = InvalidVariableNameError;
 
 function JsWizziSynthaxError(message, node) {
     this.name = 'JsWizziSynthaxError';
-    console.log('JsWizziSynthax.message', message);
+    this.message = message;
+    this.node = node;
+    this.__is_error = true;
+    // log 'JsWizziSynthax.message', message
     if (f_verify.isObject(message) && message.lineNumber) {
         // In this case node = WizziJS source
         this.message = "Synthax error. " + message.description +' at line ' + message.lineNumber +' column ' + message.column +'\n' +getEsprimaErrorLines(message, node) +'\n';
@@ -61,6 +69,9 @@ md.JsWizziSynthaxError = JsWizziSynthaxError;
 function JsWizziTypeError(message, node) {
     this.name = 'JsWizziTypeError';
     this.message = message;
+    this.node = node;
+    this.__is_error = true;
+    this.message = message;
     // 5/8/17 set this.stack = (new Error()).stack
 }
 JsWizziTypeError.prototype.toString = function() {
@@ -71,11 +82,19 @@ JsWizziTypeError.prototype.constructor = JsWizziTypeError;
 md.JsWizziTypeError = JsWizziTypeError;
 
 md.esprimaNodeErrorLines = function(description, node, source, json) {
-    return wizziUtils.errors.getErrorLines({
-            row: node.loc.start.line, 
-            col: node.loc.start.columns, 
-            description: description
-        }, source, json);
+    if (node && node.loc) {
+        console.log('jswizzi.errors.esprimaNodeErrorLines.source', source);
+        console.log('jswizzi.errors.esprimaNodeErrorLines.node.loc', node.loc);
+        return wizziUtils.errors.getErrorLines({
+                row: node.loc.start.line, 
+                col: node.loc.start.column, 
+                description: description
+            }, source, json);
+    }
+    else {
+        console.log('jswizzi.errors.esprimaNodeErrorLines', 'node has no loc property', node);
+        return ['No data available'];
+    }
 };
 function getEsprimaErrorLines(esprimaException, source, json) {
     var statements = source.split('\n');

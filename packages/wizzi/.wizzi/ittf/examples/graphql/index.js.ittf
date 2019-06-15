@@ -1,0 +1,31 @@
+﻿common/v07/example/withMonoRepoWizziFactory()
+
+    $override requireWizzi
+        set wizzi = require('../../index')
+
+    $append plugins
+        [ items
+            @ './wizzi-web/dist/index.js'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '..'
+                @ '..'
+                @ '..'
+
+    _ generateArtifactsByNames
+        [
+            @ 'basic'
+        @ 'graphql'
+        @ 'graphql/document'
+        f_cb_no_throw(result)
+            if err
+                log 'examples.graphql.generateArtifactsByNames.err', err
+                log 'examples.graphql.generateArtifactsByNames.err.toString()', err.toString()
+                if err.inner
+                    log 'examples.graphql.generateArtifactsByNames.err.inner.toString()', err.inner.toString()
+            else
+                log 'examples.graphql.generateArtifactsByNames.result', result
+
+    

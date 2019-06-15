@@ -6,7 +6,13 @@
 
 	var result
 		_ runExpression
-			@ 'var x = { a: "b" }; var y = x.a; return x.b;'
+			@ 'var x = false; return x && alpha.beta;'
+            $$ @ 'var x = { a: "b" }; var y = x.a; return x.b;'
+	log 'result', result
+	set result
+		_ runExpression
+			@ 'var x = true; return x && alpha.beta;'
+            $$ @ 'var x = { a: "b" }; var y = x.a; return x.b;'
 	log 'result', result
 
 	function runExpression
@@ -33,5 +39,3 @@
 			{
 				@ statements statements
 				@ result jsWizziContext.getValue('result')
-
-

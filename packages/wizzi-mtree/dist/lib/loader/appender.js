@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\appender.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\appender.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -57,7 +57,7 @@ module.exports = function(mixedMTreePiece, callback) {
     for (i=0; i<i_len; i++) {
         item = groups[i];
         if (!item.parent) {
-            return callback(local_error('InvalidIttfError', 'default', "The tag $group must have a parent and cannot be the root of a primary ittf document. Hint: check for ittf fragments not in a tfolder.", item));
+            return callback(local_error('InvalidIttfError', 'appender', "The tag $group must have a parent and cannot be the root of a primary ittf document. Hint: check for ittf fragments not in a tfolder.", item));
         }
         utilnode.replace(item, item.children);
     }
@@ -152,13 +152,13 @@ function assignId(item, ctx) {
         assignId(child, ctx);
     }
 }
-function local_error(name, method, message, node, inner) {
-    if (node) {
-        // log 'local_error.node', node
-        var nodeError = new errors.NodeError(message, node);
-        message = nodeError.message;
-    }
-    return error(name, method, message, inner);
+function local_error(name, method, message, node, inner, other) {
+    return new errors.WizziError(message, node, node ? node.mTreeBrick || node.model : null, {
+            errorName: name, 
+            method: method, 
+            inner: inner, 
+            ...other||{}
+        });
 }
 /**
   params

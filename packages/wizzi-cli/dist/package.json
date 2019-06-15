@@ -1,6 +1,6 @@
 {
     "name": "wizzi-cli",
-    "version": "0.0.19",
+    "version": "0.0.24",
     "author": {
         "name": "Stefano Bassoli",
         "email": "wizzi.team@gmail.com"
@@ -23,11 +23,11 @@
     "dependencies": {
         "@babel/core": "^7.0.0",
         "minimist": "^1.2.0",
-        "wizzi": "0.7.5",
-        "wizzi-core": "0.6.16",
-        "wizzi-js": "0.7.1",
-        "wizzi-utils": "0.7.3",
+        "wizzi": "0.7.9",
+        "wizzi-core": "0.7.1",
+        "wizzi-js": "0.7.3",
+        "wizzi-utils": "0.7.5",
         "wizzi-web": "0.7.1",
-        "wizzi-tools": "0.7.2"
+        "wizzi-tools": "0.7.3"
     }
 }

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-js\.wizzi\ittf\lib\artifacts\js\module\gen\codegen\statements\function.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-js\.wizzi\ittf\lib\artifacts\js\module\gen\codegen\statements\function.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -269,7 +269,7 @@ md.load = function(cnt) {
             throw new Error('The callback parameter must be a function. In ' + myname + '.arrowfunction. Got: ' + callback);
         }
         var async_str = model.xasync ? 'async ' : '';
-        console.log('++++ arrowfunction', model.wzName, async_str, model.xasync);
+        console.log('++++ arrowfunction', model.wzName, async_str, model.xasync, model.statements[0]);
         if (ctx.__is_react_class && model.wzParent.wzElement == 'reactComponent') {
             var save1 = ctx.arrowFunctionNoGraphs;
             ctx.arrowFunctionNoGraphs = !u.arrowFunctionRequiresGraphs(model);
@@ -303,6 +303,7 @@ md.load = function(cnt) {
             }, callback);
         }
         else if (u.onlyChildIs(model, 'arrowfunction')) {
+            console.log("u.onlyChildIs(model, 'arrowfunction')", model.statements[0].paramNames);
             ctx.write(async_str + '(' + model.paramNames.join(', ') + ') => ');
             cnt.genItems(model.statements, ctx, {
                 indent: true

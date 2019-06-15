@@ -1,10 +1,11 @@
 ﻿module wizzi-mtree.jsWizzi.jsWizziRunner
-    kind jsfile
+    kind es6
 
     var util = require('util')
     var escodegen = require('escodegen')
     var esprima = require('esprima')
 	var verify = require('wizzi-utils').verify
+    var mainErrors = require('../errors')
     var errors = require('./errors')
     var verbose = false
 	var logGetSet = false
@@ -116,8 +117,8 @@
 				_ ctx.getValue
 					@ node.name
         else
+            # log 'jsWizziRunner. Identifier. ReferenceError. node.loc', node.loc, ctx.isForInterpolation, ctx.__source
 			return
-				# log 'jsWizziRunner. Identifier. ReferenceError. node.loc', node.loc
 				_ local_error
 					@ ctx
 					@ 'ReferenceError|Identifier < ' + node.name + ' > not defined, on node < ' + ctx.runningNodeId + ' >'
@@ -157,7 +158,7 @@
                     @ node.init
                     @ ctx
 			# if node.id.name === '_____result'
-			# 	log 'jsWizziRunner.VariableDeclarator', node.id.name, value
+			# log 'jsWizziRunner.VariableDeclarator', node.id.name, value
             _ ctx.declare
                 @ node.id.name
                 @ value
@@ -174,8 +175,18 @@
 		param parentnode
 		param method
 		param ex
+        param other
+
+        $*
+        if ex && ex.name === "JsWizziSynthaxError"
+            return ex
+        log 'jsWizziRunner.local_error.ex', ex
+        *$
 
 		# throw new Error('boing')
+
+        # log 'jsWizziRunner.local_error.ctx', ctx
+        # log 'jsWizziRunner.local_error.isForInterpolation.node,parentnode', ex && ex.name,  ctx.isForInterpolation, node, parentnode
 
 		set message = message || ''
 		var errorCode = 'JsWizziError', ss = message.split('|')
@@ -190,6 +201,13 @@
 				set errorLines = node.errorLines
 			else
 				set node = node
+                if parentnode
+                    set errorLines
+                        _ errors.esprimaNodeErrorLines
+                            @ 'unknown identifier'
+                            @ parentnode
+                            @ ctx.__source
+                            @ true
 
 		var nodeStm
 		try
@@ -205,11 +223,12 @@
 		catch escodegenErr
 			set parentnodeStm = 'escodegen failed: ' + escodegenErr.message
 		
-		var parentnodeInsp = node ? util.inspect(node, {depth:2}) : ''
+		var parentnodeInsp = node ? util.inspect(parentnode, {depth:2}) : ''
 
 		var currentModelInfo = ctx.get_currentMTreeBrickInfo()
-		
+
 		return
+            $* 6/6/19
 			_ error
 				@ errorCode
 				@ method
@@ -224,6 +243,41 @@
 						@ currentModelUri currentModelInfo.currentModel_uri
 						@ currentModelMixerUri currentModelInfo.currentModel_mixerUri
 				@ ex
+            *$
+			_ local_error_new
+				@ errorCode
+				@ method
+    			@ message
+                @ null
+                @ ex
+                {
+                    @ errorLines errorLines
+                    @ nodeStatement nodeStm
+                    @ nodeInspected nodeInsp
+                    @ parentNodeStatement parentnodeStm
+                    @ parentNodeInspected parentnodeInsp
+                    @ uri currentModelInfo.currentModel_uri
+                    @ mixerUri currentModelInfo.currentModel_mixerUri
+                    @ ...other||{}
+
+	function local_error_new
+		param name
+		param method
+		param message
+		param node
+		param inner
+        param other
+		
+		return
+            new mainErrors.WizziError
+                @ message
+                @ node
+                @ node ? node.mTreeBrick || node.model : null
+                {
+                    @ errorName name
+                    @ method method
+                    @ inner inner
+                    @ ...other||{}
 
 	function getTypeDescription
 		param obj
@@ -326,7 +380,8 @@
 										@ options
 										@ callback
 					else
-						var parsed = this.getParsed(source)
+                        checked_call_return( parsed
+						    _ this.getParsed(source)
 						return
 							_ execute_run_cb
 								@ parsed
@@ -352,11 +407,11 @@
                 return ex
 
 		if result && result.__is_error
-			log 'wizzi-mtree.jswizzi.jsWizziRunner. Result has errors: ', result
+			# log 'wizzi-mtree.jswizzi.jsWizziRunner. Result has errors: ', result
 
 		if callback
             if result && result.__is_error
-                set delete (result.__is_error)
+                # NO 6/6/19, is a marker.  set delete (result.__is_error)
                 _ callback(result)
             else 
                 _ callback(null, result)

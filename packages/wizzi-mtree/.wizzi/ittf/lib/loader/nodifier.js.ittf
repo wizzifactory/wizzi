@@ -2,6 +2,10 @@
     kind jsfile
     
 	var util = require('util')
+    var errors = require('../errors')
+
+    #
+        # TODO Error management
 	
 	#
 		# Nodifies the lines of an IttfDocument and creates a
@@ -67,7 +71,9 @@
                 set nameFirstChar = line.name[0]
                 set nameLength = line.name.length
                 set line.id = mTreeBrick.loadHistory.getNewNodeId()
+                # deprecated
                 set line.model = mTreeBrick
+                set line.mTreeBrick = mTreeBrick
                 
 				if line.indent == 0 && current == null
                     set line.parent = null
@@ -154,14 +160,25 @@
 		param message
 		param line
 		param mTreeBrick
+        $* 6/6/19
 		if line
 			set message = message + 
 				\b '\nIn node: ' + 
 				\b line.name + ' ' + (line.value || '') +
 				\b ' row: ' + line.row + ' col: ' + line.col + 
 				\b ' file: ' + mTreeBrick.uri
+        *$
 		return
-			_ error
+            new errors.WizziError
+                @ message
+                @ line
+                @ mTreeBrick
+                {
+                    @ errorName name
+                    @ method method
+			$* 6/6/19
+            _ error
 				@ name
 				@ method
 				@ message
+            *$

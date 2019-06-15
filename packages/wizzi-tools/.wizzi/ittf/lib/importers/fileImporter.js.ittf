@@ -44,6 +44,9 @@
 		if schema.toLowerCase() === 'tsx'
 			set schema = 'ts'
 
+		if schema.toLowerCase() === 'jsx'
+			set schema = 'js'
+
 		if !packageRoot.canBeWizzified(schema)
 			# log '0', folderNorm, basename
 			if folderNorm.length > 0

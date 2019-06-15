@@ -1,0 +1,48 @@
+common/example/withMonoRepoWizziFactory()
+
+    $override requireWizzi
+        set wizzi = require('../../index')
+       
+
+    $append plugins
+        [ items
+            @ './wizzi-core/dist/index.js'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '..'
+                @ '..'
+                @ '..'
+
+    _ executeGenerateSchema
+        @ 'basic'
+        f_cb_no_throw()
+            if err
+                log 'executeGenerateSchema.err', err
+            else
+                log 'done'
+
+    function executeGenerateSchema
+        param schema
+        param callback
+
+        var ittfPath
+			_ path.join
+				@ __dirname
+				@ 'ittf'
+                @ 'wfschemas'
+				@ schema + '.wfschema.ittf'
+
+        var outputPath
+			_ path.join
+				@ __dirname
+                @ 'output'
+				@ schema
+
+        _ executeGenerateModelTypes
+            @ ittfPath
+            @ outputPath
+            @ schema
+            {
+            @ callback

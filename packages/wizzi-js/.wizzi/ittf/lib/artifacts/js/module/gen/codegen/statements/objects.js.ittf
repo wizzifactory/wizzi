@@ -41,7 +41,7 @@
 		r_cb()
 
 	fn( jsPropertyOrValue_with_stm_children
-		log 'js.module.statements.object.model.wzName, model.statements.length', model.wzName, model.statements.length
+		# log 'js.module.statements.object.model.wzName, model.statements.length', model.wzName, model.statements.length
 		var colon = (ctx.isGraphql && !ctx.isNamedCallParam) ? ' ' : ': '
 		if u.parentIsHtmlElement(model)
 			# Attributes have been already processed

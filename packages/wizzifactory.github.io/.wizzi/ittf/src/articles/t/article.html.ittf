@@ -1,0 +1,10 @@
+$group
+    head
+        link
+            href http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext
+            rel stylesheet
+            type text/css    
+        css ../styles/article.css
+    body
+        . doc-container
+            $hook

@@ -2,12 +2,14 @@
     kind jsfile
 
 	#
-		# from a composed-MTree
-		# write the jsWizziScript that will
+		# From the nodes of a composedMTree
+		# writes the jsWizziScript that will
 		# buildup an evaluated mTree.
 		#
 		# The script will be executed 
 		# by the JsWizziRunner.
+        #
+        # Static methods only
 
 	var verify = require('wizzi-utils').verify
 	var interpolate = require('./ittfInterpolate')
@@ -55,8 +57,10 @@
 					@ ctx
             _ jsScriptCoder.w
 				@ vparent + ".v = " + vparent + ".v ? " + vparent + ".v : ''" + ' //' + node.id
+                @ node
             _ jsScriptCoder.w
 				@ vparent + '.v += ($.textSep + ' + value + ');' + ' //' + node.id
+                @ node
         
 		elif tag == '$if'
             _ setJsWizziContext
@@ -111,6 +115,7 @@
             
 			_ jsScriptCoder.w
 				@ 'var ' + name + ', ' + value + ';' + ' //' + node.id
+                @ node
             
 			_ jsScriptCoder.for
 				@ name + ' in ' + items[2] + ' //' + node.id
@@ -118,6 +123,7 @@
             
 			_ jsScriptCoder.w
 				@ value + ' = ' + items[2] + '[' + name + '];' + ' //' + node.id
+                @ node
             
 			set closeBlock = '}'
         
@@ -133,6 +139,7 @@
             
 			_ jsScriptCoder.w
 				@ 'var ' + items[0] + '_count = ' + items[2] + '.length;' + ' //' + node.id
+                @ node
 
 			_ jsScriptCoder.for
 				@ 'var i' + nnode + '=0; i' + nnode + '<' + items[0] + '_count; i' + nnode + '++'
@@ -140,9 +147,11 @@
             
 			_ jsScriptCoder.w
 				@ 'var ' + items[0] + ' = ' + items[2] + '[i' + nnode + '];' + ' //' + node.id
+                @ node
             
 			_ jsScriptCoder.w
 				@ 'var ' + items[0] + '_index = i' + nnode + ';' + ' //' + node.id
+                @ node
             
 			set closeBlock = '}'
         
@@ -155,6 +164,7 @@
             
 			_ jsScriptCoder.w
 				@ 'var ' + items[0] + '_count = ' + items[2] + '.length;' + ' //' + node.id
+                @ node
 
 			_ jsScriptCoder.for
 				@ 'var i' + nnode + '=' + items[0] + '_count-1; i' + nnode + '>-1; i' + nnode + '--'
@@ -162,9 +172,11 @@
             
 			_ jsScriptCoder.w
 				@ 'var ' + items[0] + ' = ' + items[2] + '[i' + nnode + '];' + ' //' + node.id
+                @ node
             
 			_ jsScriptCoder.w
 				@ 'var ' + items[0] + '_index = i' + nnode + ';' + ' //' + node.id
+                @ node
            
 			set closeBlock = '}'
         
@@ -180,7 +192,9 @@
 			foreach item in node.children
 				if item.name === '$param'
 					set params += ',' + item.value
-			_ jsScriptCoder.w('function ' + node.value + '(' + params + ') {')
+			_ jsScriptCoder.w
+                @ 'function ' + node.value + '(' + params + ') {'
+                @ node
 			_ jsScriptCoder.indent
 			foreach item in node.children
 				if item.name !== '$param'
@@ -201,7 +215,9 @@
 			foreach item in node.children
 				if item.name === '$@'
 					set args += ',' + item.value
-			_ jsScriptCoder.w(node.value + '(' + args + ');');
+			_ jsScriptCoder.w
+                @ node.value + '(' + args + ');'
+                @ node
 			set ctx.brickKey = null
             _ setJsWizziContext
                 @ ctx
@@ -219,6 +235,7 @@
 			if ctx.isCompile && node.__firstOfMixedNodes
 				_ jsScriptCoder.w
 					@ '// firstOfMixed ' + node.model.$args + '/' + node.model.$params
+                    @ node
 				_ isCompilePassedParameters
 					@ jsScriptCoder
 					@ node.model.calcParamValues(node.model.$args)
@@ -233,10 +250,12 @@
 					\b 'c: ' + node.col + ', ' + 
 					\b 's: "' + node.model.brickKey + '", ' + 
 					\b 'u: "' + node.sourceKey + '", ' + ' };' + ' //' + node.id
+                @ node
 
             var vparent = ('$' + nparent)
             _ jsScriptCoder.w
 				@ '$.a(' + vparent + ', $' + nnode + ', ' + (jsScriptCoder.length + 1) + ');'
+                @ node
             set nparent = nnode
         
 		if ['$', '$global', '$+', '$raw'].indexOf(tag) == -1
@@ -302,17 +321,20 @@
             if node.value && node.value.trim().length > 0
                 _ jsScriptCoder.w
                     @ node.value
+                    @ node
         else 
             if (node.name && (node.name.trim().length > 0))
 				if ctx.isCompile && node.__firstOfMixedNodes
 					_ jsScriptCoder.w
 						@ '// firstOfMixed ' + node.model.$args + '/' + node.model.$params
+                        @ node
 					# log '=========', node.model.calcParamValues(node.model.$args)
 					_ isCompilePassedParameters
 						@ jsScriptCoder
 						@ node.model.calcParamValues(node.model.$args)
                 _ jsScriptCoder.w
 					@ node.name + ' ' + (node.value || '') + ' //' + node.id
+                    @ node
         
 		foreach item in node.children
 			_ codeBlock(item, jsScriptCoder, ctx)
@@ -334,10 +356,12 @@
                 \b 'c: ' + node.col + ', ' + 
                 \b 's: "' + node.model.brickKey + '", ' + 
                 \b 'u: "' + node.sourceKey + '", ' + ' };' + ' //' + node.id
+            @ node
 
         var vparent = ('$' + nparent)
         _ jsScriptCoder.w
             @ '$.a(' + vparent + ', $' + nnode + ', ' + (jsScriptCoder.length + 1) + ');'
+            @ node
         set nparent = nnode
 
 		foreach item in node.children
@@ -350,9 +374,11 @@
 			if p.type = 'string'
 				_ jsScriptCoder.w
 					@ p.name + ' = "' + p.value + '";'
+                    @ p
 			else
 				_ jsScriptCoder.w
 					@ p.name + ' = ' + p.value + ';'
+                    @ p
 
 	function escape
         param value
@@ -393,7 +419,7 @@
 			set value = value.substr(0, value.length-2) + ' '
 		*$
 		# Alt+146: Æ
-		return verify.replaceAll(value, "Æ{", "${")
+        return verify.replaceAll(value, "Æ" + "{", "${");
 
 
 

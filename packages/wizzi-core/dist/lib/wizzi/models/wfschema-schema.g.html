@@ -611,7 +611,7 @@
                                 <td></td>
                                 <td>
                                     <div>
-                                        <span>This element must have a not empty IttfNodeValue &nbsp;</span>
+                                        <span>This element must have a not empty IttfNodeValue (the wzName property in the wizzi model) &nbsp;</span>
                                     </div>
                                 </td>
                             </tr>
@@ -626,6 +626,21 @@
                                     <div>
                                         <span>Every child node of this element will be added to the wzChildren collection. &nbsp;</span>
                                         <span>Artifact generators will use the wzElement attribute to distinguish child elements. &nbsp;</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>hasMTreeData</td>
+                                <td>has-mtree-data</td>
+                                <td>boolean</td>
+                                <td>false</td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div>
+                                        <span>Data calculated in the mTree preprocessing step will be set on the &nbsp;</span>
+                                        <span>wzMTreeData property of this element. &nbsp;</span>
+                                        <span>This wfschema MUST have the 'mtree-is-preprocessed' flag set to true &nbsp;</span>
                                     </div>
                                 </td>
                             </tr>

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi\.wizzi\ittf\examples\jobs\jobs.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi\.wizzi\ittf\examples\jobs\jobs.js.ittf
 */
 'use strict';
 var path = require('path');
@@ -14,7 +14,6 @@ var wizzi = null;
 function createWizziFactory(globalContext, callback) {
     if (wizzi == null) {
         // The wizzi package will be a previous version from wizzi-mono/node_modules
-        wizzi = require('wizzi');
         wizzi = require('../../index');
     }
     console.log('"wizzi" package version', wizzi.version);
@@ -50,6 +49,18 @@ function loadWizziModel(ittfDocumentUri, context, callback) {
         }, callback);
     });
 }
+function loadModelAndGenerateArtifact(ittfDocumentUri, context, artifactName, callback) {
+    var fi = fileInfoByPath(ittfDocumentUri);
+    createWizziFactory({}, function(err, wf) {
+        if (err) {
+            return callback(err);
+        }
+        wf.loadModelAndGenerateArtifact(ittfDocumentUri, {
+            modelRequestContext: context, 
+            artifactRequestContext: {}
+        }, artifactName, callback);
+    });
+}
 function executeWizziJob(ittfDocumentUri, context, callback) {
     createWizziFactory({}, function(err, wf) {
         if (err) {
@@ -66,6 +77,14 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
             modelContext: context || {}, 
             jobContext: {}
         }, callback);
+    });
+}
+function executeGenerateModelTypes(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback) {
+    createWizziFactory({}, function(err, wf) {
+        if (err) {
+            return callback(err);
+        }
+        wf.generateModelTypes(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback);
     });
 }
 function getFiles(srcpath, schema) {

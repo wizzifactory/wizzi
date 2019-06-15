@@ -1,5 +1,5 @@
 ﻿module wizzi-mtree.loader.includer
-    kind jsfile
+    kind es6
     
 	var util = require('util')
     var path = require('path')
@@ -49,6 +49,7 @@
 								@ includerBrickKey item.model.brickKey
 							f_cb_no_err( includedWipNodifiedMTree )
 								if err
+                                    $* 6/6/19
 									log 'wizzi-mtree.includer.err', err
 									# log 'wizzi-mtree.includer.item', item
 									# log 'wizzi-mtree.includer.item.model.loadHistory', item.model.loadHistory
@@ -61,8 +62,18 @@
 												@ description 'fragment not found'
 											@ true
 									log 'wizzi-mtree.includer.item.model.loadHistory.lineErrors', err.errorLines
+                                    *$
 									return
-										_ callback(err)
+										_ callback
+                                            _ local_error
+                                                @ 'IttfIncludeError'
+                                                @ 'includer'
+                                                @ 'Fragment to include not found'
+                                                @ item
+                                                @ err
+                                                {
+                                                    @ includerUri mixeruri
+                                                    @ includedRelPath v
 								_ mTreeBrickProvider.enterFragmentCall
 									@ mixeruri
 									@ includedWipNodifiedMTree.uri

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi\.wizzi\ittf\lib\errors.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi\.wizzi\ittf\lib\errors.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -16,7 +16,12 @@ function NotImplementedError(message) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 NotImplementedError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 NotImplementedError.prototype = Object.create(Error.prototype);
 NotImplementedError.prototype.constructor = NotImplementedError;
@@ -31,7 +36,12 @@ function InvalidRequestError(message, code) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 InvalidRequestError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 InvalidRequestError.prototype = Object.create(Error.prototype);
 InvalidRequestError.prototype.constructor = InvalidRequestError;
@@ -44,7 +54,12 @@ function NotFoundError(resourceType, name, message) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 NotFoundError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 NotFoundError.prototype = Object.create(Error.prototype);
 NotFoundError.prototype.constructor = NotFoundError;
@@ -56,7 +71,12 @@ function IttfNotFoundError(resourceType, name, sourceUri) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 IttfNotFoundError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 IttfNotFoundError.prototype = Object.create(Error.prototype);
 IttfNotFoundError.prototype.constructor = IttfNotFoundError;
@@ -75,7 +95,12 @@ function IttfLoadError(message, srcPath, node, ex) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 IttfLoadError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 IttfLoadError.prototype = Object.create(Error.prototype);
 IttfLoadError.prototype.constructor = IttfLoadError;
@@ -84,13 +109,16 @@ md.IttfLoadError = IttfLoadError;
 function WizziModelLoadError(message, srcPath, ex) {
     this.name = 'WizziModelLoadError';
     this.message = 'Error: ' + message + '\nLoading ittf document ' + md.getSrcPathInfo(srcPath);
-    if (ex && ex.errorLines) {
-        this.errorLines = ex.errorLines;
-    }
+    this.inner = ex;
     // 5/10/17 set this.stack = (new Error()).stack
 }
 WizziModelLoadError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 WizziModelLoadError.prototype = Object.create(Error.prototype);
 WizziModelLoadError.prototype.constructor = WizziModelLoadError;
@@ -99,10 +127,16 @@ md.WizziModelLoadError = WizziModelLoadError;
 function ModelTransformationError(message, generation, srcPath, ex) {
     this.name = 'ModelTransformationError';
     this.message = 'Error: ' + message + '\nDuring generation:' + generation + ', processing document ' + md.getSrcPathInfo(srcPath);
+    this.inner = ex;
     // 5/10/17 set this.stack = (new Error()).stack
 }
 ModelTransformationError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 ModelTransformationError.prototype = Object.create(Error.prototype);
 ModelTransformationError.prototype.constructor = ModelTransformationError;
@@ -111,11 +145,17 @@ md.ModelTransformationError = ModelTransformationError;
 function ArtifactGenerationError(message, generation, srcPath, ex) {
     this.name = 'ArtifactGenerationError';
     this.message = 'Error: ' + message +'\nDuring generation:' + generation +', processing document ' + md.getSrcPathInfo(srcPath);
+    this.inner = ex;
     console.log('wizzi.artifact.errors.artifactGenerationError.message', this.message);
     // 5/10/17 set this.stack = (new Error()).stack
 }
 ArtifactGenerationError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 ArtifactGenerationError.prototype = Object.create(Error.prototype);
 ArtifactGenerationError.prototype.constructor = ArtifactGenerationError;
@@ -124,10 +164,16 @@ md.ArtifactGenerationError = ArtifactGenerationError;
 function WizziInvalidRequestError(message, srcPath, ex) {
     this.name = 'WizziInvalidRequestError';
     this.message = message;
+    this.inner = ex;
     // 5/10/17 set this.stack = (new Error()).stack
 }
 WizziInvalidRequestError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 WizziInvalidRequestError.prototype = Object.create(Error.prototype);
 WizziInvalidRequestError.prototype.constructor = WizziInvalidRequestError;
@@ -139,7 +185,12 @@ function RunnerServerError(message) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 RunnerServerError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 RunnerServerError.prototype = Object.create(Error.prototype);
 RunnerServerError.prototype.constructor = RunnerServerError;
@@ -184,7 +235,12 @@ function FileError(message, ex) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 FileError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 FileError.prototype = Object.create(Error.prototype);
 FileError.prototype.constructor = FileError;

@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi\.wizzi\ittf\lib\io\errors.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi\.wizzi\ittf\lib\io\errors.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -14,7 +14,12 @@ function NotImplementedError(message) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 NotImplementedError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 NotImplementedError.prototype = Object.create(Error.prototype);
 NotImplementedError.prototype.constructor = NotImplementedError;
@@ -29,7 +34,12 @@ function InvalidRequestError(message, code) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 InvalidRequestError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 InvalidRequestError.prototype = Object.create(Error.prototype);
 InvalidRequestError.prototype.constructor = InvalidRequestError;
@@ -41,7 +51,12 @@ function FsItemNotFoundError(resourceType, uri) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 FsItemNotFoundError.prototype.toString = function() {
-    return this.message;
+    var msg = [this.message];
+    if (this.inner) {
+        msg.push('Inner error:');
+        msg.push(this.inner.toString());
+    }
+    return msg.join('\n');
 };
 FsItemNotFoundError.prototype = Object.create(Error.prototype);
 FsItemNotFoundError.prototype.constructor = FsItemNotFoundError;

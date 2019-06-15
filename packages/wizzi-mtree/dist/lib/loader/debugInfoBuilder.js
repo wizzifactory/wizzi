@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\debugInfoBuilder.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\debugInfoBuilder.js.ittf
 */
 'use strict';
 var JsWizziContext = require('../jswizzi/jsWizziContext');
@@ -12,10 +12,10 @@ var requireFromString = null;
      Returns for debug purposes:
      . the mTreeBuildUpScript
 */
-module.exports = function(composedMTreePiece, loadContext, callback) {
+module.exports = function(composedMTree, loadContext, callback) {
     var productionContext = loadContext.productionContext;
     loadContext.options = loadContext.options || {};
-    var jsWizziContext = new JsWizziContext(composedMTreePiece, productionContext);
+    var jsWizziContext = new JsWizziContext(composedMTree, productionContext);
     jsWizziContext.setGlobalValues(loadContext.mTreeBuildUpContext);
     var ctx = {
         brickKey: null, 
@@ -37,9 +37,9 @@ module.exports = function(composedMTreePiece, loadContext, callback) {
     }
     scriptCoder.w('$.n(); // set the context state to NodeContext');
     scriptCoder.w('var $0 = {}; // the root node of the MTree buildup');
-    var i, i_items=composedMTreePiece.nodes, i_len=composedMTreePiece.nodes.length, item;
+    var i, i_items=composedMTree.nodes, i_len=composedMTree.nodes.length, item;
     for (i=0; i<i_len; i++) {
-        item = composedMTreePiece.nodes[i];
+        item = composedMTree.nodes[i];
         mTreeBuildUpScripter.codify(item, 0, scriptCoder, ctx);
     }
     if (isCompile) {

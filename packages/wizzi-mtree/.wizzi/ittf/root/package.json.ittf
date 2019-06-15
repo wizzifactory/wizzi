@@ -8,3 +8,4 @@ common/kernel_package( wizzi-mtree, ${wfpackage.version}, ${wfpackage.title}., $
 	
 	$append devDependencies
         object-inspect "^1.6.0"
+        wizzi-repo "file:../../wizzi-repo/dist"

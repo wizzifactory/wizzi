@@ -1,7 +1,7 @@
 {
     "wzElement": "wfjob",
     "wzName": "",
-    "modelsBaseFolder": "C:\\My\\wizzi\\wizzi-mono\\packages\\wizzi-core\\dist\\examples\\ittf\\wfjobs\\ittf\\models",
+    "modelsBaseFolder": "C:\\My\\wizzi\\wizzi\\packages\\wizzi-core\\dist\\examples\\ittf\\wfjobs\\ittf\\models",
     "title": "example job with global models",
     "comments": [],
     "requires": [],

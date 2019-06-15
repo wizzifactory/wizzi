@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-web\.wizzi\ittf\examples\html\index.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-web\.wizzi\ittf\examples\html\index.js.ittf
 */
 'use strict';
 var path = require('path');
@@ -17,7 +17,17 @@ var htmlfactory = require('../../lib/wizzi/models/html-factory.g');
 var htmlgenerator = require('../../lib/artifacts/html/document/gen/main');
 function executeExample() {
     
-    var loadModel = htmlfactory.createLoadModel(getWizziObject());
+    function getLoadModelAndWizziObject(callback) {
+        getWizziObject((err, wo) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, {
+                loadModel: htmlfactory.createLoadModel(wo), 
+                wizziObject: wo
+            });
+        });
+    }
     
     var ittfPath = path.join(__dirname, 'ittf');
     var i, i_items=getFiles(ittfPath,'html'), i_len=getFiles(ittfPath,'html').length, item;
@@ -31,25 +41,46 @@ function executeExample() {
     function execute(name) {
         var ittfSource = path.join(__dirname, 'ittf', name + '.html.ittf');
         var htmlOutput = path.join(__dirname, 'ittf', name + '.g.html');
-        loadModel(ittfSource, {
-            __productionManager: mocks.getProductionManager()
-        }, function(err, htmlWizziModel) {
+        getLoadModelAndWizziObject(function(err, result) {
             if (err) {
                 console.log('err', err);
                 throw new Error(err.message);
             }
-            console.log('htmlWizziModel', htmlWizziModel);
-            var ctx = mocks.getGenContext();
-            htmlgenerator.gen(htmlWizziModel, ctx, function(err, ctxout) {
+            result.loadModel(ittfSource, {
+                __productionManager: mocks.getProductionManager()
+            }, function(err, htmlWizziModel) {
                 if (err) {
                     console.log('err', err);
                     throw new Error(err.message);
                 }
-                console.log('ctxout', ctxout.getContent());
-                file.write(htmlOutput, ctxout.getContent());
+                console.log('htmlWizziModel', htmlWizziModel);
+                var ctx = mocks.getGenContext(result.wizziObject.wizziFactory);
+                htmlgenerator.gen(htmlWizziModel, ctx, function(err, ctxout) {
+                    if (err) {
+                        console.log('err', err);
+                        throw new Error(err.message);
+                    }
+                    console.log('ctxout', ctxout.getContent());
+                    file.write(htmlOutput, ctxout.getContent());
+                });
             });
         });
     }
+}
+function createWizziFactory(globalContext, callback) {
+    if (wizzi == null) {
+        wizzi = require('../../../../wizzi/dist/index');
+    }
+    console.log('"wizzi" package version', wizzi.version);
+    wizzi.fsnoaclFactory({
+        plugins: {
+            items: [
+                './index.js'
+            ], 
+            pluginsBaseFolder: path.resolve(__dirname, '..', '..')
+        }, 
+        globalContext: globalContext || {}
+    }, callback);
 }
 function getFiles(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
@@ -74,15 +105,33 @@ function getFilesData(srcpath, schema) {
     }
     return ret;
 }
-function getWizziObject() {
-    return {
-            loadMTree: mtree.createLoadMTree(mocks.repo.getCreateFilesystemStore(), {
-                useCache: false
-            }), 
-            file: wizziUtils.file, 
-            verify: wizziUtils.verify, 
-            errors: errors
-        };
+function getWizziObject(callback) {
+    if (typeof(callback) === 'undefined') {
+        return {
+                loadMTree: mtree.createLoadMTree(mocks.repo.getCreateFilesystemStore(), {
+                    useCache: false
+                }), 
+                file: wizziUtils.file, 
+                verify: wizziUtils.verify, 
+                errors: errors
+            };
+    }
+    else {
+        createWizziFactory({}, (err, wf) => {
+            if (err) {
+                return callback(err);
+            }
+            return callback(null, {
+                    loadMTree: mtree.createLoadMTree(mocks.repo.getCreateFilesystemStore(), {
+                        useCache: false
+                    }), 
+                    file: wizziUtils.file, 
+                    verify: wizziUtils.verify, 
+                    errors: errors, 
+                    wizziFactory: wf
+                });
+        });
+    }
 }
 function getLoadModelContext(mtreeBuilUpContext) {
     return mocks.getLoadModelContext(mtreeBuilUpContext);

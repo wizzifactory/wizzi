@@ -12,7 +12,7 @@
 		# . the mTreeBuildUpScript
 	set module.exports =
         function 
-            param composedMTreePiece
+            param composedMTree
             param loadContext
 			param callback
 
@@ -20,7 +20,7 @@
 			set loadContext.options = loadContext.options || {}
 
 			var jsWizziContext
-                new JsWizziContext(composedMTreePiece, productionContext)
+                new JsWizziContext(composedMTree, productionContext)
 			_ jsWizziContext.setGlobalValues
                 @ loadContext.mTreeBuildUpContext
 
@@ -52,7 +52,7 @@
 			_ scriptCoder.w
 				@ 'var $0 = {}; // the root node of the MTree buildup'
             
-			foreach item in composedMTreePiece.nodes
+			foreach item in composedMTree.nodes
                 _ mTreeBuildUpScripter.codify(item, 0, scriptCoder, ctx)
             
 			if isCompile

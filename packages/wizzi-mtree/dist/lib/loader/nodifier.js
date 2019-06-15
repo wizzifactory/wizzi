@@ -1,10 +1,14 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\nodifier.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\nodifier.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
 var util = require('util');
+var errors = require('../errors');
+/**
+     TODO Error management
+*/
 /**
      Nodifies the lines of an IttfDocument and creates a
      tree structure object based on line indentation.
@@ -73,7 +77,9 @@ module.exports = function(lines, mTreeBrick) {
         nameFirstChar = line.name[0];
         nameLength = line.name.length;
         line.id = mTreeBrick.loadHistory.getNewNodeId();
+        // deprecated
         line.model = mTreeBrick;
+        line.mTreeBrick = mTreeBrick;
         if (line.indent == 0 && current == null) {
             line.parent = null;
             nodes.push(line);
@@ -135,10 +141,10 @@ module.exports = function(lines, mTreeBrick) {
     return nodes;
 };
 function local_error(name, method, message, line, mTreeBrick) {
-    if (line) {
-        message = message + '\nIn node: ' + line.name + ' ' + (line.value || '') + ' row: ' + line.row + ' col: ' + line.col + ' file: ' + mTreeBrick.uri;
-    }
-    return error(name, method, message);
+    return new errors.WizziError(message, line, mTreeBrick, {
+            errorName: name, 
+            method: method
+        });
 }
 /**
   params

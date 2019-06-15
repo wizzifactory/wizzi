@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-utils\.wizzi\ittf\lib\prettifiers\ittfHtmlPrettifier.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-utils\.wizzi\ittf\lib\prettifiers\ittfHtmlPrettifier.js.ittf
 */
 'use strict';
 // pretty print
@@ -23,6 +23,8 @@ var IttfMTreeEx = require('../ittfTree/ittfMTreeEx');
      { options
      { ittfFsNode
      string ittfBasePath
+     number indentSpaces
+     default 2
     
 */
 module.exports = function(rootNode, options, callback) {
@@ -38,7 +40,8 @@ module.exports = function(rootNode, options, callback) {
             hb: new HtmlBuilder(true), 
             fragments: {}, 
             ittfFsNode: options.ittfFsNode, 
-            ittfBasePath: options.ittfBasePath
+            ittfBasePath: options.ittfBasePath, 
+            indentSpaces: options.indentSpaces || 2
         };
         rootNode.analize(ctx, function(err, notUsed) {
             if (err) {
@@ -91,7 +94,7 @@ function toHtmlPretty(node, ctx) {
     ctx.hb.closeTag('span', { inline: true });
     ctx.hb.openTag('span', { inline: true });
     ctx.hb.writeAttribute('class', STYLE_DOCS_ITTF_NODE_VALUE);
-    ctx.hb.writeText(spaces(ctx.__ittfNode.indent * 4));
+    ctx.hb.writeText(spaces(ctx.__ittfNode.indent * ctx.indentSpaces));
     ctx.hb.closeTag('span', { inline: true });
     ctx.hb.openTag('span', { inline: true });
     if (node.isCommand()) {

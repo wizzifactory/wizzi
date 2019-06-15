@@ -1,7 +1,9 @@
 ﻿$group
 	$params result|notUsed
 
-	function
+	$$ Prefer f_cb_no_throw
+
+    function
 		param err
 		param ${result}
 		$hook

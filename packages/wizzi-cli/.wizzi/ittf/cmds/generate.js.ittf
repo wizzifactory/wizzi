@@ -12,15 +12,22 @@
 		param wfJobFolder
 		param destPath
 		param packageName
+        param plugins
         _ async.mapSeries
             @ schemasToGen
             function 
                 param schemaName
                 param callback
                 log 'wizzi-cli.generate.Generating schema ' + schemaName
+                var options = {}
+                if plugins
+                    set options
+                        {
+                            @ plugins plugins.items
+                            @ pluginsBaseFolder plugins.baseFolder
                 _ wizzi.generateWizziModelTypes
                     { 
-                        @ configOptions {}
+                        @ configOptions options
                         { wfschema
                             @ name schemaName
                             @ ittfDocumentUri path.join(wfJobFolder, 'ittf', 'lib', 'wizzi', 'schemas', schemaName + '.wfschema.ittf')
@@ -78,6 +85,7 @@
 					{ config
 						@ wfBaseFolder __dirname
 						@ plugins configInstance.plugins
+                        @ pluginsBaseFolder configInstance.pluginsBaseFolder
 					{ job
 						@ name configInstance.wfjobName
 						@ ittfDocumentUri configInstance.wfjobPath
@@ -98,10 +106,16 @@
 						return
 							_ wizzi.printWizziJobError(configInstance.wfjobName, err)
 					if configInstance.schemas && configInstance.schemas.length > 0
+                        var plugins = null
+                        if configInstance.pluginsBaseFolder && configInstance.pluginsBaseFolder.length > 0
+                            set plugins
+                                {
+                                    @ items configInstance.plugins
+                                    @ baseFolder configInstance.pluginsBaseFolder
 						_ generateSchemas
 							@ configInstance.schemas
 							_ path.dirname
 								@ configInstance.wfjobPath
 							@ configInstance.destPath
 							@ configInstance.packageName || configInstance.wfjobName
-
+                            @ plugins

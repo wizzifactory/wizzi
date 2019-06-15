@@ -67,5 +67,11 @@
 					if this.${relation.wzName} != null
 						_ this.${relation.wzName}.toPrettify(ctx)
 				$else
+                    $* STOP 13/6/19
 					foreach item in this.${relation.wzIdPlural}
 						_ item.toPrettify(ctx)
+                    *$
+                    _ this.${relation.wzIdPlural}.forEach
+                        =>
+                            param item
+                            _ item.toPrettify(ctx)

@@ -36,6 +36,12 @@
 							set result['${relation.wzName}'] = null
 					$else
 						set items = []
-						foreach item in this.${relation.wzIdPlural}
+						$* VIA 13/6/19
+                        foreach item in this.${relation.wzIdPlural}
 							_ items.push(item.toJson())
+                        *$
+                        _ this.${relation.wzIdPlural}.forEach
+                            =>
+                                param item
+                                _ items.push(item.toJson())
 						set result['${relation.wzIdPlural}'] = items;

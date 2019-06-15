@@ -17,8 +17,8 @@ module
 
         if wizzi == null
             # The wizzi package will be a previous version from wizzi-mono/node_modules
-            set wizzi = require('wizzi')
-            $hook requireWizzi
+            $virtual requireWizzi
+                set wizzi = require('wizzi')
         log '"wizzi" package version', wizzi.version
         
         _ wizzi.fsnoaclFactory
@@ -56,6 +56,23 @@ module
                         @ globalContext {}
                     @ callback
     
+    function loadModelAndGenerateArtifact
+        param ittfDocumentUri
+        param context
+        param artifactName
+        param callback
+        var fi = fileInfoByPath(ittfDocumentUri)
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.loadModelAndGenerateArtifact
+                    @ ittfDocumentUri
+                    {
+                        @ modelRequestContext context
+                        @ artifactRequestContext {}
+                    @ artifactName
+                    @ callback
+
     function executeWizziJob
         param ittfDocumentUri
         param context
@@ -78,7 +95,22 @@ module
                         @ jobContext {}
                     @ callback
 
+    function executeGenerateModelTypes
+        param wfschemaIttfDocumentUri
+        param outputPackagePath
+        param wfschemaName
+        param mTreeBuildUpContext
+        param callback
 
+        _ createWizziFactory
+            {
+            f_cb( wf )
+                _ wf.generateModelTypes
+                    @ wfschemaIttfDocumentUri
+                    @ outputPackagePath
+                    @ wfschemaName
+                    @ mTreeBuildUpContext
+                    @ callback
 
 	function getFiles
 		param srcpath

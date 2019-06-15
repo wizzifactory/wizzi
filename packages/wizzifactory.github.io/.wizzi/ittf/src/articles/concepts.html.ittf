@@ -1,0 +1,22 @@
+html
+    $global
+        var dollar = '$';
+    
+    $
+        var art = {
+            title: 'Concepts'
+        };
+    
+    article()
+
+        $include concepts/wizzifactory
+        $include concepts/vision
+        $include concepts/maincomponents
+        $include concepts/ittfdocument
+        $include concepts/wfschema
+        $include concepts/wizzimodel
+        $include concepts/modeltransformer
+        $include concepts/artifactgenerator
+        $include concepts/wizzijob
+        $include concepts/wizziplugin
+        $include concepts/wizzifier

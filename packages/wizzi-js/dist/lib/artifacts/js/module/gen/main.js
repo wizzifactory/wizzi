@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-js\.wizzi\ittf\lib\artifacts\js\module\gen\main.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-js\.wizzi\ittf\lib\artifacts\js\module\gen\main.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -98,12 +98,9 @@ function main_init(model, ctx) {
         ctx.w("'use strict';");
     }
     main_es6_module(model, ctx);
-    if (model.hasFeature('argument-check')) {
+    if (model.hasFeature('argument-check') && !!ctx.values.isBrowserTarget == false) {
         if ((!!ctx.values.isLegacy) == false) {
-            if (model.kind === 'react') {
-                ctx.w("var verify = require('wizzi-utils-webpack').verify;");
-            }
-            else if ((!!ctx.values.isWizziUtilsPackage) == true) {
+            if ((!!ctx.values.isWizziUtilsPackage) == true) {
                 ctx.w("var verify = require('wizzi-helpers').verify;");
             }
             else {
@@ -131,7 +128,7 @@ function main_close(model, ctx) {
     if (ctx.__wzModule && ctx.__wzModule.seen) {
         emit_top_WzModule(model, ctx);
     }
-    if (model.hasFeature('argument-check')) {
+    if (model.hasFeature('argument-check') && !!ctx.values.isBrowserTarget == false) {
         ctx.w('/**');
         ctx.w('  params');
         ctx.w('    string code');

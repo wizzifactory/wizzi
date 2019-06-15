@@ -14,8 +14,14 @@
 					if this.${relation.wzName} != null
 						_ this.${relation.wzName}.wzInitialize(ctx)
 				$else
+                    $* VIA 13/6/19
 					foreach item in this.${relation.wzIdPlural}
 						_ item.wzInitialize(ctx)
+                    *$
+                    _ this.${relation.wzIdPlural}.forEach
+                        =>
+                            param item
+                            _ item.wzInitialize(ctx)
 
 			$foreach method in element.methods
 				$if method.wzName.toLowerCase() == "wzinitialize"

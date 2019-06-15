@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-cli\.wizzi\ittf\cmds\generate.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-cli\.wizzi\ittf\cmds\generate.js.ittf
 */
 'use strict';
 const path = require('path');
@@ -8,11 +8,18 @@ const util = require('util');
 const fs = require('fs');
 const async = require('async');
 const wizzi = require('wizzi');
-function generateSchemas(schemasToGen, wfJobFolder, destPath, packageName) {
+function generateSchemas(schemasToGen, wfJobFolder, destPath, packageName, plugins) {
     async.mapSeries(schemasToGen, function(schemaName, callback) {
         console.log('wizzi-cli.generate.Generating schema ' + schemaName);
+        var options = {};
+        if (plugins) {
+            options = {
+                plugins: plugins.items, 
+                pluginsBaseFolder: plugins.baseFolder
+            };
+        }
         wizzi.generateWizziModelTypes({
-            configOptions: {}, 
+            configOptions: options, 
             wfschema: {
                 name: schemaName, 
                 ittfDocumentUri: path.join(wfJobFolder, 'ittf', 'lib', 'wizzi', 'schemas', schemaName + '.wfschema.ittf'), 
@@ -62,7 +69,8 @@ module.exports = (args) => {
         storeKind: 'filesystem', 
         config: {
             wfBaseFolder: __dirname, 
-            plugins: configInstance.plugins
+            plugins: configInstance.plugins, 
+            pluginsBaseFolder: configInstance.pluginsBaseFolder
         }, 
         job: {
             name: configInstance.wfjobName, 
@@ -85,7 +93,14 @@ module.exports = (args) => {
             return wizzi.printWizziJobError(configInstance.wfjobName, err);
         }
         if (configInstance.schemas && configInstance.schemas.length > 0) {
-            generateSchemas(configInstance.schemas, path.dirname(configInstance.wfjobPath), configInstance.destPath, configInstance.packageName || configInstance.wfjobName);
+            var plugins = null;
+            if (configInstance.pluginsBaseFolder && configInstance.pluginsBaseFolder.length > 0) {
+                plugins = {
+                    items: configInstance.plugins, 
+                    baseFolder: configInstance.pluginsBaseFolder
+                };
+            }
+            generateSchemas(configInstance.schemas, path.dirname(configInstance.wfjobPath), configInstance.destPath, configInstance.packageName || configInstance.wfjobName, plugins);
         }
     });
 };

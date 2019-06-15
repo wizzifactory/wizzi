@@ -65,7 +65,13 @@
             set e_element_addToChildren.default = "false"
             set e_element_addToChildren.tagInternal = "add-to-children"
             set e_element_addToChildren.defaultWhenDeclared = "true"
-            
+
+			var e_element_hasMTreeData = e_element.addAttribute("hasMTreeData", {})
+            set e_element_hasMTreeData.type = "boolean"
+            set e_element_hasMTreeData.default = "false"
+            set e_element_hasMTreeData.tagInternal = "has-mtree-data"
+            set e_element_hasMTreeData.defaultWhenDeclared = "true"
+
 			var e_element_suppressCollectionEmit = e_element.addAttribute("suppressCollectionEmit", {})
             set e_element_suppressCollectionEmit.type = "boolean"
             set e_element_suppressCollectionEmit.default = "false"

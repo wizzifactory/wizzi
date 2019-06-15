@@ -1,5 +1,5 @@
 ﻿module wizzi-mtree.loader.appender
-    kind jsfile
+    kind es6
     
 	var util = require('util')
     var errors = require('../errors')
@@ -57,7 +57,7 @@
 						_ callback
 							_ local_error
 								@ 'InvalidIttfError'
-								@ 'default'
+								@ 'appender'
 								@ "The tag $group must have a parent and cannot be the root of a primary ittf document. Hint: check for ittf fragments not in a tfolder."
 								@ item
                 _ utilnode.replace

@@ -1,23 +1,44 @@
-﻿common/example/plugin('html examples')
+﻿common/v07/example/plugin('html examples')
 
 	$append imports
 		var htmlfactory = require('../../lib/wizzi/models/html-factory.g')
 		var htmlgenerator = require('../../lib/artifacts/html/document/gen/main')
-	
+
+    $override requireWizzi
+        set wizzi = require('../../../../wizzi/dist/index')
+
+    $append plugins
+        [ items
+            @ './index.js'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '..'
 	+
-	var loadModel
-		_ htmlfactory.createLoadModel
-			_ getWizziObject
+	function getLoadModelAndWizziObject
+        param callback
+        _ getWizziObject
+            a_cb(wo)
+                _ callback
+                    @ null
+                    {
+                        @ loadModel
+                            _ htmlfactory.createLoadModel
+                                @ wo
+                        @ wizziObject wo
 	+
 	var ittfPath
 		_ path.join
 			@ __dirname
 			@ 'ittf'
-	foreach item in getFiles(ittfPath,'html')
+	
+    foreach item in getFiles(ittfPath,'html')
 		set item = item.substring(0, item.length - '.html.ittf'.length)
 		log 'item', item
 		_ execute(item)
-	+
+	
+    +
 	function execute
 		param name
 		var ittfSource
@@ -30,21 +51,24 @@
 				@ __dirname
 				@ 'ittf'
 				@ name + '.g.html'
-		_ loadModel
-			@ ittfSource
-			{
-				@ __productionManager
-					_ mocks.getProductionManager
-			f_cb_test( htmlWizziModel )
-				log 'htmlWizziModel', htmlWizziModel
-				var ctx
-					_ mocks.getGenContext
-				_ htmlgenerator.gen
-					@ htmlWizziModel
-					@ ctx
-					f_cb_test( ctxout )
-						log 'ctxout', ctxout.getContent()
-						_ file.write
-							@ htmlOutput
-							@ ctxout.getContent()
+		_ getLoadModelAndWizziObject
+            f_cb_test(result)
+                _ result.loadModel
+                    @ ittfSource
+                    {
+                        @ __productionManager
+                            _ mocks.getProductionManager
+                    f_cb_test( htmlWizziModel )
+                        log 'htmlWizziModel', htmlWizziModel
+                        var ctx
+                            _ mocks.getGenContext
+                                @ result.wizziObject.wizziFactory
+                        _ htmlgenerator.gen
+                            @ htmlWizziModel
+                            @ ctx
+                            f_cb_test( ctxout )
+                                log 'ctxout', ctxout.getContent()
+                                _ file.write
+                                    @ htmlOutput
+                                    @ ctxout.getContent()
 

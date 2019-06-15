@@ -32,7 +32,8 @@
 		#
 		# This is an in-memory trasformer of a loaded 'SCHEMA_NAME.wfschema.ittf' source document.
 		#
-		# TODO this 'wfschema-boot-model' should become a wizzi-plugin.modelTransformer.
+		# TODO this 'wfschema-boot-model' should become a model transformer of the schema 'wfschema'
+        # in the 'wizzi-core' plugin.
 		# 
 	clazz( WizziSchema, Node )
 		ctor

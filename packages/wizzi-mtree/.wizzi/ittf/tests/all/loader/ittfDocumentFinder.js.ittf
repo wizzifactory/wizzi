@@ -1,8 +1,8 @@
 ﻿base_test( ittfDocumentFinder )
 	
 	$append imports
-		var mocks = require('./mocks/misc')
-		var IttfDocumentFinder = require('../../lib/loader/ittfDocumentFinder')
+		var mocks = require('../mocks/misc')
+		var IttfDocumentFinder = require('../../../lib/loader/ittfDocumentFinder')
 	
 	initStore()
 

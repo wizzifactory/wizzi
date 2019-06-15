@@ -34,6 +34,7 @@ $group
 			$foreach attribute in element.attributes
 
 				$ var comments = attribute.comments
+
 				$include comment
 				
 				$if verify.isNotEmpty(attribute.default)
@@ -42,8 +43,10 @@ $group
 					$else
 						set this.${attribute.wzId} = ${attribute.default}
 				$else
-					# TODO avoid this declaration, attributes should be tested for undefined not null
+					$* VIA 13/6/19
+                    # TODO avoid this declaration, attributes should be tested for undefined not null
 					# set this.${attribute.wzId} = null
+                    *$
 
 			$foreach include in element.includes
 

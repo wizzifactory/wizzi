@@ -134,7 +134,7 @@ $group
 			@ ittfDocumentUri
 			@ requestContext.modelRequestContext
 			f_cb( artifactModel )
-				log 'wizzi.wizziFactory.loadModelAndGenerateArtifact', 'model loaded', artifactModel
+				# log 'wizzi.wizziFactory.loadModelAndGenerateArtifact', 'model loaded', artifactModel
 				# the loaded wizzi model becomes the artifactModel of the artifact generation
 				_ that.generateArtifact
 					@ artifactModel

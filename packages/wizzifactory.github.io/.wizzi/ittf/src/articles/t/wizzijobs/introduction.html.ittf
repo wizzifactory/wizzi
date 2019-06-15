@@ -1,0 +1,9 @@
+﻿$group
+    $
+        var sect = {
+            title: 'Wizzi jobs'
+        };
+
+    section(&sect)
+
+		p Wizzi jobs are the automation component of the wizzi factory.

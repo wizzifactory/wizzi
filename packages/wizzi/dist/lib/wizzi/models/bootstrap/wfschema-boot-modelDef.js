@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi\.wizzi\ittf\lib\wizzi\models\bootstrap\wfschema-boot-modelDef.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi\.wizzi\ittf\lib\wizzi\models\bootstrap\wfschema-boot-modelDef.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -54,6 +54,11 @@ md.createInstance = function() {
     e_element_addToChildren.default = "false";
     e_element_addToChildren.tagInternal = "add-to-children";
     e_element_addToChildren.defaultWhenDeclared = "true";
+    var e_element_hasMTreeData = e_element.addAttribute("hasMTreeData", {});
+    e_element_hasMTreeData.type = "boolean";
+    e_element_hasMTreeData.default = "false";
+    e_element_hasMTreeData.tagInternal = "has-mtree-data";
+    e_element_hasMTreeData.defaultWhenDeclared = "true";
     var e_element_suppressCollectionEmit = e_element.addAttribute("suppressCollectionEmit", {});
     e_element_suppressCollectionEmit.type = "boolean";
     e_element_suppressCollectionEmit.default = "false";

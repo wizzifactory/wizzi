@@ -1,5 +1,5 @@
 ﻿module wizzi-mtree.loader.mixer
-    kind jsfile
+    kind es6
     
 	var util = require('util')
     var path = require('path')
@@ -86,11 +86,37 @@
                             @ relpath mixerNode.name
                         f_cb_no_err( mixedNodifiedMTree )
 							if err
-								log 'wizzi-mtree.loader.mixer.err', err
-								log 'wizzi-mtree.loader.mixer.mixerNode', mixerNode.name, mixerNode.value
-								return
+                                $* 6/6/19
+                                if err.name === 'IttfNotFound'
+									set err.mixerUri = mixeruri
+                                    set err.fragmentPath = mixerNode.name
+                                    set err.errorLines
+										_ mixerNode.model.loadHistory.getIttfDocumentErrorLines
+											@ mixerNode.sourceKey
+											{
+												@ row mixerNode.row
+												@ col mixerNode.col
+												@ description 'fragment not found'
+											@ true
+									log 'wizzi-mtree.includer.item.model.loadHistory.lineErrors', err.errorLines
+								# log 'wizzi-mtree.loader.mixer.err', err
+								# log 'wizzi-mtree.loader.mixer.mixerNode', mixerNode.name, mixerNode.value
+                                return
 									_ callback
 										@ err
+                                *$
+                                return
+                                    _ callback
+                                        _ local_error
+                                            @ 'IttfMixError'
+                                            @ 'mixer'
+                                            @ 'Fragment to mix not found'
+                                            @ mixerNode
+                                            @ err
+                                            {
+                                                @ mixerUri mixeruri
+                                                @ mixerRelPath mixerNode.name
+
 							_ mTreeBrickProvider.enterFragmentCall
 								@ mixeruri
 								@ mixedNodifiedMTree.uri
@@ -98,10 +124,14 @@
 								return
 									_ callback
 										_ local_error
-											@ 'InvalidIttfError'
-											@ 'default'
+											@ 'IttfMixError'
+											@ 'mixer'
 											@ 'Recursive mixin or include: ' + mixerNode.name
 											@ mixerNode
+                                            @ null
+                                            {
+                                                @ mixerUri mixeruri
+                                                @ mixerRelPath mixerNode.name
 							# before mixing the mixedNodifiedMTree
 							# resolve its eventual includes
 							_ includer

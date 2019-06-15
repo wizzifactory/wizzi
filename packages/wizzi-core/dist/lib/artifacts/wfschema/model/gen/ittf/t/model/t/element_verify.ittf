@@ -26,8 +26,14 @@ $group
 					if this.${relation.wzName} != null
 						_ this.${relation.wzName}.wzVerify(ctx)
 				$else
+                    $* VIA 13/6/19
 					foreach item in this.${relation.wzIdPlural}
 						_ item.wzVerify(ctx)
+                    *$
+                    _ this.${relation.wzIdPlural}.forEach
+                        =>
+                            param item
+                            _ item.wzVerify(ctx)
 
 			$foreach method in element.methods
 				$if method.wzName.toLowerCase() == "wzverify"

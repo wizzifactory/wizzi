@@ -1,7 +1,157 @@
 ﻿module
-	kind jsfile
+	kind es6
 
-	var HtmlJsPreprocessor = require('./html-js-mtre-preprocessor.g')
+    $
+        var md = {
+            schema: 'sample'
+        };
+
+    common/v07/plugins/models/mtree-preprocessor(&md)
+        
+        $append imports
+            var HtmlJsPreprocessor = require('./html-js-mtre-preprocessor.g')
+
+        function preprocessNode
+            param node
+            param state
+
+            if node.n === '--css' || inferCssInclude(node)
+                set node.n = '::style'
+                if childNameIsOneOf(node, ['css']) == false
+                    var scoped
+                        _ extractRemove
+                            @ node
+                            @ 'scoped'
+                    _ wrapChilds
+                        @ node
+                        {
+                            @ n 'css'
+                            @ v ''
+                    if scoped
+                        _ node.children.push
+                            @ scoped
+                    return true
+            elif node.n === '--js' || inferJsInclude(node)
+                set node.n = '::script'
+                if childNameIsOneOf(node, ['module']) == false
+                    var type
+                        _ extractRemove
+                            @ node
+                            @ 'type'
+                    _ wrapChilds
+                        @ node
+                        {
+                            @ n 'module'
+                            @ v ''
+                            [ children
+                                {
+                                    @ n 'kind'
+                                    @ v 'react'
+                    if type
+                        _ node.children.push
+                            @ type
+                _ HtmlJsPreprocessor(node)
+                return true
+            elif inferSvgInclude(node)
+                set node.n = '::media'
+                if node.children[0] && node.children[0].n !== 'svg'
+                    _ wrapChilds
+                        @ node
+                        {
+                            @ n 'svg'
+                            @ v ''
+                            [ children
+                return true
+            elif inferReadyInclude(node)
+                set node.n = '::ready'
+                if node.children[0] && node.children[0].n !== 'module'
+                    _ wrapChilds
+                        @ node
+                        {
+                            @ n 'module'
+                            @ v ''
+                            [ children
+                return true
+            elif inferJsonObjectInclude(node)
+                set node.n = '::data-object'
+                return true
+            elif inferJsonArrayInclude(node)
+                set node.n = '::data-array'
+                return true
+            elif node.n === 'ittf-panel'
+                set node.wzMTreeData
+                    {
+                        @ mTree state.mTree
+                foreach item in node.children
+                    if item.n === 'ittf'
+                        set node.wzMTreeData[item.n] = processIttf(item)
+                    else
+                        set node.wzMTreeData[item.n] = item.v
+                set node.children = []
+            else
+                return false
+
+        function inferCssInclude
+            param node
+            if node.n === '@style' || node.n === 'style'
+                if descendentNameIsOneOf(node, ['css', '<', '.', '#'])
+                    return true
+            return false
+
+        function inferJsInclude
+            param node
+            if node.n === 'script'
+                if descendentNameIsOneOf(node, ['src']) == false
+                    return true
+            return false
+
+        function inferSvgInclude
+            param node
+            if node.n === '::media' && descendentNameIsOneOf(node, ['svg'])
+                return true
+            if node.n === 'svg'
+                if descendentNameIsOneOf(node, ['src']) == false
+                    return true
+            return false
+        
+        function inferReadyInclude
+            param node
+            if node.n === 'ready'
+                return true
+            return false
+
+        function inferJsonObjectInclude
+            param node
+            if node.n === 'json' && childNameIsOneOf(node, ['{'])
+                return true
+            return false
+
+        function inferJsonArrayInclude
+            param node
+            if node.n === 'json' && childNameIsOneOf(node, ['['])
+                return true
+            return false
+
+        function childNameIsOneOf
+            param node
+            param names
+            foreach child in node.children
+                foreach name in names
+                    if child.n === name
+                        return true
+            return false
+
+        function processIttf
+            param node
+            if node.n === '$raw'
+                set node.n = node.v
+                set node.v = ''
+            foreach child in node.children
+                _ processIttf
+                    @ child
+            return node
+    
+    $*
 
 	set module.exports
 		function
@@ -28,125 +178,6 @@
 			_ traverse(item, state)
 		set state.parent = saveParent 
 
-	function preprocessNode
-		param node
-		param state
-
-		if node.n === '--css' || inferCssInclude(node)
-			set node.n = '::style'
-			if childNameIsOneOf(node, ['css']) == false
-				var scoped
-					_ extractRemove
-						@ node
-						@ 'scoped'
-				_ wrapChilds
-					@ node
-					{
-						@ n 'css'
-						@ v ''
-				if scoped
-					_ node.children.push
-						@ scoped
-				return true
-		elif node.n === '--js' || inferJsInclude(node)
-			set node.n = '::script'
-			if childNameIsOneOf(node, ['module']) == false
-				var type
-					_ extractRemove
-						@ node
-						@ 'type'
-				_ wrapChilds
-					@ node
-					{
-						@ n 'module'
-						@ v ''
-						[ children
-							{
-								@ n 'kind'
-								@ v 'react'
-				if type
-					_ node.children.push
-						@ type
-			_ HtmlJsPreprocessor(node)
-			return true
-		elif inferSvgInclude(node)
-			set node.n = '::media'
-			if node.children[0] && node.children[0].n !== 'svg'
-				_ wrapChilds
-					@ node
-					{
-						@ n 'svg'
-						@ v ''
-						[ children
-			return true
-		elif inferReadyInclude(node)
-			set node.n = '::ready'
-			if node.children[0] && node.children[0].n !== 'module'
-				_ wrapChilds
-					@ node
-					{
-						@ n 'module'
-						@ v ''
-						[ children
-			return true
-		elif inferJsonObjectInclude(node)
-			set node.n = '::data-object'
-			return true
-		elif inferJsonArrayInclude(node)
-			set node.n = '::data-array'
-			return true
-		else
-			return false
-
-	function inferCssInclude
-		param node
-		if node.n === '@style' || node.n === 'style'
-			if descendentNameIsOneOf(node, ['css', '<', '.', '#'])
-				return true
-		return false
-
-	function inferJsInclude
-		param node
-		if node.n === 'script'
-			if descendentNameIsOneOf(node, ['src']) == false
-				return true
-		return false
-
-	function inferSvgInclude
-		param node
-		if node.n === '::media' && descendentNameIsOneOf(node, ['svg'])
-			return true
-		if node.n === 'svg'
-			if descendentNameIsOneOf(node, ['src']) == false
-				return true
-		return false
-	
-	function inferReadyInclude
-		param node
-		if node.n === 'ready'
-				return true
-		return false
-
-	function inferJsonObjectInclude
-		param node
-		if node.n === 'json' && childNameIsOneOf(node, ['{'])
-			return true
-		return false
-
-	function inferJsonArrayInclude
-		param node
-		if node.n === 'json' && childNameIsOneOf(node, ['['])
-			return true
-		return false
-
-	function childNameIsOneOf
-		param node
-		param names
-		foreach child in node.children
-			foreach name in names
-				if child.n === name
-					return true
-		return false
 
 	function descendentNameIsOneOf
 		param node
@@ -215,3 +246,5 @@
 		set nto.u = nfrom.u
 		if typeof nto.children === 'undefined'
 			set nto.children = []
+
+    *$

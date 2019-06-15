@@ -1,7 +1,7 @@
 ﻿base_test( basicloader )
 
 	$append imports
-		var loader = require('../../lib/basicloader')
+		var loader = require('../../../lib/basicloader')
 	+
 	var ittfSource
 		_ path.join

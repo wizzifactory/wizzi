@@ -4,3 +4,6 @@ common/plugin_package( wizzi-web, ${wfpackage.version}, ${wfpackage.title}., ${w
     postcss-color-function "^4.1.0"
 
     $append devDependencies
+
+    $append scripts
+        examples:html "node examples/html"

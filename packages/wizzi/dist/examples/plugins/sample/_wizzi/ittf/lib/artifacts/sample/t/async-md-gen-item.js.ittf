@@ -1,0 +1,15 @@
+set md.genItem
+	function
+		param ctx
+		return
+			function
+				param model
+				param callback
+                var method = md[model.wzElement]
+                if method
+                    _ method
+                        @ model
+                        @ ctx
+                        @ callback
+                else 
+                    throw ctx.error(myname + '. Unknown tag/element: ' + model.wzTag + '/' + model.wzElement, model)

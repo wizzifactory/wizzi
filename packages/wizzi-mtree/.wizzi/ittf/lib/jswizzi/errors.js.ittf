@@ -14,7 +14,7 @@
 		set this.message = message
 
 	error( JsWizziSynthax, message, node )
-		log 'JsWizziSynthax.message', message
+		# log 'JsWizziSynthax.message', message
 		if f_verify.isObject(message) && message.lineNumber
 			# In this case node = WizziJS source
 			set this.message = "Synthax error. " + message.description + 
@@ -39,14 +39,20 @@
 			param node
 			param source
 			param json
-			return
-				_ wizziUtils.errors.getErrorLines
-					{
-						@ row node.loc.start.line
-						@ col node.loc.start.columns
-						@ description description
-					@ source
-					@ json
+            if node && node.loc
+                log 'jswizzi.errors.esprimaNodeErrorLines.source', source
+                log 'jswizzi.errors.esprimaNodeErrorLines.node.loc', node.loc
+                return
+                    _ wizziUtils.errors.getErrorLines
+                        {
+                            @ row node.loc.start.line
+                            @ col node.loc.start.column
+                            @ description description
+                        @ source
+                        @ json
+            else
+                log 'jswizzi.errors.esprimaNodeErrorLines', 'node has no loc property', node
+                return ['No data available']
 
 	function getEsprimaErrorLines
         param esprimaException

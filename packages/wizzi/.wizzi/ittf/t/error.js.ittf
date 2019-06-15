@@ -15,7 +15,13 @@
 		# 5/10/17 set this.stack = (new Error()).stack
 	set ${name}Error.prototype.toString
         function 
-            return this.message
+            var msg = [this.message]
+            if this.inner
+                _ msg.push
+                    @ 'Inner error:'
+                _ msg.push
+                    @ this.inner.toString()
+            return msg.join('\n')
 	set ${name}Error.prototype = Object.create(Error.prototype)
 	set ${name}Error.prototype.constructor = ${name}Error
 	set md.${name}Error = ${name}Error

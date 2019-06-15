@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-js\.wizzi\ittf\lib\artifacts\js\module\gen\codegen\statements\react.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-js\.wizzi\ittf\lib\artifacts\js\module\gen\codegen\statements\react.js.ittf
 */
 'use strict';
 var util = require('util');
@@ -87,7 +87,7 @@ md.load = function(cnt) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in fn: ' + myname + '.reactComponent_member');
         }
-        console.log('reactComponent, model.wzElement', model.wzElement, model.wzName, model.wzParent.wzName);
+        // log 'reactComponent, model.wzElement', model.wzElement, model.wzName, model.wzParent.wzName
         if (model.wzElement == 'state') {
             ctx.write('state = ');
             model.wzElement = 'jsObject';
@@ -172,14 +172,21 @@ md.load = function(cnt) {
                 return callback(null, null);
             });
         }
-        else if (model.wzElement == 'property') {
+        else if (model.wzElement == 'property' || model.wzElement == 'p') {
             ctx.w(model.wzName + ';');
             return callback(null, null);
         }
         else if (model.wzElement == 'arrowfunction' || model.wzElement == 'asyncarrowfunction') {
             ctx.__is_react_class = true;
             var async_str = model.wzElement == 'asyncarrowfunction' || model.xasync ? 'async ' : '';
-            ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => {');
+            var onlyChildIsArrowFunction = u.onlyChildIs(model, 'arrowfunction');
+            console.log("onlyChildIsArrowFunction", onlyChildIsArrowFunction);
+            if (onlyChildIsArrowFunction) {
+                ctx.write(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => ');
+            }
+            else {
+                ctx.w(model.wzName + ' = ' + async_str + '(' + model.paramNames.join(', ') + ') => {');
+            }
             ctx.indent();
             generateParamConstraints(model.wzName, model.constrainedParams, model.hasCallbackParam, model.hasOptionsCallbackParam, ctx, function(err, notUsed) {
                 if (err) {
@@ -191,7 +198,9 @@ md.load = function(cnt) {
                     if (err) {
                         return callback(err);
                     }
-                    ctx.w('}');
+                    if (onlyChildIsArrowFunction == false) {
+                        ctx.w('}');
+                    }
                     // TODO ???
                     ctx.__is_react_class = false;
                     return callback(null, null);

@@ -1,74 +1,31 @@
-﻿module
-	kind jsfile
+﻿common/v07/example/withMonoRepoWizziFactory()
 
-	var path = require('path')
-	var fs = require('fs')
-	var index = require('../../index')
-	var verify = require('wizzi-utils').verify
-	var file = require('wizzi-utils').file
+    $override requireWizzi
+        set wizzi = require('../../index')
 
-	var suffix_in = '.html.ittf'
-	var suffix_out = '.g.html'
+    $append plugins
+        [ items
+            @ './wizzi-web/dist/index.js'
+        @ pluginsBaseFolder
+            _ path.resolve
+                @ __dirname
+                @ '..'
+                @ '..'
+                @ '..'
+                @ '..'
 
-	_ index.createFactory
-		@ 'stefi'
-		@ 'admin'
-		{
-			@ repo
-				{
-					@ storeKind 'filesystem'
-			@ plugins
-				{
-					@ items
-						[
-							@ 'wizzi-html'
-		f_cb_test( wf )
-			var ittfPath
-				_ path.join
-					@ __dirname
-					@ 'ittf'
-			foreach item in getFiles(ittfPath)
-				set item = item.substring(0, item.length - suffix_in.length)
-				log 'item', item
-				_ execute(item, wf)
+    _ generateArtifactsByNames
+        [
+            @ 'basic'
+        @ 'html'
+        @ 'html/document'
+        f_cb_no_throw(result)
+            if err
+                log 'examples.html.generateArtifactsByNames.err', err
+                log 'examples.html.generateArtifactsByNames.err.toString()', err.toString()
+                if err.inner
+                    log 'examples.html.generateArtifactsByNames.err.inner.toString()', err.inner.toString()
+            else
+                log 'examples.html.generateArtifactsByNames.result', result
 
-	+
-	# _ execute('function')
-	+
-	function execute
-		param name
-		param wf
-		
-		var ittfSource
-			_ path.join
-				@ __dirname
-				@ 'ittf'
-				@ name + suffix_in
-		
-		var artifactOutput
-			_ path.join
-				@ __dirname
-				@ 'ittf'
-				@ name + suffix_out
-		
-		_ wf.loadModelAndGenerateArtifact
-			@ ittfSource
-			{
-			@ 'html/document'
-			f_cb_test( artifactText )
-				_ file.write
-					@ artifactOutput
-					@ artifactText
-
-	function getFiles
-		param srcpath
-		return
-			_ fs.readdirSync
-				@ srcpath
-				._ filter
-					=>
-						param file
-						return 
-							&&
-								_ fs.lstatSync(path.join(srcpath, file)).isFile()
-								_ verify.endsWith(file, suffix_in)
+    

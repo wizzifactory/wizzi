@@ -65,6 +65,8 @@
 			param coll
 			var item = new type(child.v, new wzSourceLineInfo(child.r, child.c, child.u))
 			set item.wzTag = child.n
+            if child.wzMTreeData
+                set item.wzMTreeData = child.wzMTreeData
 			set item.wzParent = this
 			_ coll.push(item)
 			if item.loadFromNode
@@ -89,6 +91,8 @@
 			var item = new type(child.v, new wzSourceLineInfo(child.r, child.c, child.u))
 			set item.wzTag = child.n
 			set item.wzParent = this
+            if child.wzMTreeData
+                set item.wzMTreeData = child.wzMTreeData
 			_ this.wzChildren.push(item)
 			if item.loadFromNode
 				_ item.loadFromNode(child)
@@ -99,6 +103,8 @@
 			param type
 			param fieldName
 			var item = new type(child.v, new wzSourceLineInfo(child.r, child.c, child.u))
+            if child.wzMTreeData
+                set item.wzMTreeData = child.wzMTreeData
 			set item.wzParent = this
 			set this[fieldName] = item
 			if item.loadFromNode
@@ -131,8 +137,14 @@
 				param result
 				if this.wzChildren.length > 0
 					var children = []
-					foreach item in this.wzChildren 
+					$* VIA 13/6/19
+                    foreach item in this.wzChildren 
 						_ children.push(item.toJson())
+                    *$
+                    _ this.wzChildren.forEach
+                        =>
+                            param item
+                            _ children.push(item.toJson())
 					set result.wzChildren = children
 
 		$if request.toXml
@@ -146,8 +158,14 @@
 				param xw
 				if this.wzChildren.length > 0
 					_ xw.startElement('wzChildren')
+                    $* STOP 13/6/19
 					foreach item in this.wzChildren 
 						_ item.toXml(xw)
+                    *$
+                    _ this.wzChildren.forEach
+                        =>
+                            param item
+                            _ item.toXml(xw)
 					_ xw.endElement()
 
 		$if request.toPrettify
@@ -158,9 +176,14 @@
 			m toPrettifyChildren
 				param ctx
 				if this.wzChildren.length > 0
+                    $* VIA 13/6/19
 					foreach item in this.wzChildren 
 						_ item.toPrettify(xw)
-
+                    *$
+                    _ this.wzChildren.forEach
+                        =>
+                            param item
+                            _ item.toPrettify(xw)
 
 	set _md.${schema.wzId}Base = ${schema.wzId}Base
 

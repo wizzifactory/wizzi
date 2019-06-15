@@ -87,7 +87,7 @@
 				{
 					{ plugins
 						@ items pluginItems
-					@ jsonFsData options.jsonFsData
+					@ fsJson options.fsJson
 					@ globalContext options.globalContext || {}
 				@ callback
 
@@ -271,7 +271,7 @@
 			@ ittfFolderPath
 			@ wf.fileService
 			a_cb( items )
-				log 'generateFolderArtifacts\n', JSON.stringify(items, null, 2)
+				log 'generateFolderArtifacts\n', stringify(items, null, 2)
 				_ async.mapSeries
 					@ items
 					function

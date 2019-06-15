@@ -291,7 +291,7 @@
 		repeater( 1, model.statements )
 			if index_1 > 0
 				_ ctx.write(' | ')
-			log 'typeUnion.item_1.wzElement', item_1.wzElement, item_1.wzName
+			# log 'typeUnion.item_1.wzElement', item_1.wzElement, item_1.wzName
 			_ cnt.genItem
 				@ item_1
 				@ ctx

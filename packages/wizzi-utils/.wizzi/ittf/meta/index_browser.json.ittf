@@ -1,7 +1,7 @@
 {
     $include versions
     
-    name '@wizzi/browser'
+    name '@wizzi/util-browser'
     version '${versions['wizzi-utils@next']}'
 	title 'Wizzi standalone for browser'
     license 'MIT'

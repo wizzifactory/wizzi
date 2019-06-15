@@ -11,24 +11,28 @@ module.exports = {
         isPackageDeploy: true,
         isWebpackTarget: false,
         isBrowserTarget: false,
-        isWizziUtilsPackage: true
+        isWizziUtilsPackage: true,
+        isDevelopment: false,
     },
     globalContext_default: {
         isPackageDeploy: true,
         isWebpackTarget: false,
         isBrowserTarget: false,
-        isWizziUtilsPackage: true
+        isWizziUtilsPackage: true,
+        isDevelopment: false,
     },
     globalContext_webpack: {
         isPackageDeploy: true,
         isWebpackTarget: true,
         isBrowserTarget: false,
-        isWizziUtilsPackage: true
+        isWizziUtilsPackage: true,
+        isDevelopment: false,
     },
     globalContext_browser: {
         isPackageDeploy: true,
         isWebpackTarget: true,
         isBrowserTarget: true,
-        isWizziUtilsPackage: true
+        isWizziUtilsPackage: true,
+        isDevelopment: false,
     }
 };

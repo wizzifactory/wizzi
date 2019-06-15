@@ -6,7 +6,10 @@
 		param message
 		param node
 		param inner
-		if node
+        param other
+		
+        $* 6/6/19
+        if node
 			# log 'local_error.node', node
 			var nodeError = new errors.NodeError(message, node)
 			set message = nodeError.message
@@ -16,3 +19,16 @@
 				@ method
 				@ message
 				@ inner
+        *$
+
+		return
+            new errors.WizziError
+                @ message
+                @ node
+                @ node ? node.mTreeBrick || node.model : null
+                {
+                    @ errorName name
+                    @ method method
+                    @ inner inner
+                    @ ...other||{}
+

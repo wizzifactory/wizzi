@@ -1,5 +1,6 @@
 common/plugin_package( wizzi-core, ${wfpackage.version}, ${wfpackage.title}., ${wfpackage.license} )
 
-	wizzi-legacy-v5 "latest"
+	js-yaml "^3.13.1"
+    wizzi-legacy-v5 "latest"
 
 	$append devDependencies

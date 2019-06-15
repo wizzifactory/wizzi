@@ -1,12 +1,16 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\errors.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\errors.js.ittf
 */
 'use strict';
 var util = require('util');
+var chalk = require('chalk');
 var md = module.exports = {};
 function NodeError(message, node) {
     this.name = 'NodeError';
+    this.message = message;
+    this.node = node;
+    this.__is_error = true;
     var msg = [
         message
     ];
@@ -43,6 +47,10 @@ md.NodeError = NodeError;
 
 function IttfNotFoundError(resourceType, name, sourceUri) {
     this.name = 'IttfNotFoundError';
+    this.resourceType = resourceType;
+    this.name = name;
+    this.sourceUri = sourceUri;
+    this.__is_error = true;
     this.message = resourceType + ': ' + name +' not found, processing document ' + md.getSrcPathInfo(sourceUri);
     // 5/8/17 set this.stack = (new Error()).stack
 }
@@ -55,6 +63,11 @@ md.IttfNotFoundError = IttfNotFoundError;
 
 function IttfLoadError(message, srcPath, node, ex) {
     this.name = 'IttfLoadError';
+    this.message = message;
+    this.srcPath = srcPath;
+    this.node = node;
+    this.ex = ex;
+    this.__is_error = true;
     this.message = message;
     if (srcPath) {
         this.message += '\nLoading ittf document ' + md.getSrcPathInfo(srcPath);
@@ -75,6 +88,10 @@ md.IttfLoadError = IttfLoadError;
 
 function RepoIOError(message, uri, innerEx) {
     this.name = 'RepoIOError';
+    this.message = message;
+    this.uri = uri;
+    this.innerEx = innerEx;
+    this.__is_error = true;
     this.message = message + '\nuri: ' + uri;
     // 5/8/17 set this.stack = (new Error()).stack
 }
@@ -85,6 +102,70 @@ RepoIOError.prototype = Object.create(Error.prototype);
 RepoIOError.prototype.constructor = RepoIOError;
 md.RepoIOError = RepoIOError;
 
+// credits https://rclayton.silvrback.com/custom-errors-in-node-js
+class WizziError extends Error {
+    constructor(message, node, mTreeBrick, other) {
+        super(message);
+        // legacy error test
+        this.name = "WizziError";
+        this.__is_error = true;
+        this.data = {
+            node, 
+            mTreeBrick, 
+            ...other||{}
+        };
+        Error.captureStackTrace(this, this.constructor);
+        if (mTreeBrick) {
+            this.errorLines = mTreeBrick.loadHistory.getIttfDocumentErrorLines(node.sourceKey, {
+                row: node.row, 
+                col: node.col, 
+                pos: node.col + node.name.length + 1, 
+                description: message
+            }, true);
+        }
+    }
+    toString() {
+        var msg = [];
+        msg.push(chalk.red('Error: ' + this.message));
+        msg.push(chalk.red('  name: ' + this.data.errorName));
+        if (this.data.node) {
+            msg.push(chalk.yellow('  row: ' + this.data.node.row + ', col: ' + this.data.node.col));
+        }
+        if (this.data.mTreeBrick) {
+            msg.push(chalk.yellow('  uri: ' + this.data.mTreeBrick.uri));
+        }
+        else if (this.data.uri) {
+            msg.push(chalk.yellow('  uri: ' + this.data.uri));
+        }
+        else {
+            msg.push(chalk.yellow('  uri: unknown'));
+        }
+        if (this.errorLines) {
+            var i, i_items=this.errorLines, i_len=this.errorLines.length, line;
+            for (i=0; i<i_len; i++) {
+                line = this.errorLines[i];
+                msg.push(chalk.yellow('  ' + line));
+            }
+        }
+        if (this.data.errorName === 'JsWizziError') {
+            msg.push(chalk.yellow('  onStatement: ' + this.data.onStatement));
+        }
+        if (this.data.inner) {
+            msg.push(chalk.magenta('  Inner error: ' + this.data.inner.name + ': ' + this.data.inner.message));
+        }
+        return msg.join('\n');
+    }
+}
+md.WizziError = WizziError;
+class InternalError extends WizziError {
+    constructor(error) {
+        super(error.message);
+        this.data = {
+            error
+        };
+    }
+}
+md.InternalError = InternalError;
 md.getSrcPathInfo = function(srcPath) {
     if (typeof (srcPath) === 'string') {
         return srcPath;

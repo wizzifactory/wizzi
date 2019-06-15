@@ -9,5 +9,6 @@ module.exports = {
     ], 
     globalContext: {
         isPackageDeploy: true,
+        isDevelopment: false,
     },
 };

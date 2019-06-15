@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\jswizzi\jsWizziRunner.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\jswizzi\jsWizziRunner.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -8,6 +8,7 @@ var util = require('util');
 var escodegen = require('escodegen');
 var esprima = require('esprima');
 var verify = require('wizzi-utils').verify;
+var mainErrors = require('../errors');
 var errors = require('./errors');
 var verbose = false;
 var logGetSet = false;
@@ -98,11 +99,12 @@ runner.Identifier = function(node, ctx) {
         return ctx.getValue(node.name);
     }
     else {
-        return // log 'jsWizziRunner. Identifier. ReferenceError. node.loc', node.loc
-            local_error(ctx, 'ReferenceError|Identifier < ' + node.name + ' > not defined, on node < ' + ctx.runningNodeId + ' >', {
+        // log 'jsWizziRunner. Identifier. ReferenceError. node.loc', node.loc, ctx.isForInterpolation, ctx.__source
+        return local_error(ctx, 'ReferenceError|Identifier < ' + node.name + ' > not defined, on node < ' + ctx.runningNodeId + ' >', {
                 node: node, 
                 errorLines: errors.esprimaNodeErrorLines('unknown identifier', node, ctx.__source, true)
-            }, node, 'Identifier')}
+            }, node, 'Identifier');
+    }
 };
 runner.Identifier_Set = function(node, ctx, data) {
     log('Identifier_Set.node', node);
@@ -599,8 +601,12 @@ runner.LogicalExpression = function(node, ctx) {
         // log '__is_error LogicalExpression l', l
         return l;
     }
-    if (node.operator === '&&' && (l === false || l === null)) {
+    // if node.operator === '&&' && (l === false || l === null || typeof(l) === 'undefined')
+    if (node.operator === '&&' && !l) {
         return false;
+    }
+    if (node.operator === '||' && l) {
+        return true;
     }
     var r = runner(node.right, ctx);
     if (r && r.__is_error) {
@@ -688,16 +694,16 @@ runner.CallExpression = function(node, ctx) {
                 var value = obj[property].apply(obj, args);
                 if (value && value.__is_error) {
                     // log 'wizzi-mtree.jswizzi.jsWizziRunner.CallExpression. Error calling ' + property + ', on statement: ' + escodegen.generate(node)
+                    if (value.name === 'WizziError') {
+                        return value;
+                    }
                     var currentModelInfo = ctx.get_currentMTreeBrickInfo();
-                    return error('JsWizziError', 'CallExpression', {
-                            message: value.message, 
-                            parameter: {
-                                callingProperty: property, 
-                                onStatement: escodegen.generate(node), 
-                                currentModelUri: currentModelInfo.currentModel_uri, 
-                                currentModelMixerUri: currentModelInfo.currentModel_mixerUri
-                            }
-                        }, value);
+                    return local_error(ctx, value.message, property, node, 'CallExpression', value, {
+                            callingProperty: property, 
+                            onStatement: escodegen.generate(node), 
+                            uri: currentModelInfo.currentModel_uri, 
+                            mixerUri: currentModelInfo.currentModel_mixerUri
+                        });
                 }
                 return value;
             } 
@@ -1097,8 +1103,10 @@ runner.FunctionDeclaration_Call = function(node, ctx, data) {
     ctx.pop();
     return state.value;
 };
-function local_error(ctx, message, node, parentnode, method, ex) {
+function local_error(ctx, message, node, parentnode, method, ex, other) {
     // throw new Error('boing')
+    // log 'jsWizziRunner.local_error.ctx', ctx
+    // log 'jsWizziRunner.local_error.isForInterpolation.node,parentnode', ex && ex.name,  ctx.isForInterpolation, node, parentnode
     message = message || '';
     var errorCode = 'JsWizziError', ss = message.split('|');
     if (ss.length == 2) {
@@ -1113,6 +1121,9 @@ function local_error(ctx, message, node, parentnode, method, ex) {
         }
         else {
             node = node;
+            if (parentnode) {
+                errorLines = errors.esprimaNodeErrorLines('unknown identifier', parentnode, ctx.__source, true);
+            }
         }
     }
     var nodeStm;
@@ -1130,20 +1141,26 @@ function local_error(ctx, message, node, parentnode, method, ex) {
     catch (escodegenErr) {
         parentnodeStm = 'escodegen failed: ' + escodegenErr.message;
     } 
-    var parentnodeInsp = node ? util.inspect(node, {depth:2}) : '';
+    var parentnodeInsp = node ? util.inspect(parentnode, {depth:2}) : '';
     var currentModelInfo = ctx.get_currentMTreeBrickInfo();
-    return error(errorCode, method, {
-            message: message, 
-            parameter: {
-                errorLines: errorLines, 
-                nodeStatement: nodeStm, 
-                nodeInspected: nodeInsp, 
-                parentNodeStatement: parentnodeStm, 
-                parentNodeInspected: parentnodeInsp, 
-                currentModelUri: currentModelInfo.currentModel_uri, 
-                currentModelMixerUri: currentModelInfo.currentModel_mixerUri
-            }
-        }, ex);
+    return local_error_new(errorCode, method, message, null, ex, {
+            errorLines: errorLines, 
+            nodeStatement: nodeStm, 
+            nodeInspected: nodeInsp, 
+            parentNodeStatement: parentnodeStm, 
+            parentNodeInspected: parentnodeInsp, 
+            uri: currentModelInfo.currentModel_uri, 
+            mixerUri: currentModelInfo.currentModel_mixerUri, 
+            ...other||{}
+        });
+}
+function local_error_new(name, method, message, node, inner, other) {
+    return new mainErrors.WizziError(message, node, node ? node.mTreeBrick || node.model : null, {
+            errorName: name, 
+            method: method, 
+            inner: inner, 
+            ...other||{}
+        });
 }
 function getTypeDescription(obj) {
     if (obj == null) {
@@ -1231,6 +1248,9 @@ module.exports = {
         }
         else {
             var parsed = this.getParsed(source);
+            if (parsed && parsed.__is_error) {
+                return parsed;
+            }
             return execute_run_cb(parsed, ctx, options);
         }
     }
@@ -1251,11 +1271,11 @@ function execute_run_cb(parsed, ctx, options, callback) {
         }
     } 
     if (result && result.__is_error) {
-        console.log('wizzi-mtree.jswizzi.jsWizziRunner. Result has errors: ', result);
+        // log 'wizzi-mtree.jswizzi.jsWizziRunner. Result has errors: ', result
     }
     if (callback) {
         if (result && result.__is_error) {
-            delete (result.__is_error);
+            // NO 6/6/19, is a marker.  set delete (result.__is_error)
             callback(result);
         }
         else {

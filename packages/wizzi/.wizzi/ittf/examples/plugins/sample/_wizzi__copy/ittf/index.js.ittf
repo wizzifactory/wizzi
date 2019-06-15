@@ -1,0 +1,27 @@
+common/v07/plugins/index( sample )
+
+	$append model-transform-artifacts
+		# window(s) vars must be declared even if empty
+		var window_modelFactories
+			{
+				@ 'sample' require('./lib/wizzi/models/sample-factory.g')
+		var window_artifactGenerators
+			{
+				@ 'sample/document' require('./lib/artifacts/sample/document/gen/main')
+		var window_transformers
+			{
+				@ 'sample/extended' require('./lib/artifacts/sample/extended/trans/main')
+		var window_schemaDefinitions
+			{
+
+	@ provides
+		{
+			@ schemas
+				[
+					@ 'sample'
+			@ modelTransformers
+				[
+                    @ 'sample/extended'
+			@ artifactGenerators
+				[
+					@ 'sample/document'

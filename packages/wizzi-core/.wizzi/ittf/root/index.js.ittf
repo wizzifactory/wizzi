@@ -7,12 +7,15 @@ common/index/v3-package-index( wizzi-core )
 				@ 'wfjob' require('./lib/wizzi/models/wfjob-factory.g')
 				@ 'wfschema' require('./lib/wizzi/models/wfschema-factory.g')
 				@ 'json' require('./lib/wizzi/models/json-factory.g')
+                @ 'yaml' require('./lib/wizzi/models/yaml-factory.g')
 				@ 'text' require('./lib/wizzi/models/text-factory.g')
 				@ 'xml' require('./lib/wizzi/models/xml-factory.g')
 				@ 'ittf' require('./lib/wizzi/models/ittf-factory.g')
 		var window_artifactGenerators
 			{
 				@ 'json/document' require('./lib/artifacts/json/document/gen/main')
+                @ 'json/toyaml' require('./lib/artifacts/json/toyaml/gen/main')
+                @ 'yaml/document' require('./lib/artifacts/yaml/document/gen/main')
 				@ 'text/document' require('./lib/artifacts/text/document/gen/main')
 				@ 'xml/document' require('./lib/artifacts/xml/document/gen/main')
 				@ 'ittf/document' require('./lib/artifacts/ittf/document/gen/main')
@@ -27,6 +30,7 @@ common/index/v3-package-index( wizzi-core )
 				[
 					@ 'ittf'
 					@ 'json'
+                    @ 'yaml'
 					@ 'text'
 					@ 'wfjob'
 					@ 'wfschema'
@@ -37,11 +41,13 @@ common/index/v3-package-index( wizzi-core )
 			@ artifactGenerators
 				[
 					@ 'json/document'
+                    @ 'json/toyaml'
 					@ 'json/export'
+                    @ 'yaml/document'
 					@ 'ittf/document'
 					@ 'text/document'
 					@ 'wfschema/factory'
 					@ 'wfschema/model'
-					@ 'wfschema/html_docs'
+                    @ 'wfschema/html_docs'
 					@ 'xml/document'
 					@ 'xml/export'

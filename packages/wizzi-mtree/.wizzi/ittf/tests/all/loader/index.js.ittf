@@ -1,10 +1,10 @@
 ﻿base_test( index )
 	
 	$append imports
-		var mocks = require('./mocks/misc')
+		var mocks = require('../mocks/misc')
 		var file = require('wizzi-utils').file
 		var stringify = require('json-stringify-safe')
-		var loader = require('../../lib/loader')
+		var loader = require('../../../lib/loader')
     
 	var result
 	var store

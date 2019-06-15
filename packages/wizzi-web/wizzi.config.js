@@ -4,11 +4,16 @@ module.exports = {
     wfjobPath: path.join(__dirname, '.wizzi', 'generate.wfjob.ittf'), 
     destPath: path.join(__dirname, 'dist'),
     plugins: [
-        'wizzi-core', 
+        './wizzi-core/dist/index.js', 
         'wizzi-js', 
         'wizzi-web'
     ], 
+    pluginsBaseFolder: path.join(__dirname, '..'),
     schemas: [
+        'css',
+        'html',
+    ],
+    schemasStop: [
         'html',
         'css',
         'scss',
@@ -21,5 +26,6 @@ module.exports = {
     ],
     globalContext: {
         isPackageDeploy: true,
+        isDevelopment: false,
     },
 };

@@ -85,15 +85,16 @@
 			for var i = start; i < end; i++
 				_ ret.push(formatLineNumber(i + 1) + ' ' + statements[i])
 				if (i == errorData.row - 1)
-					var col = errorData.col
+					var col = errorData.pos || errorData.col
 					_ ret.push(spaces(col + 4) + '^ ' + (errorData.description + '  <--- --- --- --- --- ERROR' || ''))
 			return json ? ret : ret.join('\n')
 
 	function spaces
         param num
-		if num < 1
-			return ''
-		return Array(num + 1).join(" ")
+		if num > 0 && num < 100
+		    return Array(num + 1).join(" ")
+        else
+            return ''
     
 	function formatLineNumber
         param num

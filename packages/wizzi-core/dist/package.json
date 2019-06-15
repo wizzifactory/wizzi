@@ -1,6 +1,6 @@
 {
     "name": "wizzi-core",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "A Wizzi Factory plugin with core schemas and artifact generators.",
     "author": {
         "name": "Stefano Bassoli",
@@ -31,8 +31,9 @@
         "iconv-lite": "^0.4.15",
         "json-stringify-safe": "^5.0.1",
         "lodash": "^4.17.4",
-        "wizzi-mtree": "0.7.0",
-        "wizzi-utils": "0.7.3",
+        "wizzi-mtree": "0.7.3",
+        "wizzi-utils": "0.7.5",
+        "js-yaml": "^3.13.1",
         "wizzi-legacy-v5": "latest"
     },
     "devDependencies": {

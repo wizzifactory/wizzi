@@ -1,0 +1,8 @@
+﻿yaml
+    : name 'stefi'
+    : age 62
+    : order
+        - first
+        - second
+    surname: bassoli
+    title: dott

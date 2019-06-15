@@ -1,12 +1,14 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-web\.wizzi\ittf\lib\wizzi\models\html-mtree-preprocessor.g.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-web\.wizzi\ittf\lib\wizzi\models\html-mtree-preprocessor.g.js.ittf
 */
 'use strict';
 var HtmlJsPreprocessor = require('./html-js-mtre-preprocessor.g');
 module.exports = function(mTree, context) {
-    // log 'wizzi-web.html.preprocess.mTree', mTree
-    var state = {};
+    var state = {
+        mTree: mTree, 
+        parent: null
+    };
     var i, i_items=mTree.nodes[0].children, i_len=mTree.nodes[0].children.length, item;
     for (i=0; i<i_len; i++) {
         item = mTree.nodes[0].children[i];
@@ -64,7 +66,7 @@ function preprocessNode(node, state) {
     }
     else if (inferSvgInclude(node)) {
         node.n = '::media';
-        if (node.children[0].n !== 'svg') {
+        if (node.children[0] && node.children[0].n !== 'svg') {
             wrapChilds(node, {
                 n: 'svg', 
                 v: '', 
@@ -77,7 +79,7 @@ function preprocessNode(node, state) {
     }
     else if (inferReadyInclude(node)) {
         node.n = '::ready';
-        if (node.children[0].n !== 'module') {
+        if (node.children[0] && node.children[0].n !== 'module') {
             wrapChilds(node, {
                 n: 'module', 
                 v: '', 
@@ -95,6 +97,22 @@ function preprocessNode(node, state) {
     else if (inferJsonArrayInclude(node)) {
         node.n = '::data-array';
         return true;
+    }
+    else if (node.n === 'ittf-panel') {
+        node.wzMTreeData = {
+            mTree: state.mTree
+        };
+        var i, i_items=node.children, i_len=node.children.length, item;
+        for (i=0; i<i_len; i++) {
+            item = node.children[i];
+            if (item.n === 'ittf') {
+                node.wzMTreeData[item.n] = processIttf(item);
+            }
+            else {
+                node.wzMTreeData[item.n] = item.v;
+            }
+        }
+        node.children = [];
     }
     else {
         return false;
@@ -144,6 +162,32 @@ function inferJsonArrayInclude(node) {
         return true;
     }
     return false;
+}
+function childNameIsOneOf(node, names) {
+    var i, i_items=node.children, i_len=node.children.length, child;
+    for (i=0; i<i_len; i++) {
+        child = node.children[i];
+        var j, j_items=names, j_len=names.length, name;
+        for (j=0; j<j_len; j++) {
+            name = names[j];
+            if (child.n === name) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+function processIttf(node) {
+    if (node.n === '$raw') {
+        node.n = node.v;
+        node.v = '';
+    }
+    var i, i_items=node.children, i_len=node.children.length, child;
+    for (i=0; i<i_len; i++) {
+        child = node.children[i];
+        processIttf(child);
+    }
+    return node;
 }
 function childNameIsOneOf(node, names) {
     var i, i_items=node.children, i_len=node.children.length, child;

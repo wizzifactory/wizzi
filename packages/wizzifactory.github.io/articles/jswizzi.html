@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <link href="http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext" rel="stylesheet" type="text/css" />
+    <link href="../styles/article.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="doc-container">
+        <article>
+            <div class="doc-title">
+                JsWizzi</div>
+            <div class="doc-summary">
+                <p>JsWizzi is a subset of the ECMA-262 javascript standard used by
+                    the wizzi factory for processing ittf documents and build mTrees.JsWizzi uses the quite efficent <a href="http://esprima.org/">esprima</a> parserand is run by a custom javascript engine (JsWizziRunner).</p>
+                <p>Ittf documents may contain Js-Wizzi statements in
+                    <ul>
+                        <li>The value part of nodes (ittf node values are interpolated)<div class='ittf-panel'>
+                        <pre class='prettyprint'><code>
+                        <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">caption</span><span class="pp-kwd"> ${</span><span class="pp-expr"> name.capitalize() </span><span class="pp-kwd">}</span></div></div>
+                        </code></pre></div>
+                        </li>
+                        <li>Conditional expression of $if, $elif, $while command nodes<div class='ittf-panel'>
+                        <pre class='prettyprint'><code>
+                        <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-kwd">$if</span><span class="pp-expr"> name.substring(1,2) === 'is'</span></div></div>
+                        </code></pre></div>
+                        </li>
+                        <li>Collection name of $foreach command node<div class='ittf-panel'>
+                        <pre class='prettyprint'><code>
+                        <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-kwd">$foreach</span><span class="pp-pln"> item in model.getCollection('alfa')</span></div></div>
+                        </code></pre></div>
+                        </li>
+                        <li>Body of $ and $global command nodes<div class='ittf-panel'>
+                        <pre class='prettyprint'><code>
+                        <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-kwd">$</span><span class="pp-pln"> var beta = 100</span></div></div>
+                        </code></pre></div>
+                        </li>
+                    </ul>
+                </p>
+                <div class='ittf-panel'>
+                <div class='ittf-panel-title'>Sample JsWizzi expressions and statements</div>
+                <pre class='prettyprint'><code>
+                <div><div class="L1"><span class="pp-ln">   1 </span><span class="pp-pln"></span><span class="pp-tag">ul</span></div><div class="L2"><span class="pp-ln">   2 </span><span class="pp-pln">  </span><span class="pp-kwd">$</span><span class="pp-pln"> var i = 0;</span></div><div class="L3"><span class="pp-ln">   3 </span><span class="pp-pln">  </span><span class="pp-kwd">$while</span><span class="pp-pln"> i &lt; 10</span></div><div class="L4"><span class="pp-ln">   4 </span><span class="pp-pln">    </span><span class="pp-tag">li</span><span class="pp-pln"> counting </span><span class="pp-kwd">${</span><span class="pp-expr">i</span><span class="pp-kwd">}</span></div><div class="L5"><span class="pp-ln">   5 </span><span class="pp-pln">    </span><span class="pp-kwd">$</span><span class="pp-pln"> i++;</span></div></div>
+                </code></pre></div>
+                <p>The esprima syntax tree format is expected to be compatible
+                    with the Mozilla SpiderMonkey Parser API.</p>
+                <ul>Node types implemented by JsWizzi:
+                    <li>VariableDeclaration</li>
+                    <li>Statements<ul>
+                        <li>EmptyStatement</li>
+                        <li>ExpressionStatement</li>
+                        <li>IfStatement</li>
+                        <li>WhileStatement</li>
+                        <li>DoWhileStatement</li>
+                        <li>ForStatement</li>
+                        <li>ForInStatement</li>
+                        <li>BreakStatement</li>
+                        <li>ContinueStatement</li>
+                        <li>ReturnStatement</li>
+                        <li>TODO SwitchStatement</li>
+                    </ul>
+                    </li>
+                    <li>Expressions<ul>
+                        <li>UnaryExpression: !</li>
+                        <li>BinaryExpression: +. -, *, /, ==, ===, !=, !==, >=, >, <=, <</li>
+                        <li>UpdateExpressions: ++, --</li>
+                        <li>LogicalExpression: &&, ||</li>
+                        <li>ConditionalExpression: test ? consequent : alternate</li>
+                        <li>CallExpression</li>
+                        <li>MemberExpression</li>
+                        <li>AssignmentExpression: =, *=, /=, %=, +=, -=, <<=, >>=, >>>=, &=, ^=, |=</li>
+                        <li>ArrayExpression</li>
+                        <li>ObjectExpression</li>
+                        <li>FunctionCall</li>
+                    </ul>
+                    </li>
+                    <li>FunctionDeclaration<div>Simple function declaration. No prototypes. No function
+                        objects; functions cannot be built by code and used like objects.</div>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</body>
+
+</html>

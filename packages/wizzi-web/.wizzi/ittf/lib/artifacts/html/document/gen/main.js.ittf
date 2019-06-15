@@ -8,7 +8,7 @@
 	var utilNode = require('../../../util/utilNode')
 	var lineParser = require('../../../util/lineParser')
 	var lorem = require('wizzi-utils').lorem
-
+    var prettify = require('wizzi-utils').prettifyFromString
 	var myname = 'wizzi-web.htm1.document.main'
 
 	var md = module.exports = {}
@@ -288,7 +288,19 @@
 		r_cb(true)
 
 
-	async/md-stm( comment )
+	async/md-stm( ittfPanel )
+        _ ctx.w("<div class='ittf-panel'>")
+        if model.wzMTreeData.title
+            _ ctx.w("<div class='ittf-panel-title'>" + model.wzMTreeData.title + "</div>")
+        _ ctx.w("<pre class='prettyprint'><code>")
+        _ prettifyIttf
+            @ model.wzMTreeData
+            a_cb( result )
+                _ ctx.w("<div>" + result.ittfPretty + '</div>')
+                _ ctx.w("</code></pre></div>")
+                r_cb(true)
+
+    async/md-stm( comment )
 		if ctx.__iscode
 			_ ctx.w("// " + model.wzName)
 			r_cb(true)
@@ -322,7 +334,9 @@
 				set ctx.__needs_crlf = false
 				r_cb(true)
 
-	function preprocess
+	$include prettifyIttf
+
+    function preprocess
 		param model
 		param ctx
 		if model.wzTag == '.'

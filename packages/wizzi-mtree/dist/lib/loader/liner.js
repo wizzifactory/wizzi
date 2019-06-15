@@ -1,11 +1,17 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi-mono\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi-mono\packages\wizzi-mtree\.wizzi\ittf\lib\loader\liner.js.ittf
+    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\liner.js.ittf
 */
 'use strict';
 var util = require('util');
 /**
-     Reads an IttfDocument and extract an array of line descriptions
+     TODO Error management
+     The liner should detect invalid node names? Probably NO.
+     Node values are always valid and are always trimmed.
+     Spacing can be controlled using \b escapes. See nodifier.
+*/
+/**
+     Reads an IttfDocument and extract an array of node line descriptions
 */
 /**
      params

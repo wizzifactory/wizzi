@@ -78,7 +78,24 @@
                             @ this.values
                     else text
 			set this.isEmpty = false
-    
+
+		m writeAligned
+            param text
+			if this.writeFilePath != null
+				throw new Error('Cannot write when a file write has been requested: ' + this.writeFilePath)
+            if !verify.isString(text)
+                return 
+			foreach line in text.split('\n')
+				if i < i_len - 1 || line.length > 0
+					_ this.block.w
+						iif line.indexOf('{') > -1
+							then 
+								_ interpolate
+									@ line
+									@ this.values
+							else line
+			set this.isEmpty = false
+
 		m appendFile
             param filePath
             _ this.block.appendFile
