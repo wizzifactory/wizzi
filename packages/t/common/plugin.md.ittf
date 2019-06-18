@@ -21,15 +21,15 @@
 			tr
 				td 
                     $if plugin == null || schema.builtin
-                        + ${schema.name}
+                        span ${schema.name}
                     $else
-                        + <a href https://github.com/wizzifactory/wizzi/blob/master/packages/${plugin}/.wizzi/ittf/lib/wizzi/schemas/${schema.name}.wfschema.ittf>${schema.name}</a>
+                        span <a href https://github.com/wizzifactory/wizzi/blob/master/packages/${plugin}/.wizzi/ittf/lib/wizzi/schemas/${schema.name}.wfschema.ittf>${schema.name}</a>
 				td ${schema.title}
 				td
                     $if schema.builtin
-                        + yes
+                        span yes
                     $else
-                        + no
+                        span no
                 td
 					table
 						$foreach transformer in schema.transformers

@@ -20,11 +20,9 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-`<a href https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfjob.wfschema.ittf>wfjob</a>`
-<td>Wizzi job definition</td>
+<a href https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfjob.wfschema.ittf>wfjob</a><td>Wizzi job definition</td>
 <td>
-`no`
-<td>
+no<td>
 
 <table>
 </table>
@@ -37,11 +35,9 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-`<a href https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfschema.wfschema.ittf>wfschema</a>`
-<td>Wizzi schema definition</td>
+<a href https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfschema.wfschema.ittf>wfschema</a><td>Wizzi schema definition</td>
 <td>
-`no`
-<td>
+no<td>
 
 <table>
 </table>
@@ -69,11 +65,9 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-`json`
-<td>json wizzi language model</td>
+json<td>json wizzi language model</td>
 <td>
-`yes`
-<td>
+yes<td>
 
 <table>
 </table>
@@ -92,11 +86,9 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-`xml`
-<td>xml wizzi language model</td>
+xml<td>xml wizzi language model</td>
 <td>
-`yes`
-<td>
+yes<td>
 
 <table>
 </table>
@@ -115,11 +107,9 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-`text`
-<td>text wizzi language model</td>
+text<td>text wizzi language model</td>
 <td>
-`yes`
-<td>
+yes<td>
 
 <table>
 </table>
@@ -135,11 +125,9 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-`ittf`
-<td>ittf wizzi language model</td>
+ittf<td>ittf wizzi language model</td>
 <td>
-`yes`
-<td>
+yes<td>
 
 <table>
 <tr>
