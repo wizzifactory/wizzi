@@ -7,7 +7,7 @@
             title: 'Wizzi models'
         };
     
-    article()
+    article(&art)
 
         $include ./wizzimodels/introduction
         $include ./wizzimodels/generation

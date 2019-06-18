@@ -6,4 +6,10 @@ common/plugin_package( wizzi-web, ${wfpackage.version}, ${wfpackage.title}., ${w
     $append devDependencies
 
     $append scripts
+        examples:css "node examples/css"
+        examples:graphql "node examples/graphql"
         examples:html "node examples/html"
+        examples:md "node examples/md"
+        examples:svg "node examples/svg"
+        examples:vtt "node examples/vtt"
+        examples:vue "node examples/vue"

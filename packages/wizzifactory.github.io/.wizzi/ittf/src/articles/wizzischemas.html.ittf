@@ -7,7 +7,7 @@
             title: 'Wizzi schemas'
         };
     
-    article()
+    article(&art)
 
         $include ./wizzischemas/introduction
         $include ./wizzischemas/wfschema

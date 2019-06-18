@@ -6,6 +6,6 @@
             title: 'JsWizzi'
         };
     
-    article()
+    article(&art)
     
         $include ./jswizzi/introduction

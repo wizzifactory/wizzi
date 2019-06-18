@@ -1,0 +1,92 @@
+{
+	name "wizzifactory.github.io"
+	version "0.0.1"
+	description "Wizzi factory github page"
+	author "Stefano Bassoli"
+	license "MIT"
+
+    { Params
+        title "Wizzi factory"
+        baseUrl "http://127.0.0.1:5500/packages/wizzifactory.github.io"
+
+    { Section
+        [ items
+            {
+                title "Home"
+                url "/"
+            {
+                title "Docs"
+                url "/docs/concepts.html"
+            {
+                title "Resources"
+                url "/resources/index.html"
+            {
+                title "Packy"
+                url "/packy/index.html"
+            {
+                title "News"
+                url "/news/index.html"
+
+    { Article
+        [ items
+            {
+                title "Concepts"
+                url "/articles/concepts.html"
+            {
+                title "Ittf documents"
+                url "/articles/ittfdocuments.html"
+            {
+                title "JsWizzi"
+                url "/articles/jswizzi.html"
+            {
+                title "Wizzi schemas"
+                url "/articles/wizzischemas.html"
+            {
+                title "Wizzi models"
+                url "/articles/wizzimodels.html"
+            {
+                title "Artifacts"
+                url "/articles/artifacts.html"
+            {
+                title "Wizzi jobs"
+                url "/articles/wizzijobs.html"
+            {
+                title "Wizzi plugins"
+                url "/articles/wizziplugins.html"
+
+    { Starter
+        [ items
+            {
+                title "wizzi-starter-mern"
+                url "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/mern-starter"
+            {
+                title "wizzi-starter-nextjs"
+                url "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/nextjs-starter"
+            {
+                title "wizzi-starter-gatsby"
+                url "https://github.com/wizzifactory/wizzi-examples/tree/master/packages/gatsby-starter"
+
+    { Plugin
+        [ items
+            {
+                title "wizzi-js"
+                url "https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-js/dist"
+            {
+                title "wizzi-web"
+                url "https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-web/dist"
+            {
+                title "wizzi-lab"
+                url "https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-lab/dist"
+
+    { Colors
+        bg_0 "#333"
+        bg_f_0 "#000"
+		c_0  "#fff"
+        bg_dark "#333"
+        bg_dark_medium "#444"
+        c_dark "#fff"
+        c_dark_medium "#fff"
+        h3_c_dark "#fc0"
+
+
+

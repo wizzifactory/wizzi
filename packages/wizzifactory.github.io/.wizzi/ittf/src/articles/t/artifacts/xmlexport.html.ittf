@@ -11,13 +11,13 @@
 			+ a Wizzi Model, when its wizzi schema 
 			+ declare the export-to xml element.
 
-		h4 Sample wfjob artifact element using the xml/export artifact.
 		ittf-panel
+            title Sample wfjob artifact element using the xml/export artifact.
             ittf
-                - wfjob
-                    - ...
-                    - artifact xml export of model sample.form.ittf
-                        - src sample.form.ittf
-                        - schema form
-                        - generator xml/export
-                        - extension xml
+                wfjob
+                    ...
+                    artifact xml export of model sample.form.ittf
+                        src sample.form.ittf
+                        schema form
+                        generator xml/export
+                        extension xml

@@ -23,7 +23,7 @@ $group
             margin-top 0
             padding 0
             margin-bottom 1.45rem
-            list-style-position outside
+            list-style-position inside
             list-style-image none
             $$ list-style-type none
 

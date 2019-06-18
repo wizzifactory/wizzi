@@ -161,6 +161,7 @@
 		a style
 		a variant
 		a weight
+    e font-feature-settings : property
 	e font-family : property
 	e font-size : property
 	e font-style : property

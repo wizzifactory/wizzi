@@ -6,7 +6,7 @@
             title: 'Plugins'
         };
     
-    article()
+    article(&art)
     
         $include ./wizziplugins/introduction
         $include ./wizziplugins/architect

@@ -23,6 +23,19 @@
           "inheritedFrom": null,
           "restricts": [],
           "comments": []
+        },
+        {
+          "name": "useNormalize",
+          "type": "boolean",
+          "tags": [
+            "use-normalize"
+          ],
+          "default": "true",
+          "defaultWhenDeclared": "true",
+          "flags": "",
+          "inheritedFrom": null,
+          "restricts": [],
+          "comments": []
         }
       ],
       "relations": [
@@ -720,7 +733,7 @@
                                 {
                                   "tag": "@",
                                   "name": "jsPropertyOrValue",
-                                  "value": "value  prop[attr]",
+                                  "value": "value prop.wzName",
                                   "statements": []
                                 },
                                 {
@@ -2682,6 +2695,12 @@
           "name": "font",
           "tags": [
             "font"
+          ]
+        },
+        {
+          "name": "font_feature_settings",
+          "tags": [
+            "font-feature-settings"
           ]
         },
         {
@@ -7080,6 +7099,35 @@
           "comments": []
         }
       ],
+      "relations": [
+        {
+          "name": "property",
+          "role": "properties",
+          "tags": [
+            "@"
+          ],
+          "cardinality": "one-to-many",
+          "flags": "",
+          "inheritedFrom": "property",
+          "comments": [
+            "Nested property"
+          ]
+        }
+      ],
+      "derived": [],
+      "restricts": [],
+      "methods": [],
+      "comments": []
+    },
+    {
+      "name": "font_feature_settings",
+      "super": "property",
+      "isRoot": false,
+      "tags": [
+        "font-feature-settings"
+      ],
+      "flags": "",
+      "attributes": [],
       "relations": [
         {
           "name": "property",

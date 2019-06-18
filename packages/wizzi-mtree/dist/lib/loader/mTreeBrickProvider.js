@@ -108,7 +108,7 @@ var MTreeBrickProvider = (function () {
                 // log 'ittfContent', ittfContent
                 if (!ittfContent || ittfContent.trim().length == 0) {
                     // TODO document this
-                    return callback(new errors.IttfLoadError("Empty document", primaryIttfDocumentUri));
+                    return callback(new errors.IttfLoadError("Empty document", that.uri));
                 }
                 that.documentFinder = new IttfDocumentFinder(that.store, that.schema);
                 that.loadHistory = new LoadHistory();
@@ -196,7 +196,7 @@ var MTreeBrickProvider = (function () {
                     }
                     if (!ittfContent || ittfContent.trim().length == 0) {
                         // TODO document this
-                        return callback(new errors.IttfLoadError("Empty document", primaryIttfDocumentUri));
+                        return callback(new errors.IttfLoadError("Empty document", uri));
                     }
                     else {
                         that.loadMTreeBrickFromSource(uri, options, ittfContent, callback);

@@ -44,21 +44,33 @@ function executeExample() {
         getLoadModelAndWizziObject(function(err, result) {
             if (err) {
                 console.log('err', err);
-                throw new Error(err.message);
+                console.log('err.toString()', err.toString());
+                if (err.inner) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+                throw err;
             }
             result.loadModel(ittfSource, {
                 __productionManager: mocks.getProductionManager()
             }, function(err, htmlWizziModel) {
                 if (err) {
                     console.log('err', err);
-                    throw new Error(err.message);
+                    console.log('err.toString()', err.toString());
+                    if (err.inner) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                    throw err;
                 }
                 console.log('htmlWizziModel', htmlWizziModel);
                 var ctx = mocks.getGenContext(result.wizziObject.wizziFactory);
                 htmlgenerator.gen(htmlWizziModel, ctx, function(err, ctxout) {
                     if (err) {
                         console.log('err', err);
-                        throw new Error(err.message);
+                        console.log('err.toString()', err.toString());
+                        if (err.inner) {
+                            console.log('err.inner.toString()', err.inner.toString());
+                        }
+                        throw err;
                     }
                     console.log('ctxout', ctxout.getContent());
                     file.write(htmlOutput, ctxout.getContent());

@@ -3,7 +3,7 @@
 
 	#
 		# params
-		#   string code 
+		#   string errorName 
 		#     # the error name or number
 		#   string method
 		#   string message

@@ -102,7 +102,6 @@ RepoIOError.prototype = Object.create(Error.prototype);
 RepoIOError.prototype.constructor = RepoIOError;
 md.RepoIOError = RepoIOError;
 
-// credits https://rclayton.silvrback.com/custom-errors-in-node-js
 class WizziError extends Error {
     constructor(message, node, mTreeBrick, other) {
         super(message);

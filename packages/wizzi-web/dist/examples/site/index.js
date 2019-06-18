@@ -35,7 +35,11 @@ function executeExample() {
         }, function(err, wizziModel) {
             if (err) {
                 console.log('err', err);
-                throw new Error(err.message);
+                console.log('err.toString()', err.toString());
+                if (err.inner) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+                throw err;
             }
             console.log('site wizziModel', wizziModel);
             var demos = wizziModel.getDemosByPath('javascript/bundlers');

@@ -36,14 +36,22 @@ function executeExample() {
         }, function(err, wizziModel) {
             if (err) {
                 console.log('err', err);
-                throw new Error(err.message);
+                console.log('err.toString()', err.toString());
+                if (err.inner) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+                throw err;
             }
             console.log('svg wizziModel', wizziModel);
             var ctx = mocks.getGenContext();
             svggenerator.gen(wizziModel, ctx, function(err, ctxout) {
                 if (err) {
                     console.log('err', err);
-                    throw new Error(err.message);
+                    console.log('err.toString()', err.toString());
+                    if (err.inner) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                    throw err;
                 }
                 console.log('ctxout begin ========', '\n' + ctxout.getContent(), '\nctxout end ============');
                 file.write(svgOutput, ctxout.getContent());

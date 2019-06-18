@@ -6,7 +6,7 @@
             title: 'Wizzi jobs'
         };
     
-    article()
+    article(&art)
     
         $include ./wizzijobs/introduction
         $include ./wizzijobs/wfjob

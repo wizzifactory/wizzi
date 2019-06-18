@@ -13,7 +13,7 @@ var mocks = wizziUtils.mocks;
 var mtree = require('wizzi-mtree');
 var errors = wizziUtils.exampleErrors;
 var stringify = require('json-stringify-safe');
-var cssgenerator = require('../../lib/artifacts/css/document/gen/main');
+var cssgenerator = require('../../lib/artifacts/css2/document/gen/main');
 function executeExample() {
     
     var ittfPath = path.join(__dirname, 'ittf');
@@ -28,31 +28,35 @@ function executeExample() {
     function execute(name) {
         var ittfSource = path.join(__dirname, 'ittf', name + '.css.ittf');
         var cssOutput = path.join(__dirname, 'ittf', name + '.g.css');
-        if (wizzi == null) {
-            wizzi = require('wizzi');
-        }
         console.log('examples/css start loadModel', ittfSource);
-        wizzi.fsnoaclFactory({
-            plugins: {
-                items: [
-                    './index'
-                ], 
-                pluginsBaseFolder: path.resolve(__dirname, '..', '..')
-            }
-        }, function(err, wf) {
+        createWizziFactory({}, function(err, wf) {
             if (err) {
+                console.log('err', err);
+                console.log('err.toString()', err.toString());
+                if (err.inner) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
                 throw err;
             }
             wf.loadModel('css', ittfSource, {}, function(err, wizziModel) {
                 if (err) {
+                    console.log('err', err);
+                    console.log('err.toString()', err.toString());
+                    if (err.inner) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
                     throw err;
                 }
-                console.log('examples/css result wizziModel.rules', wizziModel.rules);
+                // log 'examples/css result wizziModel.rules', wizziModel.rules
                 var ctx = mocks.getGenContext(wf);
                 cssgenerator.gen(wizziModel, ctx, function(err, ctxout) {
                     if (err) {
                         console.log('err', err);
-                        throw new Error(err.message);
+                        console.log('err.toString()', err.toString());
+                        if (err.inner) {
+                            console.log('err.inner.toString()', err.inner.toString());
+                        }
+                        throw err;
                     }
                     console.log('ctxout begin ========', '\n' + ctxout.getContent(), '\nctxout end ============');
                     file.write(cssOutput, ctxout.getContent());
@@ -60,6 +64,21 @@ function executeExample() {
             });
         });
     }
+}
+function createWizziFactory(globalContext, callback) {
+    if (wizzi == null) {
+        wizzi = require('../../../../wizzi/dist/index');
+    }
+    console.log('"wizzi" package version', wizzi.version);
+    wizzi.fsnoaclFactory({
+        plugins: {
+            items: [
+                './index.js'
+            ], 
+            pluginsBaseFolder: path.resolve(__dirname, '..', '..')
+        }, 
+        globalContext: globalContext || {}
+    }, callback);
 }
 function getFiles(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
@@ -83,19 +102,6 @@ function getFilesData(srcpath, schema) {
         });
     }
     return ret;
-}
-function createWizziFactory(globalContext, callback) {
-    if (wizzi == null) {
-        // The wizzi package will be a previous version from wizzi-mono/node_modules
-        wizzi = require('wizzi');
-    }
-    console.log('"wizzi" package version', wizzi.version);
-    wizzi.fsnoaclFactory({
-        plugins: {
-            
-        }, 
-        globalContext: globalContext || {}
-    }, callback);
 }
 function getWizziObject(callback) {
     if (typeof(callback) === 'undefined') {

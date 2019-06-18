@@ -1,6 +1,6 @@
 {
     "name": "wizzi-core",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "description": "A Wizzi Factory plugin with core schemas and artifact generators.",
     "author": {
         "name": "Stefano Bassoli",

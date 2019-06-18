@@ -7,7 +7,7 @@ html
             title: 'Concepts'
         };
     
-    article()
+    article(&art)
 
         $include concepts/wizzifactory
         $include concepts/vision

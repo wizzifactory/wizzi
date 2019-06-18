@@ -1,8 +1,8 @@
 ﻿module
     kind jsfile
     
-	var verify = require('wizzi-utils').verify
-	var file = require('wizzi-utils').file
+	var file = require('../../fs/file')
+    var verify = require('../../verify')
     
 	class Line
         ctor

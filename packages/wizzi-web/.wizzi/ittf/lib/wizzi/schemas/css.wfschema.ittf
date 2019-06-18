@@ -2,15 +2,16 @@
 
 	# A schema modeling a css3 stylesheet document.
 
-	# ATTENTION in this model the classical python like comment char sharp(#) is replaced
+	# ATTENTION in this model the usual python like comment char sharp(#) is replaced
 	#           by the minus(-) char, see the comment element.
-	#           The sharp(#) is used for the idRule element.
+	#           The sharp char(#) is used for the idRule element.
 
 	e css
 		# The root element
 		is-root
 		
 		a charset
+        a_tag_flag( useNormalize, use-normalize, true )
 		
 		r resource/s
 		r rule/s
@@ -117,7 +118,7 @@
 						_ retval.push
 							{
 								@ name prop.wzTag
-								@ value  prop[attr] 
+								@ value prop.wzName
 								@ wzElement prop.wzElement
 								@ prop prop
 					elif verify.isNotEmpty(prop.wzName)

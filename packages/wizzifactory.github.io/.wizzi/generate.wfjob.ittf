@@ -3,6 +3,7 @@
 	$
 		var pkgName = 'wizzifactory.github.io';
 		var ittf_meta_folder      = path.join(__dirname, 'ittf', 'meta');
+        var ittf_models_folder    = path.join(__dirname, 'ittf', 'models');
 		var ittf_src_folder       = path.join(__dirname, 'ittf', 'src');
 		var ittf_root_folder      = path.join(__dirname, 'ittf', 'root');
 		var dest_folder           = path.join(__dirname, '..');
@@ -10,6 +11,11 @@
 	model meta
 		schema json
 		src ${ittf_meta_folder}/index.json.ittf
+
+    model app
+        export-name app
+        schema json
+        src ${ittf_models_folder}/app.json.ittf
 
 	line ittf-root
 		cwd-folder ${ittf_root_folder}
@@ -38,6 +44,7 @@
 
         wfjob/any_js()
         wfjob/any_css()
+        wfjob/any_svg()
         wfjob/any_html()
 		wfjob/any_plain(css)
 		wfjob/any_plain(js)

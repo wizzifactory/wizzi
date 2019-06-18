@@ -78,7 +78,7 @@
 									_ callback
 										new errors.IttfLoadError
 											@ "Empty document"
-											@ primaryIttfDocumentUri
+											@ that.uri
 							set that.documentFinder
 								new IttfDocumentFinder
 									@ that.store
@@ -171,7 +171,7 @@
 										_ callback
 											new errors.IttfLoadError
 												@ "Empty document"
-												@ primaryIttfDocumentUri
+												@ uri
 								else
 									_ that.loadMTreeBrickFromSource
 										@ uri

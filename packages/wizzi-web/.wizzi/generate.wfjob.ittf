@@ -19,6 +19,7 @@
 
 		wfjob/any_js()
 			ignore ${ittf_lib_artifacts}/**/*__copy/**/*.js.ittf
+        wfjob/any_plain(css)
 
 	line ittf-lib_models
 		cwd-folder ${ittf_lib_models}

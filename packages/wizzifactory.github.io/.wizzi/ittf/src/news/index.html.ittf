@@ -1,0 +1,14 @@
+html
+
+    $
+        var page = {
+            sectionTitle: 'News',
+            mainCss : app.Params.baseUrl + '/styles/article.css'
+        };
+
+	_layouts/default(&page)
+
+        . doc-container
+            article
+                h1 News
+

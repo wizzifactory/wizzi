@@ -21,10 +21,17 @@ md.gen = function(model, ctx, callback) {
             return callback(err);
         }
         // log 'exit', myname
-        var postCssResult = postcss().use(colorFunction({
-            preserveCustomProps: true
-        })).process(ctx.getContent()).css
-        ;
+        try {
+            var postCssResult = postcss().use(colorFunction({
+                preserveCustomProps: true
+            })).process(ctx.getContent()).css
+            ;
+        } 
+        catch (ex) {
+            if (ex.name === 'CssSyntaxError') {
+                return callback();
+            }
+        } 
         ctx.hydrate({
             lines: [
                 {

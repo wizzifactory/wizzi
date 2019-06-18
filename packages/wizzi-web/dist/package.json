@@ -1,6 +1,6 @@
 {
     "name": "wizzi-web",
-    "version": "0.7.2",
+    "version": "0.7.3",
     "description": "A wizzi factory plugin for html css scss svg markdown",
     "author": {
         "name": "Stefano Bassoli",
@@ -23,7 +23,13 @@
     },
     "scripts": {
         "test": "mocha tests/**/*.js --full-trace",
-        "examples:html": "node examples/html"
+        "examples:css": "node examples/css",
+        "examples:graphql": "node examples/graphql",
+        "examples:html": "node examples/html",
+        "examples:md": "node examples/md",
+        "examples:svg": "node examples/svg",
+        "examples:vtt": "node examples/vtt",
+        "examples:vue": "node examples/vue"
     },
     "dependencies": {
         "async": "^2.1.5",

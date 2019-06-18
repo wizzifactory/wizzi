@@ -6,7 +6,7 @@
             title: 'Ittf documents'
         };
     
-    article()
+    article(&art)
 
         $include ./ittfdocuments/introduction
         $include ./ittfdocuments/ittf-notation

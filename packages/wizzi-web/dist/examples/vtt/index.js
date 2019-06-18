@@ -36,14 +36,22 @@ function executeExample() {
         }, function(err, wizziModel) {
             if (err) {
                 console.log('err', err);
-                throw new Error(err.message);
+                console.log('err.toString()', err.toString());
+                if (err.inner) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+                throw err;
             }
             console.log('vtt wizziModel', JSON.stringify(wizziModel.toJson(), null, 2));
             var ctx = mocks.getGenContext();
             vttgenerator.gen(wizziModel, ctx, function(err, ctxout) {
                 if (err) {
                     console.log('err', err);
-                    throw new Error(err.message);
+                    console.log('err.toString()', err.toString());
+                    if (err.inner) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                    throw err;
                 }
                 console.log('ctxout', ctxout.getContent());
             });

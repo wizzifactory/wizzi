@@ -103,9 +103,9 @@ html
 
                     p &nbsp;
                     ul ITTF documents are of three kinds
-                        li primary, the document is the entry item of an ITTF processing.
-                        li mix, the document can receive parameters and my have hook nodes where to append child nodes of the merger document.
-                        li include, the document is inserted as is and cannot receive parameters.
+                        li Primary: the document is the entry item of an ITTF processing.
+                        li Mix: the document can receive parameters and my have hook nodes where to append child nodes of the merger document.
+                        li Include: the document is inserted as is and cannot receive parameters.
 
                     ittf-panel
                         title A sample 'mix' ITTF document.

@@ -1,7 +1,7 @@
 ﻿md
 	$params name, title 
 
-	h1 ${name} - ver 0.6 - plugin package
+	h1 ${name}
 	br
 	p ${title}
 	br
@@ -9,7 +9,7 @@
 	workinprogress()
 
 	h2 Features
-	h3 Implemented wizzi models
+	h3 Implemented Wizzi models
 	table
 		tr
 			th Schema
@@ -34,19 +34,19 @@
 	$hook
 
 	br
-	p Wizzi plugins are documented\b
+	p Wizzi plugins are documented \b
 		a here
 			href https://wizzifactory.github.io/docs/plugins.html
 		span .
 	br
-	p You can find a few samples in the /example folder, but you can find more
-		\b in the\b
+	p You can find a few samples in the /examples folder, but you can find more
+		\b in the \b
 		a demo package
-			href https://github.com/wizzifactory/wizzi/packages/wizzi-demo
+			href https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo
 		span .
 
 	h2 Source and generation
-	p ${name} is generated using the wizzi factory ver 0.5 
+	p ${name} is generated using the Wizzi factory ver 0.7 
 	br
 	
 	wf()

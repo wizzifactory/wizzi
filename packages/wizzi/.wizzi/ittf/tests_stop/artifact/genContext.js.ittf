@@ -110,7 +110,7 @@
 			tobe_string( result, alfa beta\n    gamma\ntau\n        sigma\n        first one\n            second one\nlambda\n )
 
 
-		it should write a file
+		it should write a file to genContext
 
 			var ctx
 				new genContext
@@ -138,6 +138,37 @@
 			var result = sw.toString()
 
 			tobe_string( result, first one\n\tsecond one\n )
+
+		it should append a file to genContext
+
+			var ctx
+				new genContext
+					{
+						@ options
+							{
+								@ data
+									{
+								@ indentSpaces 4
+								@ CRLF '\n'
+								@ isDebugLine false
+								@ indent 0
+						@ model null
+						@ srcPath null
+						@ pman null
+
+			_ ctx.writeFile
+				_ path.join
+					@ __dirname
+					@ 'ittf'
+					@ 'gc_one.ittf'
+
+			var sw = new StringWriter()
+			_ ctx.toStream(sw)
+			var result = sw.toString()
+
+			tobe_string( result, first one\n\tsecond one\n )
+
+
 
 
 

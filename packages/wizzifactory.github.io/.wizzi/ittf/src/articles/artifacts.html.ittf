@@ -6,7 +6,7 @@
             title: 'Artifacts'
         };
     
-    article()
+    article(&art)
     
         $include ./artifacts/introduction
         $include ./artifacts/implementation

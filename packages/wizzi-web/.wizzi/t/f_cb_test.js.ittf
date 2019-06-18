@@ -6,5 +6,8 @@
 		param ${result}
 		if err
 			log 'err', err
-			throw new Error(err.message)
+            log 'err.toString()', err.toString()
+            if err.inner
+                log 'err.inner.toString()', err.inner.toString()
+			throw err
 		$hook

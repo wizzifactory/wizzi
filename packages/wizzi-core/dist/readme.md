@@ -1,4 +1,4 @@
-# wizzi-core - ver 0.6 - plugin package
+# wizzi-core
 
 A Wizzi Factory plugin with core schemas and artifact generators.
 
@@ -8,7 +8,7 @@ Availability of features will be announced
 on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.com/wizzifactory)
 
 ## Features
-### Implemented wizzi models
+### Implemented Wizzi models
 
 <table>
 <tr>
@@ -141,14 +141,14 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 
 
 
-<p>Wizzi plugins are documented<a href="https://wizzifactory.github.io/docs/plugins.html">here</a>.</p>
+<p>Wizzi plugins are documented <a href="https://wizzifactory.github.io/docs/plugins.html">here</a>.</p>
 
 
 
-<p>You can find a few samples in the /example folder, but you can find more in the<a href="https://github.com/wizzifactory/wizzi/packages/wizzi-demo">demo package</a>.</p>
+<p>You can find a few samples in the /examples folder, but you can find more in the <a href="https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo">demo package</a>.</p>
 
 ## Source and generation
-wizzi-core is generated using the wizzi factory ver 0.5
+wizzi-core is generated using the Wizzi factory ver 0.7
 
 ## The Wizzi Factory
 

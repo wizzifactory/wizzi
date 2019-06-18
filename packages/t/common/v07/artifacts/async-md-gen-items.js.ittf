@@ -1,4 +1,5 @@
 ﻿$group
+    $params &md
 
     set md.genItems
         function
@@ -43,7 +44,10 @@
             param model
             param ctx
             param callback
-            var method = md[model.wzElement]
+            $if md.useStmNamespace
+                var method = md.stm[model.wzElement]
+            $else
+                var method = md[model.wzElement]
             if method
                 return
                     _ method

@@ -31,15 +31,22 @@
 					@ model
 					f_cb()
 						# log 'exit', myname
-                        var postCssResult
-                            _ postcss
-                                ._ use
-                                    _ colorFunction
-                                        { 
-                                            @ preserveCustomProps true
-                                ._ process
-                                    _ ctx.getContent
-                                . css
+                        try
+                            var postCssResult
+                                _ postcss
+                                    ._ use
+                                        _ colorFunction
+                                            { 
+                                                @ preserveCustomProps true
+                                    ._ process
+                                        _ ctx.getContent
+                                    . css
+                        catch ex
+                            if ex.name === 'CssSyntaxError'
+                                return
+                                    _ callback
+                                    
+                                
                         _ ctx.hydrate
                             {
                                 [ lines

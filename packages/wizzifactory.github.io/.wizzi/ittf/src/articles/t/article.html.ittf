@@ -1,10 +1,31 @@
 $group
+    $params &art
+
+    $
+        var page = {
+            sectionTitle: 'Docs'
+        };
+
     head
         link
             href http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext
             rel stylesheet
-            type text/css    
+            type text/css   
         css ../styles/article.css
+    
     body
+        _includes/header(&page)
         . doc-container
-            $hook
+            . w-4-5
+                $hook
+            . w-1-5
+                . aside-right
+                    div
+                        style padding-top: 40px;
+                    ul
+                        $foreach item in app.Article.items
+                            li
+                                $if item.title === art.title
+                                    class current
+                                a ${item.title}
+                                    href ${app.Params.baseUrl}${item.url}
