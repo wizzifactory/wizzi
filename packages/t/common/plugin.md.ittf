@@ -1,5 +1,5 @@
 ﻿md
-	$params name, title 
+	$params name, title , plugin|@@null
 
 	h1 ${name}
 	br
@@ -18,7 +18,12 @@
 			th Artifacts
 		$foreach schema in wfpackage.schemas
 			tr
-				td ${schema.name}
+				td 
+                    $if plugin == null || schema.builtin
+                        + ${schema.name}
+                    $else
+                        a ${schema.name}
+                            href https://github.com/wizzifactory/wizzi/blob/master/packages/${plugin}/.wizzi/ittf/lib/wizzi/schemas/${schema.name}.wfschema.ittf
 				td ${schema.title}
 				td
 					table
@@ -36,7 +41,7 @@
 	br
 	p Wizzi plugins are documented \b
 		a here
-			href https://wizzifactory.github.io/docs/plugins.html
+			href https://wizzifactory.github.io/docs/wizziplugins.html
 		span .
 	br
 	p You can find a few samples in the /examples folder, but you can find more

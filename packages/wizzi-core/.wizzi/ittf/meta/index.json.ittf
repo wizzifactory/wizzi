@@ -28,6 +28,7 @@
         {
             name 'json'
             title 'json wizzi language model'
+            builtin true
             [ transformers
             [ artifacts
                 {
@@ -37,6 +38,7 @@
         {
             name 'xml'
             title 'xml wizzi language model'
+            builtin true
             [ transformers
             [ artifacts
                 {
@@ -46,6 +48,7 @@
         {
             name 'text'
             title 'text wizzi language model'
+            builtin true
             [ transformers
             [ artifacts
                 {
@@ -53,6 +56,7 @@
         {
             name 'ittf'
             title 'ittf wizzi language model'
+            builtin true
             [ transformers
                 {
                     name 'ittf/html_prettify'

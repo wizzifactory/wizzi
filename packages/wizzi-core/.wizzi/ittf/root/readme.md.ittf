@@ -1,2 +1,2 @@
-﻿common/plugin( wizzi-core, ${wfpackage.title}. )
+﻿common/plugin( wizzi-core, ${wfpackage.title}., ${wfpackage.name} )
 
