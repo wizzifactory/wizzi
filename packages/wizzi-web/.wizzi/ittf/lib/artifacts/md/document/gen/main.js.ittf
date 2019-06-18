@@ -227,11 +227,6 @@
 			_ ctx.write('**')
 			return true;
 	
-		md-gen-method( span )
-			_ ctx.write(model.wzName)
-			_ this.genItems(model.elements, ctx)
-			return true;
-	
 		md-gen-method( blank )
 			_ ctx.write(' ' + model.wzName)
 			_ this.genItems(model.elements, ctx)

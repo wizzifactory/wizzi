@@ -72,7 +72,7 @@
 	br
 	
 	h2 License
-	p This project is licensed under the MIT License - see the\b
-		a license.txt\b
+	p This project is licensed under the MIT License - see the \b
+		a license.txt
 			href license.txt
-		p for details.
+		span \b for details.

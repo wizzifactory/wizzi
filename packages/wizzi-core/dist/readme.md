@@ -184,5 +184,5 @@ A model driven artifact factory.
 
 ## License
 
-<p>This project is licensed under the MIT License - see the<a href="license.txt">license.txt</a><p>for details.</p></p>
+<p>This project is licensed under the MIT License - see the <a href="license.txt">license.txt</a> for details.</p>
 
