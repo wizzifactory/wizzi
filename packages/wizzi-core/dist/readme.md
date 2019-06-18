@@ -14,13 +14,16 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 <tr>
 <th>Schema</th>
 <th>Descriptionn</th>
+<th>Builtin</th>
 <th>Model transformers</th>
 <th>Artifacts</th>
 </tr>
 <tr>
 <td>
-[wfjob](https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfjob.wfschema.ittf)
+`<a href https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfjob.wfschema.ittf>wfjob</a>`
 <td>Wizzi job definition</td>
+<td>
+`no`
 <td>
 
 <table>
@@ -34,8 +37,10 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 </tr>
 <tr>
 <td>
-[wfschema](https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfschema.wfschema.ittf)
+`<a href https://github.com/wizzifactory/wizzi/blob/master/packages/wizzi-core/.wizzi/ittf/lib/wizzi/schemas/wfschema.wfschema.ittf>wfschema</a>`
 <td>Wizzi schema definition</td>
+<td>
+`no`
 <td>
 
 <table>
@@ -67,6 +72,8 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 `json`
 <td>json wizzi language model</td>
 <td>
+`yes`
+<td>
 
 <table>
 </table>
@@ -87,6 +94,8 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 <td>
 `xml`
 <td>xml wizzi language model</td>
+<td>
+`yes`
 <td>
 
 <table>
@@ -109,6 +118,8 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 `text`
 <td>text wizzi language model</td>
 <td>
+`yes`
+<td>
 
 <table>
 </table>
@@ -126,6 +137,8 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 <td>
 `ittf`
 <td>ittf wizzi language model</td>
+<td>
+`yes`
 <td>
 
 <table>
@@ -151,7 +164,7 @@ on [Twitter](https://twitter.com/wizziteam) and [Facebook](https://www.facebook.
 
 
 
-<p>You can find a few samples in the /examples folder, but you can find more in the <a href="https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo">demo package</a>.</p>
+<p>You can find a few samples in the /examples folder, but you can find more in the <a href="https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins">demo package</a>.</p>
 
 ## Source and generation
 wizzi-core is generated using the Wizzi factory ver 0.7

@@ -14,6 +14,7 @@
 		tr
 			th Schema
 			th Descriptionn
+            th Builtin
 			th Model transformers
 			th Artifacts
 		$foreach schema in wfpackage.schemas
@@ -22,10 +23,14 @@
                     $if plugin == null || schema.builtin
                         + ${schema.name}
                     $else
-                        a ${schema.name}
-                            href https://github.com/wizzifactory/wizzi/blob/master/packages/${plugin}/.wizzi/ittf/lib/wizzi/schemas/${schema.name}.wfschema.ittf
+                        + <a href https://github.com/wizzifactory/wizzi/blob/master/packages/${plugin}/.wizzi/ittf/lib/wizzi/schemas/${schema.name}.wfschema.ittf>${schema.name}</a>
 				td ${schema.title}
 				td
+                    $if schema.builtin
+                        + yes
+                    $else
+                        + no
+                td
 					table
 						$foreach transformer in schema.transformers
 							tr
@@ -47,7 +52,7 @@
 	p You can find a few samples in the /examples folder, but you can find more
 		\b in the \b
 		a demo package
-			href https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo
+			href https://github.com/wizzifactory/wizzi/tree/master/packages/wizzi-demo/.wizzi/ittf/examples/advanced/plugins
 		span .
 
 	h2 Source and generation
