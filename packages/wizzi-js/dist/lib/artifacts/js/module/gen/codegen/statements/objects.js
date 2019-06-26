@@ -71,7 +71,7 @@ md.load = function(cnt) {
         if (typeof callback === 'undefined') {
             throw new Error('Missing callback parameter in fn: ' + myname + '.jsPropertyOrValue_with_stm_children');
         }
-        console.log('js.module.statements.object.model.wzName, model.statements.length', model.wzName, model.statements.length);
+        // log 'js.module.statements.object.model.wzName, model.statements.length', model.wzName, model.statements.length
         var colon = (ctx.isGraphql && !ctx.isNamedCallParam) ? ' ' : ': ';
         if (u.parentIsHtmlElement(model)) {
             // Attributes have been already processed

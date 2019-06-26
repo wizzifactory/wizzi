@@ -9,6 +9,9 @@ function objectify(value, type, node, unquote) {
     if (value === '@@null') {
         return null;
     }
+    if (value === '@@empty') {
+        return "";
+    }
     if (value === '@@undefined') {
         return undefined;
     }

@@ -59,6 +59,16 @@ var IttfDocumentFinder = (function () {
         }
         var ittfDocumentUri = options.ittfDocumentUri,
             relpath = options.relpath;
+        if (options.includerMTreeBrick && options.includerMTreeBrick.documentFragments) {
+            var i, i_items=options.includerMTreeBrick.documentFragments, i_len=options.includerMTreeBrick.documentFragments.length, item;
+            for (i=0; i<i_len; i++) {
+                item = options.includerMTreeBrick.documentFragments[i];
+                if (item.value === relpath) {
+                    ittfDocumentUri = path.join(options.basedir, relpath + '__$fragment');
+                    return callback(null, ittfDocumentUri);
+                }
+            }
+        }
         if (verify.isNotEmpty(ittfDocumentUri) === false) {
             var basedir = options.basedir;
             if (verify.isNotEmpty (basedir) === false || verify.isAbsolutePath(basedir) === false) {
@@ -92,7 +102,6 @@ var IttfDocumentFinder = (function () {
                         return callback(null, tresult.ittfDocumentUri);
                     }
                     else {
-                        console.log('IttfDocumentFinder.resolvePath options', options, that.schema);
                         return callback(error('IttfNotFound', 'resolvePath', 'Cannot find ittf document: ' + ittfDocumentUri));
                     }
                 });

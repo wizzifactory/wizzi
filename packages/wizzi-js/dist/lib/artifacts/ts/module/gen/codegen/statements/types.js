@@ -542,7 +542,7 @@ md.load = function(cnt) {
             if (index_1 > 0) {
                 ctx.write(' | ');
             }
-            console.log('typeUnion.item_1.wzElement', item_1.wzElement, item_1.wzName);
+            // log 'typeUnion.item_1.wzElement', item_1.wzElement, item_1.wzName
             cnt.genItem(item_1, ctx, (err, notUsed) => {
                 if (err) {
                     return callback(err);

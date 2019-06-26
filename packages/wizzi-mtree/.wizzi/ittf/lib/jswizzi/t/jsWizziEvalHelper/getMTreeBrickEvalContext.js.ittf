@@ -56,10 +56,19 @@
 		# If the mTreeBrick do not receives parameters
 		# a refresh of the eval context is not required 
 		
-		if verify.isEmpty(mTreeBrickData.mTreeBrick.$params)
+		# log 'wizzi-mtree.jsWizziEvalHelper.brickKey.sourceKey.$args,$params.name,value', 
+            \b mTreeBrickData.brickKey, 
+            \b mTreeBrickData.sourceKey, 
+            \b mTreeBrickData.mTreeBrick.$args, 
+            \b mTreeBrickData.mTreeBrick.$params,
+            \b mTreeBrickData.mTreeBrick.nodes[0].name,  
+            \b mTreeBrickData.mTreeBrick.nodes[0].value  
+
+        if verify.isEmpty(mTreeBrickData.mTreeBrick.$params)
 			return
 				
 		var args = mTreeBrickData.mTreeBrick.$args 
+        var interpolateArgsContext
 				
 		if args && args.indexOf('${') > -1
 					
@@ -75,11 +84,17 @@
 				# Then we create a temporary JsWizziContext and load it with the
 				# context values of both the global context and the mixer mTreeBrick
 				# eval context.
-				if JsWizziContext == null
+                set interpolateArgsContext
+                    _ this.getInterpolateContext
+                        @ mTreeBrickData
+
+				$* VIA
+                if JsWizziContext == null
 					set JsWizziContext = require('./jsWizziContext')
-				var interpolateArgsContext = new JsWizziContext()
+				set interpolateArgsContext = new JsWizziContext()
 				_ interpolateArgsContext.setValues(this.jsWizziContext.globalContext.getSettableValues())
 				_ interpolateArgsContext.setValues(mixer_mTreeBrick_EvalContext.getValues())
+                *$
 				
 				# TODO the values of the mixer can be modified by the mixed during interpolation
 				#      if so, what does it means? Needs investigation.
@@ -131,11 +146,24 @@
 					@ item.name
 					@ mixer_mTreeBrick_EvalContext.getValue(item.name)
 						
-				# VIA set mTreeBrickData.byRefParams = (mTreeBrickData.byRefParams || [])
-				# VIA _ mTreeBrickData.byRefParams.push
-				# VIA 	@ item.name
-					
-			else 
+			elif item.defaultIsByRef
+				
+                _ mTreeBrick_EvalContext.setValue
+					@ item.name
+					@ this.jsWizziContext.globalContext.getValue(item.defaultName)
+
+            elif item.isIttfMacro
+
+                if !interpolateArgsContext
+                    set interpolateArgsContext
+                        _ this.getInterpolateContext
+                            @ mTreeBrickData
+                var ip_value = interpolate(item.value, interpolateArgsContext)
+				_ mTreeBrick_EvalContext.setValue
+					@ item.name
+					@ ip_value
+
+            else 
 				
 				# The argument is passed by value, so the calculated
 				# parameter can be added to the eval context of the mixed mTreeBrick
@@ -143,3 +171,16 @@
 				_ mTreeBrick_EvalContext.setValue
 					@ item.name
 					@ item.value
+
+    m getInterpolateContext
+        param mTreeBrickData
+
+        checked_call_return( mixer_mTreeBrick_EvalContext
+            _ this.getMTreeBrickEvalContext
+                @ mTreeBrickData.mTreeBrick.$mixerBrickKey
+        if JsWizziContext == null
+            set JsWizziContext = require('./jsWizziContext')
+        var interpolateArgsContext = new JsWizziContext()
+        _ interpolateArgsContext.setValues(this.jsWizziContext.globalContext.getSettableValues())
+        _ interpolateArgsContext.setValues(mixer_mTreeBrick_EvalContext.getValues())
+        return interpolateArgsContext

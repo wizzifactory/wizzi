@@ -17,7 +17,7 @@ md.gen = function(model, ctx, callback) {
             ctx.write('async ');
         }
     }
-    console.log('++++ __is_react_class', ctx.__is_react_class, method);
+    // log '++++ __is_react_class', ctx.__is_react_class, method
     if (ctx.__is_react_class) {
         ctx.w(method + '(' + model.paramNames.join(', ') + ') {');
     }

@@ -231,10 +231,12 @@ class JsWizziEvalHelper {
     _updateEvalContext(mTreeBrickData, mTreeBrick_EvalContext) {
         // If the mTreeBrick do not receives parameters
         // a refresh of the eval context is not required
+        // log 'wizzi-mtree.jsWizziEvalHelper.brickKey.sourceKey.$args,$params.name,value', mTreeBrickData.brickKey, mTreeBrickData.sourceKey, mTreeBrickData.mTreeBrick.$args, mTreeBrickData.mTreeBrick.$params, mTreeBrickData.mTreeBrick.nodes[0].name, mTreeBrickData.mTreeBrick.nodes[0].value
         if (verify.isEmpty(mTreeBrickData.mTreeBrick.$params)) {
             return ;
         }
         var args = mTreeBrickData.mTreeBrick.$args;
+        var interpolateArgsContext;
         if (args && args.indexOf('${') > -1) {
             /**
                 Mixin call arguments may contain IttfMacros,
@@ -250,12 +252,7 @@ class JsWizziEvalHelper {
                 // Then we create a temporary JsWizziContext and load it with the
                 // context values of both the global context and the mixer mTreeBrick
                 // eval context.
-                if (JsWizziContext == null) {
-                    JsWizziContext = require('./jsWizziContext');
-                }
-                var interpolateArgsContext = new JsWizziContext();
-                interpolateArgsContext.setValues(this.jsWizziContext.globalContext.getSettableValues());
-                interpolateArgsContext.setValues(mixer_mTreeBrick_EvalContext.getValues());
+                interpolateArgsContext = this.getInterpolateContext(mTreeBrickData);
                 // TODO the values of the mixer can be modified by the mixed during interpolation
                 // if so, what does it means? Needs investigation.
                 // then we interpolate the arguments passed to the mixed mTree brick
@@ -292,9 +289,16 @@ class JsWizziEvalHelper {
                     return mixer_mTreeBrick_EvalContext;
                 }
                 mTreeBrick_EvalContext.setValue(item.name, mixer_mTreeBrick_EvalContext.getValue(item.name));
-                // VIA set mTreeBrickData.byRefParams = (mTreeBrickData.byRefParams || [])
-                // VIA _ mTreeBrickData.byRefParams.push
-                // VIA 	@ item.name
+            }
+            else if (item.defaultIsByRef) {
+                mTreeBrick_EvalContext.setValue(item.name, this.jsWizziContext.globalContext.getValue(item.defaultName));
+            }
+            else if (item.isIttfMacro) {
+                if (!interpolateArgsContext) {
+                    interpolateArgsContext = this.getInterpolateContext(mTreeBrickData);
+                }
+                var ip_value = interpolate(item.value, interpolateArgsContext);
+                mTreeBrick_EvalContext.setValue(item.name, ip_value);
             }
             else {
                 // The argument is passed by value, so the calculated
@@ -302,6 +306,19 @@ class JsWizziEvalHelper {
                 mTreeBrick_EvalContext.setValue(item.name, item.value);
             }
         }
+    }
+    getInterpolateContext(mTreeBrickData) {
+        var mixer_mTreeBrick_EvalContext = this.getMTreeBrickEvalContext(mTreeBrickData.mTreeBrick.$mixerBrickKey);
+        if (mixer_mTreeBrick_EvalContext && mixer_mTreeBrick_EvalContext.__is_error) {
+            return mixer_mTreeBrick_EvalContext;
+        }
+        if (JsWizziContext == null) {
+            JsWizziContext = require('./jsWizziContext');
+        }
+        var interpolateArgsContext = new JsWizziContext();
+        interpolateArgsContext.setValues(this.jsWizziContext.globalContext.getSettableValues());
+        interpolateArgsContext.setValues(mixer_mTreeBrick_EvalContext.getValues());
+        return interpolateArgsContext;
     }
 }
 function remacro(value) {

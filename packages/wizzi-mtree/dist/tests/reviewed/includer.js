@@ -60,6 +60,15 @@ describe("includer", function() {
         getFSDocumentStore(function(err, fsStore) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             store = fsStore;
@@ -75,12 +84,30 @@ describe("includer", function() {
         }, function(err, provider) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             var mTree = provider.getPrimaryMTreeBrick();
             includer(mTree, provider, function(err, includedModel) {
                 if (err) {
                     console.log('err', err);
+                    if (err.toString()) {
+                        console.log('err.toString()', err.toString());
+                    }
+                    if (err.inner) {
+                        console.log('err.inner', err.inner);
+                        if (err.inner.toString) {
+                            console.log('err.inner.toString()', err.inner.toString());
+                        }
+                    }
                     throw new Error(err.message);
                 }
                 node = includedModel.nodes[0];
@@ -115,6 +142,15 @@ describe("includer", function() {
         }, function(err, provider) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             var mTree = provider.getPrimaryMTreeBrick();

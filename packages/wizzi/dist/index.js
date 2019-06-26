@@ -8,6 +8,7 @@ var util = require('util');
 var path = require('path');
 var chalk = require('chalk');
 var async = require('async');
+var stringify = require('json-stringify-safe');
 
 var verify = require('wizzi-utils').verify;
 var log = require('./lib/util/log')(module);
@@ -453,7 +454,7 @@ function executeWizziJob_step2(jobRequest, callback) {
             
             pman.run(function(err, result) {
                 if (err) {
-                    console.log('executeWizziJob_step2.error', JSON.stringify(err));
+                    console.log('executeWizziJob_step2.error', err);
                     err.wizziJob = jobName;
                     err.wizziJobStep = 'Running job';
                     err.wizziJobIttfSourceUri = jobPath;
@@ -1520,7 +1521,7 @@ md.generateFolderArtifacts = function(ittfDocumentPath, context, options, callba
             if (err) {
                 return callback(err);
             }
-            console.log('generateFolderArtifacts\n', JSON.stringify(items, null, 2));
+            console.log('generateFolderArtifacts\n', stringify(items, null, 2));
             async.mapSeries(items, function(item, callback) {
                 if (item.isIttfDocument) {
                     md.gen(item.fullPath, context, function(err, artifactText) {

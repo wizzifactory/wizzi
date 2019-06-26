@@ -62,6 +62,15 @@ describe("appender", function() {
         getFSDocumentStore(function(err, fsStore) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             store = fsStore;

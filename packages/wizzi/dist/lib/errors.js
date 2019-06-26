@@ -113,7 +113,6 @@ function WizziModelLoadError(message, srcPath, ex) {
     // 5/10/17 set this.stack = (new Error()).stack
 }
 WizziModelLoadError.prototype.toString = function() {
-    console.log('++++++++++++++++++++++++++ WizziModelLoadError.prototype.toString')
     var msg = [this.message];
     if (this.inner) {
         msg.push('Inner error:');

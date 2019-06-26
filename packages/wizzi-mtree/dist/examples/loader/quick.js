@@ -40,6 +40,15 @@ var quick = function(step_callback) {
         }, function(err, mTree) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             printValue('mTree.nodes[0]', mTree.nodes[0]);

@@ -37,6 +37,6 @@ function execute(jobName, callback) {
             console.log('err', err);
             throw new Error(err.message);
         }
-        console.log("results of job " + jobName + "\n", JSON.stringify(jobResults, null, 2));
+        console.log("results of job " + jobName + "\n", stringify(jobResults, null, 2));
     });
 }

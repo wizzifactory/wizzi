@@ -4,14 +4,15 @@
 		# Rules
 		# Node command format
 		#   > $params param1 [,param2 [,param-n]]
-		#   param   : [&]name[:type][|default]
-		#   &       : the paramater is an object passed by reference
-		#   name    : the name of the parameter to use in IttfMacro expressions
+		#   param   : [&]name[:type][|[&]default]
+		#   &name   : the paramater is an object passed by reference, the name can be used in IttfMacro expressions
+		#   name    : the paramater is a value, the name can be used in IttfMacro expressions
 		#   type    : the parameter type
 		#             one-of : string(default), integer, float, boolean, date, object (implicit
 		#                      when '&' declared), macro (implicit, detected from IttfMacro delimiters
 		#                      contained in the default value)
-		#   default : typed-value | @@null | @@undefined
+		#   &default : the default is an object in the global context, default is its name
+        #   default  : typed-value | @@null | @@empty | @@undefined
 		#             // warning! `title|null` becomes title = "null" (the quoted string null)
 		#             // if you want title to be null then : `title|@@null`
 		#   string  : quotes are optional, example: `title|"my way"` and `title|my way` are the same
@@ -51,6 +52,7 @@
                 decl value = null
                 decl hasparamvalue = false
                 decl hasdefaultvalue = false
+                decl defaultName = null
             
 			# a param may have the format
 			# 1) name
@@ -124,16 +126,19 @@
 
                 set hasparamvalue = true
             elif hasdefaultvalue
-                set value = verify.convert(defaultValue, type, true)
-				if value && value.__is_error
-					return
-						_ local_error
-							@ 'MixinParamError'
-							@ 'calcParamValues'
-							@ 'Error evaluating: $params ' + params +
-								\b ', converting parameter: ' + i + '/' + name + ' to type ' + type
-							@ mTreeBrickRoot
-							@ value
+                if defaultValue.substr(0, 1) === '&'
+                    set defaultName = defaultValue.substr(1)
+                else
+                    set value = verify.convert(defaultValue, type, true)
+                    if value && value.__is_error
+                        return
+                            _ local_error
+                                @ 'MixinParamError'
+                                @ 'calcParamValues'
+                                @ 'Error evaluating: $params ' + params +
+                                    \b ', converting parameter: ' + i + '/' + name + ' to type ' + type
+                                @ mTreeBrickRoot
+                                @ value
             else
 				return
 					_ local_error
@@ -142,12 +147,16 @@
 						@ 'Error evaluating: $params ' + params +
 							\b ', missing value for not optional argument ' + i + ' = ' + name
 						@ mTreeBrickRoot
-            
+
 			var isIttfMacro
+                $* 25/6/19
                 iif type === 'object'
                     then false
                     else 
-                        _ verify.isIttfMacro(value)
+                *$
+                _ verify.isIttfMacro(value)
+
+            $$ log 'wizzi-mtree.calcParamValues.isIttfMacro', isIttfMacro, value
             
 			_ result.push
                 { 
@@ -160,6 +169,8 @@
                     @ type type
                     @ isIttfMacro isIttfMacro
                     @ isByRef type === 'object'
+                    @ defaultName defaultName
+                    @ defaultIsByRef defaultName != null
         
 		return result
 

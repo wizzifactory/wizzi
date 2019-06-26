@@ -63,7 +63,7 @@
 				$hook
 
 				if ret != null
-					$if __isText
+					if __isText
 						set ret.textified = ret.name
 
 					$if isName

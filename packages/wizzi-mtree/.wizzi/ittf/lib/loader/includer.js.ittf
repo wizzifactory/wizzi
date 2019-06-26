@@ -12,6 +12,7 @@
 		# Ittf commands
 		#   $include
 		#   $json
+        #   $fragment
     
 	var includer
         set module.exports =
@@ -26,11 +27,19 @@
 				var jsons
                     [ 
                 
+				var fragments
+                    [ 
+
 				foreach node in primaryMTreeBrick.nodes
                     _ searchCommands
                         @ node
                         @ includes
                         @ jsons
+                        @ fragments
+
+                # log 'wizzi-mtree.includer.fragments before', primaryMTreeBrick.documentFragments
+                set primaryMTreeBrick.documentFragments = fragments
+                # log 'wizzi-mtree.includer.fragments after', primaryMTreeBrick.documentFragments
                 
 				_ async.mapSeries
 					@ includes
@@ -47,6 +56,7 @@
 								@ relpath v
 								@ include true
 								@ includerBrickKey item.model.brickKey
+                                @ includerMTreeBrick primaryMTreeBrick
 							f_cb_no_err( includedWipNodifiedMTree )
 								if err
                                     $* 6/6/19
@@ -134,15 +144,19 @@
         param item
         param includes
         param jsons
+        param fragments
         if item.name === '$include'
             _ includes.push(item)
         elif item.name === '$json'
             _ jsons.push(item)
+        elif item.name === '$fragment'
+            _ fragments.push(item)
         foreach child in item.children
             _ searchCommands
                 @ child
                 @ includes
                 @ jsons
+                @ fragments
     
 	function normalizeNode
         param node

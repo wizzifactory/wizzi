@@ -49,6 +49,7 @@
 			set this.uri = uri
 			set this.loadHistory = loadHistory
             set this.frontMatter = frontMatter
+            set this.documentFragments = []
     
 		m load
             string ittfSourceTextContent
@@ -104,6 +105,10 @@
 						@ hasMacro node.hasMacro
                         @ parent parent
                         @ model clonedModel
+                # log 'clone node', node.name, node.value, node.$params
+                if node.$params
+                    # $fragment
+                    set clnode.$params = node.$params
                 set clnode.children = self._cloneNodes(node.children, clnode, clonedModel)
                 _ clnodes.push(clnode)
             return clnodes

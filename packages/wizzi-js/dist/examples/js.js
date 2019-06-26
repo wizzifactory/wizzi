@@ -79,6 +79,14 @@ function executeWizziJob(ittfDocumentUri, context, callback) {
         }, callback);
     });
 }
+function executeGenerateModelTypes(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback) {
+    createWizziFactory({}, function(err, wf) {
+        if (err) {
+            return callback(err);
+        }
+        wf.generateModelTypes(wfschemaIttfDocumentUri, outputPackagePath, wfschemaName, mTreeBuildUpContext, callback);
+    });
+}
 function getFiles(srcpath, schema) {
     return fs.readdirSync(srcpath).filter((file) => {
             return fs.lstatSync(path.join(srcpath, file)).isFile() && verify.endsWith(file, (schema === 'ittf' ? '.ittf' : '.' + schema + '.ittf'));

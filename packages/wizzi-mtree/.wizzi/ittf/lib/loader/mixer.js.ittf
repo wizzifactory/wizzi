@@ -84,6 +84,9 @@
                             @ from 'store'
                             @ basedir mixerbasedir
                             @ relpath mixerNode.name
+                            @ includerBrickKey mixerNode.model.brickKey
+                            @ includerMTreeBrick mTreePiece
+
                         f_cb_no_err( mixedNodifiedMTree )
 							if err
                                 $* 6/6/19

@@ -91,7 +91,9 @@ module.exports = function(mTreePiece, mTreeBrickProvider, callback) {
             mTreeBrickProvider.get({
                 from: 'store', 
                 basedir: mixerbasedir, 
-                relpath: mixerNode.name
+                relpath: mixerNode.name, 
+                includerBrickKey: mixerNode.model.brickKey, 
+                includerMTreeBrick: mTreePiece
             }, function(err, mixedNodifiedMTree) {
                 if (err) {
                     return callback(local_error('IttfMixError', 'mixer', 'Fragment to mix not found', mixerNode, err, {

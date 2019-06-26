@@ -121,7 +121,7 @@
 		tobe_number( lines[0].indent, 0 )
 		tobe_string( lines[0].name, 'root' )
 		tobe_number( lines[2].indent, 1 )
-		tobe_string( lines[2].name, '${'$'}{name}' )
+		$$ tobe_string( lines[2].name, '${'$'}{name}' )
 
 	it should escape javascript string macro delimiters
 		var source

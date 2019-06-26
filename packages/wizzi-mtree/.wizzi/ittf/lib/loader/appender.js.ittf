@@ -10,6 +10,7 @@
 		#   $group
 		#   $append
 		#   $override
+        #   $fragment (searched and removed only, processing is by includer and mixer)
     
 	set module.exports
         function 
@@ -21,6 +22,8 @@
             var groups
                 [ 
             var overrides
+                [ 
+            var fragments
                 [ 
             var ctx
                 { 
@@ -35,7 +38,7 @@
                 [ 
             
 			foreach node in mixedMTreePiece.nodes
-                _ searchAppend(node, node, appends, groups, overrides, errors, mixedMTreePiece)
+                _ searchAppend(node, node, appends, groups, overrides, fragments, errors, mixedMTreePiece)
                 if errors.length > 0
 					return
 						_ callback
@@ -51,6 +54,10 @@
                 _ utilnode.replace
                     @ overobj.virt
                     @ overobj.items
+            for var key in fragments
+                var fragobj = fragments[key]
+                _ utilnode.remove
+                    @ fragobj.frag
             foreach item in groups
 				if !item.parent 
 					return
@@ -77,6 +84,7 @@
         param appends
         param groups
         param overrides
+        param fragments
         param errors
 		param mixedMTreePiece
         
@@ -163,9 +171,14 @@
                         @ over item
                         @ items item.children
                 set overrides[item.value] = overobj
-        
+		elif item.name === '$fragment'
+            var fragobj
+                { 
+                    @ frag item
+            set fragments[item.value] = fragobj
+
 		foreach child in item.children
-            _ searchAppend(child, root, appends, groups, overrides, errors, mixedMTreePiece)
+            _ searchAppend(child, root, appends, groups, overrides, fragments, errors, mixedMTreePiece)
     
 	function searchPendingNodes
         param item

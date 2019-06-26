@@ -97,9 +97,16 @@ module.exports = function(lines, mTreeBrick) {
         else if (line.indent > current.indent) {
             if (nameFirstChar == '$' && line.name === '$params') {
                 if (current.indent > 0) {
-                    return local_error('InvalidIttfError', 'default', 'The $params node must be a child of the root node.', line, mTreeBrick);
+                    if (current.name !== '$fragment') {
+                        return local_error('InvalidIttfError', 'default', 'The $params node must be a child of the root node.', line, mTreeBrick);
+                    }
+                    else {
+                        current.$params = line.value;
+                    }
                 }
-                current.model.$params = line.value;
+                else {
+                    current.model.$params = line.value;
+                }
                 continue;
             }
             else if (nameFirstChar == '\\' && nameLength == 1) {

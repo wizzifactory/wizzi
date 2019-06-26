@@ -48,7 +48,8 @@
 		a here
 			href https://wizzifactory.github.io/docs/wizziplugins.html
 		span .
-	br
+	
+    br
 	p You can find a few samples in the /examples folder, but you can find more
 		\b in the \b
 		a demo package
@@ -56,7 +57,7 @@
 		span .
 
 	h2 Source and generation
-	p ${name} is generated using the Wizzi factory ver 0.7 
+	p ${name} is generated using the Wizzi factory ver 0.7
 	br
 	
 	wf()

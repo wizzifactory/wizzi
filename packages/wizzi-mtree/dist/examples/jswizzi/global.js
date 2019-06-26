@@ -21,6 +21,15 @@ module.exports = function() {
     }, function(err, notUsed) {
         if (err) {
             console.log('err', err);
+            if (err.toString()) {
+                console.log('err.toString()', err.toString());
+            }
+            if (err.inner) {
+                console.log('err.inner', err.inner);
+                if (err.inner.toString) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+            }
             throw new Error(err.message);
         }
         console.log(3);
@@ -29,6 +38,15 @@ module.exports = function() {
         mTreeLoader(store, ittfPath, function(err, result) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             console.log(5, result);

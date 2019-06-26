@@ -72,6 +72,15 @@ describe("evaluator", function() {
         evaluate(content_filepath, function(err, evaluatedModel) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             expect(evaluatedModel).to.be.an('object');

@@ -289,7 +289,7 @@
             var f
                 _ ctx.getFunction
                     @ node.callee.name
-			# log 'CallExpression.node.callee.name', node.callee.name, f
+			log 'wizzi-mtree.jsWizziRunner.CallExpression.node.callee.name', node.callee.name, f
             if f == null
 				set f = ctx.getValue(node.callee.name)
 				if f != null && verify.isFunction(f)
@@ -319,8 +319,8 @@
 							@ new Error()
             # log 'wizzi-mtree.jswizzi.runner.expressions.CallExpression.jsWizziFunction', f.params
 
-			
-			if f.params.length !== node.arguments.length
+			$* VIA
+            if f.params.length !== node.arguments.length
 				return
 					_ local_error
 						@ ctx
@@ -329,18 +329,42 @@
 						@ null
 						@ node
 						@ 'CallExpression'
+            *$
 			
 			# _ ctx.elapsedTime('wizzi-mtree.jsWizziRunner.Call function ' + node.callee.name + ' start')
 			_ ctx.beginLoadingCallArguments();
-			foreach item in node.arguments
+			for var i=0; i<f.params.length; i++
+                var item = node.arguments[i]
+                if item
+                    checked_run_set(value, CallExpression argument)
+                        set value = runner(item, ctx)
+                    # log 'wizzi-mtree.jswizzi.runner.expressions.CallExpression.value', value
+                    _ args.push(value)
+                else
+                    _ args.push(undefined)
+            $*
+            foreach item in node.arguments
 				checked_run_set(value, CallExpression argument)
 					set value = runner(item, ctx)
 				# log 'wizzi-mtree.jswizzi.runner.expressions.CallExpression.value', value
 				_ args.push(value)
+            *$
 			_ ctx.endLoadingCallArguments();
-			var result = runnerCall(f, ctx, args)
-			# _ ctx.elapsedTime('wizzi-mtree.jsWizziRunner.Call function ' + node.callee.name + ' end')
-			return result
+			var result
+            try
+                set result = runnerCall(f, ctx, args)
+			    # _ ctx.elapsedTime('wizzi-mtree.jsWizziRunner.Call function ' + node.callee.name + ' end')
+            catch ex
+                return
+                    _ local_error
+                        @ ctx
+                        @ 'Exception calling function: ' + (ex ? ex.message : 'exception message unavailable')
+                        @ node.callee.name
+                        @ node
+                        @ 'CallExpression'
+                        @ ex
+			
+            return result
         
 		if node.callee.type === 'FunctionExpression'
 

@@ -14,6 +14,7 @@ var utilnode = require('../util/node');
      Ittf commands
      $include
      $json
+     $fragment
 */
 var includer = module.exports = function(primaryMTreeBrick, mTreeBrickProvider, callback) {
     if (typeof(callback) !== 'function') {
@@ -33,11 +34,15 @@ var includer = module.exports = function(primaryMTreeBrick, mTreeBrickProvider, 
     }
     var includes = [];
     var jsons = [];
+    var fragments = [];
     var i, i_items=primaryMTreeBrick.nodes, i_len=primaryMTreeBrick.nodes.length, node;
     for (i=0; i<i_len; i++) {
         node = primaryMTreeBrick.nodes[i];
-        searchCommands(node, includes, jsons);
+        searchCommands(node, includes, jsons, fragments);
     }
+    // log 'wizzi-mtree.includer.fragments before', primaryMTreeBrick.documentFragments
+    primaryMTreeBrick.documentFragments = fragments;
+    // log 'wizzi-mtree.includer.fragments after', primaryMTreeBrick.documentFragments
     async.mapSeries(includes, function(item, callback) {
         var v = item.value.trim();
         var mixeruri = item.model.uri;
@@ -47,7 +52,8 @@ var includer = module.exports = function(primaryMTreeBrick, mTreeBrickProvider, 
             basedir: mixerbasedir, 
             relpath: v, 
             include: true, 
-            includerBrickKey: item.model.brickKey
+            includerBrickKey: item.model.brickKey, 
+            includerMTreeBrick: primaryMTreeBrick
         }, function(err, includedWipNodifiedMTree) {
             if (err) {
                 return callback(local_error('IttfIncludeError', 'includer', 'Fragment to include not found', item, err, {
@@ -96,17 +102,20 @@ var includer = module.exports = function(primaryMTreeBrick, mTreeBrickProvider, 
         callback(null, primaryMTreeBrick);
     });
 };
-function searchCommands(item, includes, jsons) {
+function searchCommands(item, includes, jsons, fragments) {
     if (item.name === '$include') {
         includes.push(item);
     }
     else if (item.name === '$json') {
         jsons.push(item);
     }
+    else if (item.name === '$fragment') {
+        fragments.push(item);
+    }
     var i, i_items=item.children, i_len=item.children.length, child;
     for (i=0; i<i_len; i++) {
         child = item.children[i];
-        searchCommands(child, includes, jsons);
+        searchCommands(child, includes, jsons, fragments);
     }
 }
 function normalizeNode(node, parent, model, r, c, u) {

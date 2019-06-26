@@ -12,6 +12,7 @@ var utilnode = require('../util/node');
      $group
      $append
      $override
+     $fragment (searched and removed only, processing is by includer and mixer)
 */
 module.exports = function(mixedMTreePiece, callback) {
     if (typeof(callback) !== 'function') {
@@ -27,6 +28,7 @@ module.exports = function(mixedMTreePiece, callback) {
     var appends = {};
     var groups = [];
     var overrides = [];
+    var fragments = [];
     var ctx = {
         id: 1
     };
@@ -39,7 +41,7 @@ module.exports = function(mixedMTreePiece, callback) {
     var i, i_items=mixedMTreePiece.nodes, i_len=mixedMTreePiece.nodes.length, node;
     for (i=0; i<i_len; i++) {
         node = mixedMTreePiece.nodes[i];
-        searchAppend(node, node, appends, groups, overrides, errors, mixedMTreePiece);
+        searchAppend(node, node, appends, groups, overrides, fragments, errors, mixedMTreePiece);
         if (errors.length > 0) {
             return callback(errors[0]);
         }
@@ -52,6 +54,10 @@ module.exports = function(mixedMTreePiece, callback) {
     for (var key in overrides) {
         var overobj = overrides[key];
         utilnode.replace(overobj.virt, overobj.items);
+    }
+    for (var key in fragments) {
+        var fragobj = fragments[key];
+        utilnode.remove(fragobj.frag);
     }
     var i, i_items=groups, i_len=groups.length, item;
     for (i=0; i<i_len; i++) {
@@ -74,7 +80,7 @@ module.exports = function(mixedMTreePiece, callback) {
     }
     callback(null, mixedMTreePiece);
 };
-function searchAppend(item, root, appends, groups, overrides, errors, mixedMTreePiece) {
+function searchAppend(item, root, appends, groups, overrides, fragments, errors, mixedMTreePiece) {
     if (item.name === '$group') {
         groups.push(item);
     }
@@ -128,10 +134,16 @@ function searchAppend(item, root, appends, groups, overrides, errors, mixedMTree
             overrides[item.value] = overobj;
         }
     }
+    else if (item.name === '$fragment') {
+        var fragobj = {
+            frag: item
+        };
+        fragments[item.value] = fragobj;
+    }
     var i, i_items=item.children, i_len=item.children.length, child;
     for (i=0; i<i_len; i++) {
         child = item.children[i];
-        searchAppend(child, root, appends, groups, overrides, errors, mixedMTreePiece);
+        searchAppend(child, root, appends, groups, overrides, fragments, errors, mixedMTreePiece);
     }
 }
 function searchPendingNodes(item, toremove) {

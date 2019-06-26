@@ -717,7 +717,7 @@ runner.CallExpression = function(node, ctx) {
     }
     if (node.callee.type === 'Identifier') {
         var f = ctx.getFunction(node.callee.name);
-        // log 'CallExpression.node.callee.name', node.callee.name, f
+        console.log('wizzi-mtree.jsWizziRunner.CallExpression.node.callee.name', node.callee.name, f);
         if (f == null) {
             f = ctx.getValue(node.callee.name);
             if (f != null && verify.isFunction(f)) {
@@ -743,25 +743,32 @@ runner.CallExpression = function(node, ctx) {
             }
         }
         // log 'wizzi-mtree.jswizzi.runner.expressions.CallExpression.jsWizziFunction', f.params
-        if (f.params.length !== node.arguments.length) {
-            return local_error(ctx, 'A jsWizziFunction call must have the same number of arguments of the callee. Found: ' + f.params.length + ' and ' + node.arguments.length, null, node, 'CallExpression');
-        }
         // _ ctx.elapsedTime('wizzi-mtree.jsWizziRunner.Call function ' + node.callee.name + ' start')
         ctx.beginLoadingCallArguments();
-        var i, i_items=node.arguments, i_len=node.arguments.length, item;
-        for (i=0; i<i_len; i++) {
-            item = node.arguments[i];
-            value = value = runner(item, ctx);
-            if (value && value.__is_error) {
-                // log '__is_error CallExpression argument', value
-                return value;
+        for (var i=0; i<f.params.length; i++) {
+            var item = node.arguments[i];
+            if (item) {
+                value = value = runner(item, ctx);
+                if (value && value.__is_error) {
+                    // log '__is_error CallExpression argument', value
+                    return value;
+                }
+                // log 'wizzi-mtree.jswizzi.runner.expressions.CallExpression.value', value
+                args.push(value);
             }
-            // log 'wizzi-mtree.jswizzi.runner.expressions.CallExpression.value', value
-            args.push(value);
+            else {
+                args.push(undefined);
+            }
         }
         ctx.endLoadingCallArguments();
-        var result = runnerCall(f, ctx, args);
-        // _ ctx.elapsedTime('wizzi-mtree.jsWizziRunner.Call function ' + node.callee.name + ' end')
+        var result;
+        try {
+            result = runnerCall(f, ctx, args);
+            // _ ctx.elapsedTime('wizzi-mtree.jsWizziRunner.Call function ' + node.callee.name + ' end')
+        } 
+        catch (ex) {
+            return local_error(ctx, 'Exception calling function: ' + (ex ? ex.message : 'exception message unavailable'), node.callee.name, node, 'CallExpression', ex);
+        } 
         return result;
     }
     if (node.callee.type === 'FunctionExpression') {

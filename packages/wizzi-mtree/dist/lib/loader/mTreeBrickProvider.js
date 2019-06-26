@@ -92,7 +92,6 @@ var MTreeBrickProvider = (function () {
             if (err) {
                 return callback(err);
             }
-            // log 'wizzi-mtree.mTreeBrickProvider.parsedUri', parsedUri
             that.storeKind = parsedUri.storeKind;
             that.uri = parsedUri.uri || parsedUri.originalUri;
             that.userId = parsedUri.userId;
@@ -105,7 +104,6 @@ var MTreeBrickProvider = (function () {
                     return callback(err);
                 }
                 // init helper objects
-                // log 'ittfContent', ittfContent
                 if (!ittfContent || ittfContent.trim().length == 0) {
                     // TODO document this
                     return callback(new errors.IttfLoadError("Empty document", that.uri));
@@ -116,7 +114,6 @@ var MTreeBrickProvider = (function () {
                 that.productionContext = loadContext.productionContext;
                 that.mTreeBuildUpContext = loadContext.mTreeBuildUpContext;
                 that.sourcePreprocessor = loadContext.sourcePreprocessor;
-                // log 'wizzi-mtree.mTreeBrickProvider.ittfContent', ittfContent
                 // load the primary mTreeBrick from the ittf content
                 that.loadMTreeBrickFromSource(that.uri, {}, ittfContent, function(err, primaryMTreeBrickCloned) {
                     if (err) {
@@ -140,9 +137,13 @@ var MTreeBrickProvider = (function () {
          // and its scope will become that of the includer (its brickKey will be that of the includer).
          // A $include command must not have any argument.
          // An included ittf document must not have params (must not have the $params command).
-         string includerBrickKey
          string basedir
          string relpath
+         string from
+         string includerBrickKey
+         { includerMTreeBrick
+         api-ref wizzi-mtree.mTreeBrick
+        
         
          called from
          ./mtree.load
@@ -168,10 +169,8 @@ var MTreeBrickProvider = (function () {
             if (err) {
                 return callback(err);
             }
-            // log 'wizzi-mtree.mTreeBrickProvider.path resolved', uri
             var mTreeBrickCloned = null;
             // check cache
-            // log 'searching in cache', that.bricksCache, uri
             var cachedMTreeBrick = that.bricksCache[uri];
             if (cachedMTreeBrick) {
                 // found in cache, clone it
@@ -188,6 +187,10 @@ var MTreeBrickProvider = (function () {
                 return callback(null, mTreeBrickCloned);
             }
             else {
+                // not found in cache, check if it is a documentFragment
+                if (uri.substr(-11, 11) === '__$fragment') {
+                    return that.loadMTreeBrickFromDocumentFragment(uri, options, callback);
+                }
                 // not found in cache, get the content from the store
                 // than load the mTreeBrick from source
                 that.store.getModelContent(uri, function(err, ittfContent) {
@@ -229,7 +232,6 @@ var MTreeBrickProvider = (function () {
             console.log('__is_error ', notUsed);
             return callback(notUsed);
         }
-        // log 'wizzi-mtree.mTreeBrickProvider.parsed newMTreeBrick', newMTreeBrick
         // caches the newMTreeBrick
         this.bricksCache[uri] = newMTreeBrick;
         // clone it
@@ -243,7 +245,41 @@ var MTreeBrickProvider = (function () {
             mTreeBrickData.mTreeBrick = mTreeBrickCloned;
         }
         
-        // log 'cloned newMTreeBrick', mTreeBrickCloned
+        return callback(null, mTreeBrickCloned);
+    }
+    MTreeBrickProvider.prototype.loadMTreeBrickFromDocumentFragment = function(uri, options, callback) {
+        var parentMtreeBrick = options.includerMTreeBrick;
+        var newMTreeBrick = new MTreeBrick(uri, this.loadHistory, this.frontMatter);
+        // load it
+        var i, i_items=options.includerMTreeBrick.documentFragments, i_len=options.includerMTreeBrick.documentFragments.length, item;
+        for (i=0; i<i_len; i++) {
+            item = options.includerMTreeBrick.documentFragments[i];
+            if (item.value === options.relpath) {
+                newMTreeBrick.nodes = [item];
+                if (!(options.include)) {
+                    newMTreeBrick.$params = item.$params;
+                }
+            }
+        }
+        // caches the newMTreeBrick
+        this.bricksCache[uri] = newMTreeBrick;
+        var mTreeBrickData = options.include ? null : this.loadHistory.addMTreeBrick(uri, this.schema, null, options);
+        // clone it
+        var mTreeBrickCloned = newMTreeBrick.clone();
+        mTreeBrickCloned.nodes[0].name = '$group';
+        mTreeBrickCloned.nodes[0].value = '';
+        // set keys
+        if (!(options.include)) {
+            mTreeBrickCloned.sourceKey = mTreeBrickData.sourceKey;
+            mTreeBrickCloned.brickKey = mTreeBrickData.brickKey;
+            mTreeBrickCloned.$schema = parentMtreeBrick.$schema;
+            mTreeBrickData.mTreeBrick = mTreeBrickCloned;
+        }
+        else {
+            mTreeBrickCloned.sourceKey = parentMtreeBrick.sourceKey;
+            mTreeBrickCloned.brickKey = parentMtreeBrick.brickKey;
+            mTreeBrickCloned.$schema = parentMtreeBrick.$schema;
+        }
         return callback(null, mTreeBrickCloned);
     }
     MTreeBrickProvider.prototype.enterFragmentCall = function(mixerUri, mixedUri) {
@@ -278,7 +314,6 @@ MTreeBrickProvider.createFromUri = function(primaryIttfDocumentUri, loadContext,
             'InvalidArgument', '', { parameter: 'loadContext', message: 'The loadContext parameter must be an object. Received: ' + loadContext }
         ));
     }
-    // log 'wizzi-mtree.mTreeBrickProvider.createFromUri', primaryIttfDocumentUri
     var provider = new MTreeBrickProvider();
     try {
         provider.init(primaryIttfDocumentUri, loadContext, function(err, notUsed) {

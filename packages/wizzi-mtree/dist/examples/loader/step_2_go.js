@@ -31,6 +31,15 @@ var loader_appender = function(step_callback) {
     }, function(err, notUsed) {
         if (err) {
             console.log('err', err);
+            if (err.toString()) {
+                console.log('err.toString()', err.toString());
+            }
+            if (err.inner) {
+                console.log('err.inner', err.inner);
+                if (err.inner.toString) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+            }
             throw new Error(err.message);
         }
         var loadContext = {
@@ -45,18 +54,45 @@ var loader_appender = function(step_callback) {
             MTreeBrickProvider.createFromUri(source, loadContext, function(err, provider) {
                 if (err) {
                     console.log('err', err);
+                    if (err.toString()) {
+                        console.log('err.toString()', err.toString());
+                    }
+                    if (err.inner) {
+                        console.log('err.inner', err.inner);
+                        if (err.inner.toString) {
+                            console.log('err.inner.toString()', err.inner.toString());
+                        }
+                    }
                     throw new Error(err.message);
                 }
                 var mTree = provider.getPrimaryMTreeBrick();
                 mixer(mTree, provider, function(err, mixedModel) {
                     if (err) {
                         console.log('err', err);
+                        if (err.toString()) {
+                            console.log('err.toString()', err.toString());
+                        }
+                        if (err.inner) {
+                            console.log('err.inner', err.inner);
+                            if (err.inner.toString) {
+                                console.log('err.inner.toString()', err.inner.toString());
+                            }
+                        }
                         throw new Error(err.message);
                     }
                     printValue(name + ' mixedModel', mixedModel.dump(), 'dashes');
                     appender(mixedModel, function(err, appendedModel) {
                         if (err) {
                             console.log('err', err);
+                            if (err.toString()) {
+                                console.log('err.toString()', err.toString());
+                            }
+                            if (err.inner) {
+                                console.log('err.inner', err.inner);
+                                if (err.inner.toString) {
+                                    console.log('err.inner.toString()', err.inner.toString());
+                                }
+                            }
                             throw new Error(err.message);
                         }
                         printValue(name + ' source', sourceContent, 'dashes');

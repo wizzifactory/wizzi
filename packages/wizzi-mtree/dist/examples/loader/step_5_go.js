@@ -31,6 +31,15 @@ var loader_evaluator = function(step_callback) {
     }, function(err, notUsed) {
         if (err) {
             console.log('err', err);
+            if (err.toString()) {
+                console.log('err.toString()', err.toString());
+            }
+            if (err.inner) {
+                console.log('err.inner', err.inner);
+                if (err.inner.toString) {
+                    console.log('err.inner.toString()', err.inner.toString());
+                }
+            }
             throw new Error(err.message);
         }
         var loadContext = {
@@ -45,22 +54,58 @@ var loader_evaluator = function(step_callback) {
             MTreeBrickProvider.createFromUri(source, loadContext, function(err, provider) {
                 if (err) {
                     console.log('err', err);
+                    if (err.toString()) {
+                        console.log('err.toString()', err.toString());
+                    }
+                    if (err.inner) {
+                        console.log('err.inner', err.inner);
+                        if (err.inner.toString) {
+                            console.log('err.inner.toString()', err.inner.toString());
+                        }
+                    }
                     throw new Error(err.message);
                 }
                 var mTree = provider.getPrimaryMTreeBrick();
                 mixer(mTree, provider, function(err, mixedModel) {
                     if (err) {
                         console.log('err', err);
+                        if (err.toString()) {
+                            console.log('err.toString()', err.toString());
+                        }
+                        if (err.inner) {
+                            console.log('err.inner', err.inner);
+                            if (err.inner.toString) {
+                                console.log('err.inner.toString()', err.inner.toString());
+                            }
+                        }
                         throw new Error(err.message);
                     }
                     appender(mixedModel, function(err, appendedModel) {
                         if (err) {
                             console.log('err', err);
+                            if (err.toString()) {
+                                console.log('err.toString()', err.toString());
+                            }
+                            if (err.inner) {
+                                console.log('err.inner', err.inner);
+                                if (err.inner.toString) {
+                                    console.log('err.inner.toString()', err.inner.toString());
+                                }
+                            }
                             throw new Error(err.message);
                         }
                         evaluator(appendedModel, loadContext, function(err, result) {
                             if (err) {
                                 console.log('err', err);
+                                if (err.toString()) {
+                                    console.log('err.toString()', err.toString());
+                                }
+                                if (err.inner) {
+                                    console.log('err.inner', err.inner);
+                                    if (err.inner.toString) {
+                                        console.log('err.inner.toString()', err.inner.toString());
+                                    }
+                                }
                                 throw new Error(err.message);
                             }
                             evaluatedModel = result;

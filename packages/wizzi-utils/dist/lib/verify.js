@@ -107,7 +107,7 @@ md.isIttfMacro = function(test) {
         return false;
     }
     test = test.trim();
-    return test.substr(0, 2) === ' && test.substr(-1, 1) === ';
+    return test.indexOf('$' + '{') > -1 && test.indexOf('}') > -1;
 };
 md.isSingleQuoteLiteral = function(test) {
     if (md.isEmpty(test)) {

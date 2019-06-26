@@ -87,6 +87,9 @@ format.File = function(parent, node, options) {
     }
     // TODO VIA f_a( comments
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node Program
@@ -144,6 +147,9 @@ format.Program = function(parent, node, options) {
         throw new Error('AST-node-property-collection body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node Identifier
@@ -212,6 +218,9 @@ format.Identifier = function(parent, node, options) {
     }
     // log 'Identifier', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -275,6 +284,9 @@ format.PrivateName = function(parent, node, options) {
     }
     // A Private Name Identifier.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -325,6 +337,9 @@ format.RegExpLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -371,6 +386,9 @@ format.NullLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -417,6 +435,9 @@ format.StringLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -467,6 +488,9 @@ format.BooleanLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -517,6 +541,9 @@ format.NumericLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -629,6 +656,9 @@ format.Function = function(parent, node, options) {
         ret.tag = 'async-function';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -681,6 +711,9 @@ format.ExpressionStatement = function(parent, node, options) {
         replaceWithSingleChild(ret, '_');
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -744,6 +777,9 @@ format.BlockStatement = function(parent, node, options) {
     }
     // A block statement, i.e., a sequence of statements surrounded by braces.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node EmptyStatement
@@ -775,6 +811,9 @@ format.EmptyStatement = function(parent, node, options) {
     };
     // An empty statement, i.e., a solitary semicolon.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -812,6 +851,9 @@ format.DebuggerStatement = function(parent, node, options) {
     };
     // A `debugger` statement.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -869,6 +911,9 @@ format.WithStatement = function(parent, node, options) {
     }
     // A `with` statement.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -924,6 +969,9 @@ format.ReturnStatement = function(parent, node, options) {
     }
     // log 'ReturnStatement', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1018,6 +1066,9 @@ format.LabeledStatement = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1080,6 +1131,9 @@ format.BreakStatement = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1142,6 +1196,9 @@ format.ContinueStatement = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1344,6 +1401,9 @@ format.IfStatement = function(parent, node, options) {
         ret = [ret];
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1457,6 +1517,9 @@ format.SwitchStatement = function(parent, node, options) {
         throw new Error('AST-node-property-collection cases undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1569,6 +1632,9 @@ format.SwitchCase = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1659,6 +1725,9 @@ format.ThrowStatement = function(parent, node, options) {
         ret.children.push(p_argument);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1819,6 +1888,9 @@ format.TryStatement = function(parent, node, options) {
     ret = tempRet;
     // A `try` statement. If `handler` is `null` then `finalizer` must be a `BlockStatement`.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1897,6 +1969,9 @@ format.CatchClause = function(parent, node, options) {
     }
     // log 'CatchClause.ret', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -1989,6 +2064,9 @@ format.WhileStatement = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -2081,6 +2159,9 @@ format.DoWhileStatement = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -2240,6 +2321,9 @@ format.ForStatement = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -2403,6 +2487,9 @@ format.ForInStatement = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -2566,6 +2653,9 @@ format.ForOfStatement = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -2740,6 +2830,9 @@ format.FunctionDeclaration = function(parent, node, options) {
         ret.tag = 'async-function';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -2892,6 +2985,9 @@ format.VariableDeclaration = function(parent, node, options) {
     }
     // log 'VariableDeclaration.exit.ret', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3081,6 +3177,9 @@ format.VariableDeclarator = function(parent, node, options) {
     }
     // log 'VariableDeclarator 2 ret', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3170,6 +3269,9 @@ format.Decorator = function(parent, node, options) {
         ret.children.push(p_expression);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3261,6 +3363,9 @@ format.Directive = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3297,6 +3402,9 @@ format.DirectiveLiteral = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3334,6 +3442,9 @@ format.Expression = function(parent, node, options) {
     };
     // Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3372,6 +3483,9 @@ format.Super = function(parent, node, options) {
     // A `super` pseudo-expression.
     ret.name = 'super';
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3409,6 +3523,9 @@ format.Import = function(parent, node, options) {
     };
     // A `import` pseudo-expression.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3447,6 +3564,9 @@ format.ThisExpression = function(parent, node, options) {
     // A `this` expression.
     ret.name = 'this';
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3602,6 +3722,9 @@ format.ArrowFunctionExpression = function(parent, node, options) {
         ret.tag += '*';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3694,6 +3817,9 @@ format.YieldExpression = function(parent, node, options) {
     }
     // A `yield` expression.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3738,6 +3864,9 @@ format.AwaitExpression = function(parent, node, options) {
     }
     // A `await` expression.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3839,6 +3968,9 @@ format.ArrayExpression = function(parent, node, options) {
         ret.textified = '[]';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -3963,6 +4095,9 @@ format.ObjectExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -4351,6 +4486,9 @@ format.ObjectProperty = function(parent, node, options) {
         ret.children = ret.children[0].children;
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -4542,6 +4680,9 @@ format.ObjectMethod = function(parent, node, options) {
         ret.name = '[' + ret.name + ']';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -4700,6 +4841,9 @@ format.FunctionExpression = function(parent, node, options) {
         ret.tag += '*';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -4830,6 +4974,9 @@ format.UnaryExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -4924,6 +5071,9 @@ format.UpdateExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5097,6 +5247,9 @@ format.BinaryExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5247,6 +5400,9 @@ format.AssignmentExpression = function(parent, node, options) {
         ret.children.push(p_right);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5424,6 +5580,9 @@ format.LogicalExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5517,6 +5676,9 @@ format.SpreadElement = function(parent, node, options) {
         // throw new Error('SpreadElement must be textual:' + JSON.stringify(p_argument, null, 2))
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5709,6 +5871,9 @@ format.MemberExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5763,6 +5928,9 @@ format.BindExpression = function(parent, node, options) {
     }
     // if `object` is `null`, then `callee` should be a `MemberExpression`.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -5979,6 +6147,9 @@ format.ConditionalExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6224,6 +6395,9 @@ format.CallExpression = function(parent, node, options) {
     }
     // log 'CallExpression.exit.ret', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6365,6 +6539,9 @@ format.NewExpression = function(parent, node, options) {
     }
     // log 'NewExpression.ret', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6428,6 +6605,9 @@ format.SequenceExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6474,6 +6654,9 @@ format.DoExpression = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6574,6 +6757,9 @@ format.TemplateLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6715,6 +6901,9 @@ format.TaggedTemplateExpression = function(parent, node, options) {
         ret.children.push(item);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6773,6 +6962,9 @@ format.TemplateElement = function(parent, node, options) {
     // f_p_p( value, cooked, optional
     // f_p_p( value, raw
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6868,6 +7060,9 @@ format.ObjectPattern = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6926,6 +7121,9 @@ format.ArrayPattern = function(parent, node, options) {
         throw new Error('ArrayPattern must be textual: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -6991,6 +7189,9 @@ format.RestElement = function(parent, node, options) {
     }
     ret.textified = '...' + ret.name;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -7137,6 +7338,9 @@ format.AssignmentPattern = function(parent, node, options) {
     }
     // log 'AssignmentPattern', JSON.stringify(ret, null, 2)
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -7279,6 +7483,9 @@ format.Class = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -7323,6 +7530,9 @@ format.ClassBody = function(parent, node, options) {
         throw new Error('AST-node-property-collection body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node ClassMethod
@@ -7530,6 +7740,9 @@ format.ClassMethod = function(parent, node, options) {
         VIA
         replaceChildrenOfChildWhenText(ret, getChildPosByTag(ret, 'params'), 'param')*/
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -7692,6 +7905,9 @@ format.ClassPrivateMethod = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -7903,6 +8119,9 @@ format.ClassProperty = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -7968,6 +8187,9 @@ format.ClassPrivateProperty = function(parent, node, options) {
         });
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8241,6 +8463,9 @@ format.ClassDeclaration = function(parent, node, options) {
         };
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8371,6 +8596,9 @@ format.ClassExpression = function(parent, node, options) {
         throw new Error('AST-node-property body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8439,6 +8667,9 @@ format.MetaProperty = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8476,6 +8707,9 @@ format.ModuleDeclaration = function(parent, node, options) {
     };
     // A module `import` or `export` declaration.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8582,6 +8816,9 @@ format.ImportDeclaration = function(parent, node, options) {
         ret.tag = ':import-type';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8670,6 +8907,9 @@ format.ImportSpecifier = function(parent, node, options) {
         ret.tag = ':type';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8733,6 +8973,9 @@ format.ImportDefaultSpecifier = function(parent, node, options) {
     }
     // A default import specifier, e.g., `foo` in `import foo from "mod.js"`.
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8791,6 +9034,9 @@ format.ImportNamespaceSpecifier = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8897,6 +9143,9 @@ format.ExportNamedDeclaration = function(parent, node, options) {
         ret.tag = ':export-type';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -8980,6 +9229,9 @@ format.ExportSpecifier = function(parent, node, options) {
         ret.children = [];
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9069,6 +9321,9 @@ format.ExportDefaultSpecifier = function(parent, node, options) {
         ret.children.push(p_exported);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9159,6 +9414,9 @@ format.ExportDefaultDeclaration = function(parent, node, options) {
         ret.children.push(p_declaration);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9248,6 +9506,9 @@ format.ExportNamespaceSpecifier = function(parent, node, options) {
         ret.children.push(p_exported);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9320,6 +9581,9 @@ format.ExportAllDeclaration = function(parent, node, options) {
         */
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9370,6 +9634,9 @@ format.CommentBlock = function(parent, node, options) {
         });
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9409,6 +9676,9 @@ format.CommentLine = function(parent, node, options) {
     var v = codeReplacer.restore(node.value, options.replaceds);
     ret.name = v;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9553,6 +9823,9 @@ format.JSXAttribute = function(parent, node, options) {
     }
     options.stateAST.pop();
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9590,6 +9863,9 @@ format.JSXClosingElement = function(parent, node, options) {
     };
     // name JSXIdentifier | JSXMemberExpression
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9766,6 +10042,9 @@ format.JSXElement = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9810,6 +10089,9 @@ format.JSXEmptyExpression = function(parent, node, options) {
         throw new Error('AST-node-property-collection innerComments undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node JSXExpressionContainer
@@ -9908,6 +10190,9 @@ format.JSXExpressionContainer = function(parent, node, options) {
     /**
         options.stateAST.pop()*/
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -9994,6 +10279,9 @@ format.JSXSpreadChild = function(parent, node, options) {
     ret.name = '...' + p_expression.name;
     ret.children = p_expression.children;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10035,6 +10323,9 @@ format.JSXIdentifier = function(parent, node, options) {
     }
     // log 't/name ittf.ret', ret
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10103,6 +10394,9 @@ format.JSXMemberExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10141,6 +10435,9 @@ format.JSXNamespacedName = function(parent, node, options) {
     // namespace JSXIdentifier
     // name JSXIdentifier
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10301,6 +10598,9 @@ format.JSXOpeningElement = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10358,6 +10658,9 @@ format.JSXSpreadAttribute = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10407,6 +10710,9 @@ format.JSXText = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10465,6 +10771,9 @@ format.JSXFragment = function(parent, node, options) {
         throw new Error('AST-node-property-collection children undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10502,6 +10811,9 @@ format.JSXOpeningFragment = function(parent, node, options) {
     };
     // aliases: ["JSX", "Immutable"],
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10539,6 +10851,9 @@ format.JSXClosingFragment = function(parent, node, options) {
     };
     // aliases: ["JSX", "Immutable"]
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10616,6 +10931,9 @@ format.TypeAlias = function(parent, node, options) {
         format(ret, node.right, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10692,6 +11010,9 @@ format.OpaqueType = function(parent, node, options) {
         format(ret, node.right, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10737,6 +11058,9 @@ format.TypeParameterDeclaration = function(parent, node, options) {
         throw new Error('AST-node-property-collection params undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TypeParameter
@@ -10892,6 +11216,9 @@ format.TypeParameter = function(parent, node, options) {
     }
     // log 'p_variance', p_variance
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10929,6 +11256,9 @@ format.Variance = function(parent, node, options) {
     };
     ret.name = node.kind;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -10973,6 +11303,9 @@ format.TypeParameterInstantiation = function(parent, node, options) {
         throw new Error('AST-node-property-collection params undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node VoidTypeAnnotation
@@ -11004,6 +11337,9 @@ format.VoidTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11041,6 +11377,9 @@ format.UndefinedTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11077,6 +11416,9 @@ format.NullLiteralTypeAnnotation = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11146,6 +11488,9 @@ format.GenericTypeAnnotation = function(parent, node, options) {
         format(ret, node.typeParameters, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11182,6 +11527,9 @@ format.StringTypeAnnotation = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11219,6 +11567,9 @@ format.AnyTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11266,6 +11617,9 @@ format.ArrayTypeAnnotation = function(parent, node, options) {
         throw new Error('AST-node-property elementType undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11304,6 +11658,9 @@ format.BooleanLiteralTypeAnnotation = function(parent, node, options) {
     // extends Node, Type
     ret.name = node.extra.raw;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11341,6 +11698,9 @@ format.BooleanTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11411,6 +11771,9 @@ format.ClassImplements = function(parent, node, options) {
         format(ret, node.typeParameters, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11538,6 +11901,9 @@ format.FunctionTypeAnnotation = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11678,6 +12044,9 @@ format.FunctionTypeParam = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11748,6 +12117,9 @@ format.InterfaceExtends = function(parent, node, options) {
         format(ret, node.typeParameters, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11840,6 +12212,9 @@ format.InterfaceDeclaration = function(parent, node, options) {
         format(ret, node.body, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11895,6 +12270,9 @@ format.IntersectionTypeAnnotation = function(parent, node, options) {
         throw new Error('AST-node-property-collection types undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -11932,6 +12310,9 @@ format.MixedTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12016,6 +12397,9 @@ format.NullableTypeAnnotation = function(parent, node, options) {
     }
     ret.children[0].tag = ':?' + ret.children[0].tag.substr(1);
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node NumberLiteralTypeAnnotation
@@ -12048,6 +12432,9 @@ format.NumberLiteralTypeAnnotation = function(parent, node, options) {
     // extends Node, Type
     ret.name = node.extra.raw;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12085,6 +12472,9 @@ format.NumberTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12123,6 +12513,9 @@ format.StringLiteralTypeAnnotation = function(parent, node, options) {
     // extends Node, Type
     ret.name = node.extra.raw;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12160,6 +12553,9 @@ format.StringTypeAnnotation = function(parent, node, options) {
     };
     // extends Node, Type
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12215,6 +12611,9 @@ format.TupleTypeAnnotation = function(parent, node, options) {
         throw new Error('AST-node-property-collection types undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12259,6 +12658,9 @@ format.TypeofTypeAnnotation = function(parent, node, options) {
         format(ret, node.argument, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12364,6 +12766,9 @@ format.TypeAnnotation = function(parent, node, options) {
         format(ret, node.typeParameters, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TypeCastExpression
@@ -12487,6 +12892,9 @@ format.TypeCastExpression = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12572,6 +12980,9 @@ format.ObjectTypeAnnotation = function(parent, node, options) {
         throw new Error('AST-node-property-collection properties undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12628,6 +13039,9 @@ format.ObjectTypeCallProperty = function(parent, node, options) {
         throw new Error('AST-node-property value undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12705,6 +13119,9 @@ format.ObjectTypeIndexer = function(parent, node, options) {
         format(ret, node.value, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12825,6 +13242,9 @@ format.ObjectTypeProperty = function(parent, node, options) {
         ret.children.push(p_value);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12935,6 +13355,9 @@ format.QualifiedTypeIdentifier = function(parent, node, options) {
         ret.name = p_qualification.name + '.' + ret.name;
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -12990,6 +13413,9 @@ format.UnionTypeAnnotation = function(parent, node, options) {
         throw new Error('AST-node-property-collection types undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13026,6 +13452,9 @@ format.ExistsTypeAnnotation = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13062,6 +13491,9 @@ format.InferredPredicate = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13131,6 +13563,9 @@ format.TSObjectKeyword = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13231,6 +13666,9 @@ format.TSInterfaceDeclaration = function(parent, node, options) {
         };
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13275,6 +13713,9 @@ format.TSInterfaceBody = function(parent, node, options) {
         throw new Error('AST-node-property-collection body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TSConstructorType
@@ -13346,6 +13787,9 @@ format.TSConstructorType = function(parent, node, options) {
     }
     processParams(ret);
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13423,6 +13867,9 @@ format.TSConstructSignatureDeclaration = function(parent, node, options) {
     }
     processParams(ret);
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13500,6 +13947,9 @@ format.TSCallSignatureDeclaration = function(parent, node, options) {
     }
     processParams(ret);
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13627,6 +14077,9 @@ format.TSPropertySignature = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13706,6 +14159,9 @@ format.TSIndexSignature = function(parent, node, options) {
     }
     processParams(ret);
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13762,6 +14218,9 @@ format.TSIndexedAccessType = function(parent, node, options) {
         throw new Error('AST-node-property indexType undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13840,6 +14299,9 @@ format.TSModuleDeclaration = function(parent, node, options) {
         };
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -13884,6 +14346,9 @@ format.TSModuleBlock = function(parent, node, options) {
         throw new Error('AST-node-property-collection body undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TSDeclareFunction
@@ -14042,6 +14507,9 @@ format.TSDeclareFunction = function(parent, node, options) {
         };
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14175,6 +14643,9 @@ format.TSFunctionType = function(parent, node, options) {
         ret.children.push(p_returnType);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14278,6 +14749,9 @@ format.TSMethodSignature = function(parent, node, options) {
     }
     processParams(ret);
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14321,6 +14795,9 @@ format.TSTypeAnnotation = function(parent, node, options) {
         format(ret, node.typeParameters, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TSTypeParameterInstantiation
@@ -14392,6 +14869,9 @@ format.TSTypeParameterInstantiation = function(parent, node, options) {
         ret.children.push(p);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TSTypeParameterDeclaration
@@ -14430,6 +14910,9 @@ format.TSTypeParameterDeclaration = function(parent, node, options) {
         throw new Error('AST-node-property-collection params undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
     }
 };
 // process AST node TSTypeParameter
@@ -14468,6 +14951,9 @@ format.TSTypeParameter = function(parent, node, options) {
         format(ret, node.constraint, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14577,6 +15063,9 @@ format.TSParameterProperty = function(parent, node, options) {
     }
     p_parameter.children = [];
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14678,6 +15167,9 @@ format.TSTypeReference = function(parent, node, options) {
         format(ret, node.typeParameters, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14773,6 +15265,9 @@ format.TSExpressionWithTypeArguments = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14916,6 +15411,9 @@ format.TSAsExpression = function(parent, node, options) {
         };
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -14970,6 +15468,9 @@ format.TSTupleType = function(parent, node, options) {
         throw new Error('AST-node-property-collection elementTypes undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15021,6 +15522,9 @@ format.TSUnionType = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15072,6 +15576,9 @@ format.TSIntersectionType = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15152,6 +15659,9 @@ format.TSEnumDeclaration = function(parent, node, options) {
         throw new Error('AST-node-property-collection members undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15263,6 +15773,9 @@ format.TSEnumMember = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15299,6 +15812,9 @@ format.TSNeverKeyword = function(parent, node, options) {
         ]
     };
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15371,6 +15887,9 @@ format.TSTypePredicate = function(parent, node, options) {
         throw new Error('AST-node-property typeAnnotation undefined: ' + JSON.stringify(node, null, 2));
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15422,6 +15941,9 @@ format.TSTypeLiteral = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15471,6 +15993,9 @@ format.TSTypeOperator = function(parent, node, options) {
         ret.tag = ':' + node.operator;
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15557,6 +16082,9 @@ format.TSNonNullExpression = function(parent, node, options) {
         ret.children.push(p_expression);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15633,6 +16161,9 @@ format.TSTypeAliasDeclaration = function(parent, node, options) {
         format(ret, node.typeAnnotation, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15717,6 +16248,9 @@ format.TSLiteralType = function(parent, node, options) {
     }
     ret.name = p_literal.name;
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -15966,6 +16500,9 @@ format.TSConditionalType = function(parent, node, options) {
         ]
     });
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16025,6 +16562,9 @@ format.TSMappedType = function(parent, node, options) {
         format(ret, node.typeAnnotation, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16111,6 +16651,9 @@ format.TSTypeQuery = function(parent, node, options) {
         ret.children.push(p_exprName);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16154,6 +16697,9 @@ format.TSInferType = function(parent, node, options) {
         format(ret, node.typeParameter, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16197,6 +16743,9 @@ format.TSParenthesizedType = function(parent, node, options) {
         format(ret, node.typeAnnotation, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16374,6 +16923,9 @@ format.TSDeclareMethod = function(parent, node, options) {
         ret.tag += '*';
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16511,6 +17063,9 @@ format.TSQualifiedName = function(parent, node, options) {
         ret.children.push(p_right);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16597,6 +17152,9 @@ format.TSExportAssignment = function(parent, node, options) {
         ret.children.push(p_expression);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16675,6 +17233,9 @@ format.TSImportEqualsDeclaration = function(parent, node, options) {
         format(ret, node.moduleReference, options);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16737,6 +17298,9 @@ format.TSNamespaceExportDeclaration = function(parent, node, options) {
         }
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);
@@ -16823,6 +17387,9 @@ format.TSExternalModuleReference = function(parent, node, options) {
         ret.children.push(p_expression);
     }
     if (ret != null) {
+        if (__isText) {
+            ret.textified = ret.name;
+        }
         if (typeof __skip === 'undefined' || __skip == false) {
             // log '### add ', ret.tag , 'to', parent.tag
             processLeadingComments(node, parent, options);

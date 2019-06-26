@@ -2,7 +2,7 @@
     $include versions
     name 'wizzi-core'
     version '${versions['wizzi-core@next']}'
-    title 'A Wizzi Factory plugin with core schemas and artifact generators'
+    title 'A Wizzi plugin with core schemas and artifact generators. This plugin is integrated in the Wizzi API.'
     license 'MIT'
     [ schemas
         {

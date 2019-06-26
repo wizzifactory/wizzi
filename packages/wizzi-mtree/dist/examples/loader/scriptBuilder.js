@@ -43,6 +43,15 @@ var scriptBuilder = function(step_callback) {
         }, function(err, mTree) {
             if (err) {
                 console.log('err', err);
+                if (err.toString()) {
+                    console.log('err.toString()', err.toString());
+                }
+                if (err.inner) {
+                    console.log('err.inner', err.inner);
+                    if (err.inner.toString) {
+                        console.log('err.inner.toString()', err.inner.toString());
+                    }
+                }
                 throw new Error(err.message);
             }
             var i, i_items=mTree.nodes, i_len=mTree.nodes.length, item;

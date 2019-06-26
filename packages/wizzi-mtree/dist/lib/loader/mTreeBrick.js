@@ -54,6 +54,7 @@ var MTreeBrick = (function () {
         this.uri = uri;
         this.loadHistory = loadHistory;
         this.frontMatter = frontMatter;
+        this.documentFragments = [];
     }
     MTreeBrick.prototype.load = function(ittfSourceTextContent, ittfDocumentData) {
         if (verify.isNotEmpty(ittfSourceTextContent) === false) {
@@ -113,6 +114,11 @@ var MTreeBrick = (function () {
                 parent: parent, 
                 model: clonedModel
             };
+            // log 'clone node', node.name, node.value, node.$params
+            if (node.$params) {
+                // $fragment
+                clnode.$params = node.$params;
+            }
             clnode.children = self._cloneNodes(node.children, clnode, clonedModel);
             clnodes.push(clnode);
         }
@@ -122,14 +128,15 @@ var MTreeBrick = (function () {
          Rules
          Node command format
          > $params param1 [,param2 [,param-n]]
-         param   : [&]name[:type][|default]
-         &       : the paramater is an object passed by reference
-         name    : the name of the parameter to use in IttfMacro expressions
+         param   : [&]name[:type][|[&]default]
+         &name   : the paramater is an object passed by reference, the name can be used in IttfMacro expressions
+         name    : the paramater is a value, the name can be used in IttfMacro expressions
          type    : the parameter type
          one-of : string(default), integer, float, boolean, date, object (implicit
          when '&' declared), macro (implicit, detected from IttfMacro delimiters
          contained in the default value)
-         default : typed-value | @@null | @@undefined
+         &default : the default is an object in the global context, default is its name
+         default  : typed-value | @@null | @@empty | @@undefined
          // warning! `title|null` becomes title = "null" (the quoted string null)
          // if you want title to be null then : `title|@@null`
          string  : quotes are optional, example: `title|"my way"` and `title|my way` are the same
@@ -160,7 +167,8 @@ var MTreeBrick = (function () {
                 defaultValue = null,
                 value = null,
                 hasparamvalue = false,
-                hasdefaultvalue = false;
+                hasdefaultvalue = false,
+                defaultName = null;
             // a param may have the format
             // 1) name
             // 2) name|default
@@ -207,21 +215,28 @@ var MTreeBrick = (function () {
                 hasparamvalue = true;
             }
             else if (hasdefaultvalue) {
-                value = verify.convert(defaultValue, type, true);
-                if (value && value.__is_error) {
-                    return local_error('MixinParamError', 'calcParamValues', 'Error evaluating: $params ' + params + ', converting parameter: ' + i + '/' + name + ' to type ' + type, mTreeBrickRoot, value);
+                if (defaultValue.substr(0, 1) === '&') {
+                    defaultName = defaultValue.substr(1);
+                }
+                else {
+                    value = verify.convert(defaultValue, type, true);
+                    if (value && value.__is_error) {
+                        return local_error('MixinParamError', 'calcParamValues', 'Error evaluating: $params ' + params + ', converting parameter: ' + i + '/' + name + ' to type ' + type, mTreeBrickRoot, value);
+                    }
                 }
             }
             else {
                 return local_error('MixinParamError', 'calcParamValues', 'Error evaluating: $params ' + params + ', missing value for not optional argument ' + i + ' = ' + name, mTreeBrickRoot);
             }
-            var isIttfMacro = type === 'object' ? false : verify.isIttfMacro(value);
+            var isIttfMacro = verify.isIttfMacro(value);
             result.push({
                 name: name.substr(0, 1) === '&' ? name.substr(1) : name, 
                 value: value, 
                 type: type, 
                 isIttfMacro: isIttfMacro, 
-                isByRef: type === 'object'
+                isByRef: type === 'object', 
+                defaultName: defaultName, 
+                defaultIsByRef: defaultName != null
             });
         }
         return result;

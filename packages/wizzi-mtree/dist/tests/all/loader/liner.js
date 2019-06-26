@@ -195,8 +195,6 @@ describe("liner", function() {
         expect(lines[0].name).to.be('root');
         expect(lines[2].indent).to.be.a('number');
         expect(lines[2].indent).to.be(1);
-        expect(lines[2].name).to.be.a('string');
-        expect(lines[2].name).to.be('${name}');
     });
     it("should escape javascript string macro delimiters", function() {
         var source = [
