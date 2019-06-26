@@ -112,6 +112,35 @@
                 set clnode.children = self._cloneNodes(node.children, clnode, clonedModel)
                 _ clnodes.push(clnode)
             return clnodes
+
+		m cloneNode
+            param node
+            param parent
+            param clonedModel
+            
+			var self = this
+            var 
+                decl clnode
+
+			set clnode =
+				{ 
+					@ id self.loadHistory.getNewNodeId()
+					@ parsedId node.id
+					@ name node.name
+					@ value node.value
+					@ tagSuffix node.tagSuffix
+					@ row node.row
+					@ col node.col
+					@ sourceKey node.sourceKey
+					@ hasMacro node.hasMacro
+					@ parent parent
+					@ model clonedModel
+			# log 'clone node', node.name, node.value, node.$params
+			if node.$params
+				# $fragment
+				set clnode.$params = node.$params
+			set clnode.children = self._cloneNodes(node.children, clnode, clonedModel)
+            return clnode
     
 		$include mtreeBrick/calcParamValues
     

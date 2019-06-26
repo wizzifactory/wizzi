@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\util\node.js.ittf
+    artifact generator: C:\my\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\my\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\util\node.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -20,7 +20,7 @@ var md = module.exports = {};
      starts with the char "$"
      The search go down to descendants
 */
-md.findIttfCommand = function(item, cmdname, cmdtype, startItem) {
+md.findIttfCommand = function(item, cmdname, cmdtype, startItem, multi) {
     if (startItem && item.id === startItem.id) {
         // searching the hook for an append command
         // when descending from a parent we encounter startItem
@@ -30,22 +30,39 @@ md.findIttfCommand = function(item, cmdname, cmdtype, startItem) {
     // log 'util.node.findIttfCommand', cmdtype, item.name, cmdname, item.value
     if (item.name === ('$' + cmdtype)) {
         if (item.value && item.value.trim() === cmdname) {
-            return item;
+            if (multi) {
+                multi.push(item);
+                return ;
+            }
+            else {
+                return item;
+            }
         }
         if (!item.value && cmdname === 'default') {
-            return item;
+            if (multi) {
+                multi.push(item);
+                return ;
+            }
+            else {
+                return item;
+            }
         }
     }
     var found,
         i,
         l = item.children.length;
     for (i = 0; i < l; i++) {
-        found = md.findIttfCommand(item.children[i], cmdname, cmdtype, startItem);
-        if (found) {
+        found = md.findIttfCommand(item.children[i], cmdname, cmdtype, startItem, multi);
+        if (found && !multi) {
             return found;
         }
     }
     return null;
+};
+md.findIttfCommandMulti = function(item, cmdname, cmdtype) {
+    var commands = [];
+    md.findIttfCommand(item, cmdname, cmdtype, null, commands);
+    return commands;
 };
 /**
      Search a $hook node command going down deep

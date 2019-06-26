@@ -27,8 +27,9 @@
             param cmdname
             param cmdtype
 			param startItem
-			
-			if (startItem && item.id === startItem.id) 
+            param multi
+
+    		if (startItem && item.id === startItem.id) 
 				
 				# searching the hook for an append command
 				# when descending from a parent we encounter startItem
@@ -38,20 +39,42 @@
 			# log 'util.node.findIttfCommand', cmdtype, item.name, cmdname, item.value
             if item.name === ('$' + cmdtype)
 				if item.value && item.value.trim() === cmdname
-					return item
+                    if multi 
+                        _ multi.push(item)
+                        return
+                    else
+					    return item
 				if !item.value && cmdname === 'default'
-					return item
-            
-			var 
+                    if multi 
+                        _ multi.push(item)
+                        return
+                    else
+					    return item
+    		var 
                 decl found
                 decl i
                 decl l = item.children.length
             
 			for i = 0; i < l; i++
-                set found = md.findIttfCommand(item.children[i], cmdname, cmdtype, startItem)
-                if found
+                set found = md.findIttfCommand(item.children[i], cmdname, cmdtype, startItem, multi)
+                if found && !multi
                     return found
+            
             return null
+
+	set md.findIttfCommandMulti
+        function 
+            param item
+            param cmdname
+            param cmdtype
+            var commands = []
+            _ md.findIttfCommand
+                @ item
+                @ cmdname
+                @ cmdtype
+                @ null
+                @ commands
+            return commands
     
 	#
 		# Search a $hook node command going down deep

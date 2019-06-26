@@ -17,7 +17,8 @@ example( index, 1 )
         $$ @ 'document_fragment'
         $$ @ 'params_1'
         $$ @ 'functions_1'
-        @ 'loops_1'
+        $$ @ 'loops_1'
+        @ 'multi_hook'
         =>
 
 	function exec

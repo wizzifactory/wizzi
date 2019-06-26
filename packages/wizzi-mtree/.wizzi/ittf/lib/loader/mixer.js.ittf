@@ -211,7 +211,7 @@
                     set mTreePiece.mixed = true
                     
 					# search a default hook inside the mixedRootNode
-					var hook = utilnode.findIttfCommand(mixedRootNode, 'default', 'hook')
+					var hooks = utilnode.findIttfCommandMulti(mixedRootNode, 'default', 'hook')
                     
 		            # The mixerNode.children, when mixed, 
 					# must be added to each mixedRootNode.
@@ -219,12 +219,24 @@
                         @ mixerNode.children
                         @ mixedRootNode
                         f_cb( mixedNodes
-                            if hook
+                            if hooks.length > 0
 								# A default hook was found,
 								# the mixer node children must replace the $hook node;
 								# utilnode.replace will set the parent of the nodes of 
 								# mixedNodes to the parent of hook.
-                                _ utilnode.replace(hook, mixedNodes)
+
+                                if hooks.length > 1
+                                    foreach hook in hooks
+                                        var clonedMixedNodes = []
+                                        foreach mixedNode in mixedNodes
+                                            _ clonedMixedNodes.push
+                                                _ mTreePiece.cloneNode 
+                                                    @ mixedNode
+                                                    @ null
+                                                    @ mixedNode.model
+                                        _ utilnode.replace(hook, clonedMixedNodes)
+                                else
+                                    _ utilnode.replace(hooks[0], mixedNodes)
                             else 
 								# A default hook was not found,
 								# the mixer node children must be
@@ -234,7 +246,7 @@
                                     _ mixedRootNode.children.push
                                         @ item
 							#
-								# It seams we are done, but there is a notch.
+								# It seems we are done, but there is a notch.
 								# mixedRootNode could contain itself a mixin call.
 								# It must be analyzed and mixed if the case.
 								# Set the mixerNode.parent as its parent

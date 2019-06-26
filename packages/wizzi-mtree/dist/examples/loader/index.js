@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\examples\loader\index.js.ittf
+    artifact generator: C:\my\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\my\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\examples\loader\index.js.ittf
 */
 'use strict';
 var path = require('path');
@@ -22,7 +22,7 @@ var index = function(step_callback) {
     var loadMTree = packageIndex.createLoadMTree(repo.getCreateFilesystemStore(), {
         raw: false
     });
-    exec('loops_1', () => {
+    exec('multi_hook', () => {
     });
     function exec(name, callback) {
         console.log('exec', name);

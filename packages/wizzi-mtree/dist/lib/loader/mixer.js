@@ -1,6 +1,6 @@
 /*
-    artifact generator: C:\My\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
-    primary source IttfDocument: C:\My\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\mixer.js.ittf
+    artifact generator: C:\my\wizzi\wizzi\node_modules\wizzi-js\lib\artifacts\js\module\gen\main.js
+    primary source IttfDocument: C:\my\wizzi\wizzi\packages\wizzi-mtree\.wizzi\ittf\lib\loader\mixer.js.ittf
 */
 'use strict';
 var verify = require('wizzi-utils').verify;
@@ -180,19 +180,34 @@ module.exports = function(mTreePiece, mTreeBrickProvider, callback) {
             mixedRootNode.model.$mixerBrickKey = mixerNode.model.brickKey;
             mTreePiece.mixed = true;
             // search a default hook inside the mixedRootNode
-            var hook = utilnode.findIttfCommand(mixedRootNode, 'default', 'hook');
+            var hooks = utilnode.findIttfCommandMulti(mixedRootNode, 'default', 'hook');
             // The mixerNode.children, when mixed,
             // must be added to each mixedRootNode.
             mixNodeCollection(mixerNode.children, mixedRootNode, function(err, mixedNodes) {
                 if (err) {
                     return callback(err);
                 }
-                if (hook) {
+                if (hooks.length > 0) {
                     // A default hook was found,
                     // the mixer node children must replace the $hook node;
                     // utilnode.replace will set the parent of the nodes of
                     // mixedNodes to the parent of hook.
-                    utilnode.replace(hook, mixedNodes);
+                    if (hooks.length > 1) {
+                        var i, i_items=hooks, i_len=hooks.length, hook;
+                        for (i=0; i<i_len; i++) {
+                            hook = hooks[i];
+                            var clonedMixedNodes = [];
+                            var j, j_items=mixedNodes, j_len=mixedNodes.length, mixedNode;
+                            for (j=0; j<j_len; j++) {
+                                mixedNode = mixedNodes[j];
+                                clonedMixedNodes.push(mTreePiece.cloneNode(mixedNode, null, mixedNode.model));
+                            }
+                            utilnode.replace(hook, clonedMixedNodes);
+                        }
+                    }
+                    else {
+                        utilnode.replace(hooks[0], mixedNodes);
+                    }
                 }
                 else {
                     // A default hook was not found,
@@ -206,7 +221,7 @@ module.exports = function(mTreePiece, mTreeBrickProvider, callback) {
                     }
                 }
                 /**
-                     It seams we are done, but there is a notch.
+                     It seems we are done, but there is a notch.
                      mixedRootNode could contain itself a mixin call.
                      It must be analyzed and mixed if the case.
                      Set the mixerNode.parent as its parent
