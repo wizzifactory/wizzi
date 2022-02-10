@@ -87,7 +87,7 @@
     "html-webpack-plugin": "^2.29.0",
     "husky": "^0.14.3",
     "ip": "^1.1.5",
-    "node-sass": "^4.5.3",
+    "node-sass": "^7.0.0",
     "prettier": "^1.12.1",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.5",
