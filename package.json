@@ -33,7 +33,7 @@
         "del": "^2.2.2",
         "expect.js": "^0.3.1",
         "mocha": "^5.2.0",
-        "wizzi": "^0.7.9",
+        "wizzi": "^0.7.32",
         "wizzi-core": "^0.7.1",
         "wizzi-js": "^0.7.3",
         "wizzi-utils": "^0.7.5",
